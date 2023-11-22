@@ -3,7 +3,7 @@ import { describe, expect, expectTypeOf, it, vi } from "vitest";
 import mangasakiScraper from "./mangasaki-scraper";
 import { ScrapingUtils } from "../../services/scraping-utils";
 import { CheerioAPI, load } from "cheerio";
-import { MANGASAKI_HOME_PAGE_HTML } from "./test-examples/actual-mangasaki-page";
+import { MANGASAKI_HOME_PAGE_HTML } from "./test-examples/actual-mangasaki-page.spec";
 import Chapter from "../../types/chapter";
 
 describe("mangasaki-scraper", () => {

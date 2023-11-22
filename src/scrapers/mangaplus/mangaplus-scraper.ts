@@ -17,7 +17,7 @@ class MangaPlusScraper implements Scraper {
       `${this.API_ENDPOINT}/web/web_homeV3?lang=fra`
     );
     const Message = await ProtoManaging.loadProtoFileAsync(
-      `${process.env.PUBLIC_DIR_PATH}/protos/web_homeV3.proto`,
+      `${__dirname}/protos/web_homeV3.proto`,
       "mangaplus.Web_homeV3"
     );
     const jsonRes = ProtoManaging.decodeToJson(Message, res);
