@@ -14,6 +14,7 @@ const port = process.env.PORT;
 app.use(jsonParser);
 app.use((0, cors_1.default)());
 app.use(routes_1.default);
+app.use(express_1.default.static(`${__dirname}/public`));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

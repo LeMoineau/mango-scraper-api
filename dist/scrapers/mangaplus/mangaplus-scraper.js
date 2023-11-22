@@ -24,7 +24,7 @@ class MangaPlusScraper {
     getLatestChapters() {
         return __awaiter(this, void 0, void 0, function* () {
             const res = yield proto_managing_1.ProtoManaging.httpGetProtoFile(`${this.API_ENDPOINT}/web/web_homeV3?lang=fra`);
-            const Message = yield proto_managing_1.ProtoManaging.loadProtoFileAsync(`${__dirname}/protos/web_homeV3.proto`, "mangaplus.Web_homeV3");
+            const Message = yield proto_managing_1.ProtoManaging.loadProtoFileAsync(`/protos/web_homeV3.proto`, "mangaplus.Web_homeV3");
             const jsonRes = proto_managing_1.ProtoManaging.decodeToJson(Message, res);
             const chapters = [];
             try {
