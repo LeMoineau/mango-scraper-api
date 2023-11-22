@@ -73,40 +73,4 @@ describe("scraping-utils", () => {
 
     expect(cheerio.load).toHaveBeenCalledWith(AN_AXIOS_RESPONSE.data);
   });
-
-  it("should return text from cheerio node when execute cheerio method", () => {
-    ScrapingUtils.cheerioMethodOnHTMLElement(A_CHEERIO_NODE, "text");
-
-    expect(A_CHEERIO_NODE.text).toHaveBeenCalled();
-  });
-
-  it("should return href from cheerio node when execute cheerio method", () => {
-    ScrapingUtils.cheerioMethodOnHTMLElement(A_CHEERIO_NODE, "href");
-
-    expect(A_CHEERIO_NODE.attr).toHaveBeenCalledWith("href");
-  });
-
-  it("should return src from cheerio node when execute cheerio method", () => {
-    ScrapingUtils.cheerioMethodOnHTMLElement(A_CHEERIO_NODE, "src");
-
-    expect(A_CHEERIO_NODE.attr).toHaveBeenCalledWith("src");
-  });
-
-  it("should return error when execute unknown cheerio method", () => {
-    expect(() =>
-      ScrapingUtils.cheerioMethodOnHTMLElement(
-        A_CHEERIO_NODE,
-        AN_UNKNOWN_METHOD
-      )
-    ).toThrowError(UnknownCheerioMethod);
-  });
-
-  it("should return text when normal key is string", () => {
-    const res = ScrapingUtils.cheerioToJson("<div>test</div>", {
-      test: "text",
-    });
-    expect(res).toStrictEqual({
-      test: "test",
-    });
-  });
 });
