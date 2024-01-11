@@ -10,6 +10,7 @@ describe("scraper-controller", () => {
   const A_CHAPTER: Chapter = {
     id: "naruto-1",
     image: "an url",
+    date: new Date(),
     manga: {
       title: "naruto",
       id: "naruto",
@@ -26,6 +27,7 @@ describe("scraper-controller", () => {
       number: { mangaplus: A_CHAPTER.number },
       formattedNumber: "1",
       image: { mangaplus: A_CHAPTER.image },
+      date: { mangaplus: A_CHAPTER.date },
       id: { mangaplus: A_CHAPTER.id },
       manga: {
         formattedTitle: "naruto",
@@ -105,6 +107,7 @@ describe("scraper-controller", () => {
         number: { mangaplus: A_CHAPTER.number, mangasaki: A_CHAPTER.number },
         formattedNumber: "1",
         image: { mangaplus: A_CHAPTER.image, mangasaki: A_CHAPTER.image },
+        date: { mangaplus: A_CHAPTER.date, mangasaki: A_CHAPTER.date },
         id: { mangaplus: A_CHAPTER.id, mangasaki: A_CHAPTER.id },
         manga: {
           formattedTitle: "naruto",

@@ -1,6 +1,4 @@
 import { describe, expect, it, vi } from "vitest";
-import ChaptersController from "./chapters-controller";
-import mangaPlusScraper from "../scrapers/mangaplus/mangaplus-scraper";
 import scraperController from "./scraper-controller";
 import chaptersController from "./chapters-controller";
 
