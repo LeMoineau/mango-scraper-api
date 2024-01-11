@@ -22,7 +22,7 @@ describe("mangaplus-scraper", () => {
     await mangaPlusScraper.getLatestChapters();
 
     expect(ProtoManaging.httpGetProtoFile).toHaveBeenCalledWith(
-      `${mangaPlusScraper["API_ENDPOINT"]}/web/web_homeV3?lang=fra`
+      `${mangaPlusScraper["API_ENDPOINT"]}/web/web_homeV3?lang=eng`
     );
   });
 

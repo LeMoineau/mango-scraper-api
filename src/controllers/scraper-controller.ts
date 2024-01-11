@@ -52,6 +52,7 @@ class ScraperController {
           number: {},
           formattedNumber: TextFormatUtils.formatChapterNumber(c.number),
           image: {},
+          date: {},
           id: {},
           manga: {
             formattedTitle: TextFormatUtils.formatMangaTitle(c.manga.title),
@@ -67,6 +68,7 @@ class ScraperController {
       sameChapter.title[scraperName] = c.title;
       sameChapter.number[scraperName] = c.number;
       sameChapter.image[scraperName] = c.image;
+      sameChapter.date[scraperName] = c.date;
       sameChapter.id[scraperName] = c.id;
       sameChapter.manga.title[scraperName] = c.manga.title;
       sameChapter.manga.id[scraperName] = c.manga.id;

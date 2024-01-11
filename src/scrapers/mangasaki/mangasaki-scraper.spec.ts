@@ -3,7 +3,10 @@ import { describe, expect, expectTypeOf, it, vi } from "vitest";
 import mangasakiScraper from "./mangasaki-scraper";
 import { ScrapingUtils } from "../../services/scraping-utils";
 import { CheerioAPI, load } from "cheerio";
-import { MANGASAKI_HOME_PAGE_HTML } from "./test-examples/actual-mangasaki-page.spec";
+import {
+  MANGASAKI_HOME_PAGE_HTML,
+  MANGASAKI_HOME_RESULT_JSON,
+} from "./test-examples/actual-mangasaki-page.spec";
 import Chapter from "../../types/chapter";
 
 describe("mangasaki-scraper", () => {
@@ -42,11 +45,22 @@ describe("mangasaki-scraper", () => {
     for (let c of chapters) {
       expect(c.id).toBeDefined();
       expect(c.image).toBeDefined();
+      expect(c.date).toBeDefined();
       expect(c.number).toBeDefined();
       expect(c.title).toBeDefined();
       expect(c.manga).toBeDefined();
       expect(c.manga.title).toBeDefined();
       expect(c.manga.id).toBeDefined();
     }
+  });
+
+  it("should return correct json when getting latest chapters", async () => {
+    vi.spyOn(ScrapingUtils, "requestToCheerioPage").mockResolvedValue(
+      THE_MANGASAKI_HOME_PAGE
+    );
+
+    const chapters = await mangasakiScraper.getLatestChapters();
+
+    expect(chapters).toStrictEqual(MANGASAKI_HOME_RESULT_JSON);
   });
 });

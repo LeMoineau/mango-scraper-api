@@ -14,7 +14,7 @@ class MangaPlusScraper implements Scraper {
 
   public async getLatestChapters(): Promise<Chapter[]> {
     const res = await ProtoManaging.httpGetProtoFile(
-      `${this.API_ENDPOINT}/web/web_homeV3?lang=fra`
+      `${this.API_ENDPOINT}/web/web_homeV3?lang=eng`
     );
     const Message = await ProtoManaging.loadProtoFileAsync(
       `${__dirname}/protos/web_homeV3.proto`,
@@ -22,6 +22,7 @@ class MangaPlusScraper implements Scraper {
     );
     const jsonRes = ProtoManaging.decodeToJson(Message, res);
     const chapters: Chapter[] = [];
+    const currentDate: Date = new Date();
     try {
       for (let s of jsonRes.parent.data.sections) {
         chapters.push(
@@ -32,6 +33,7 @@ class MangaPlusScraper implements Scraper {
               ),
               id: c.chapter.id.toString(),
               image: c.chapter.manga.portraitThumbnail,
+              date: currentDate,
               title: c.chapter.title,
               manga: {
                 title: c.mangaTitle,
@@ -40,6 +42,7 @@ class MangaPlusScraper implements Scraper {
             } as Chapter;
           })
         );
+        currentDate.setDate(currentDate.getDate() - 1);
       }
     } catch (error) {
       console.error(error);

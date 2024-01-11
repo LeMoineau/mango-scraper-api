@@ -3,9 +3,12 @@ import Manga from "../../types/manga";
 import Scraper from "../scraper";
 import { ScrapingUtils } from "../../services/scraping-utils";
 import { ArrayUtils } from "../../services/array-utils";
+import { MangasakiUtils } from "./utils/mangasaki-utils";
 
 class MangaSakiScraper implements Scraper {
-  private PAGE_URL = process.env.MANGASAKI_URL ?? "https://mangasaki.org";
+  private PAGE_URL =
+    process.env.MANGASAKI_URL ??
+    "https://www.mangasaki.org/block_refresh/showmanga/lastest_list";
   async getLatestChapters(): Promise<Chapter[]> {
     const $ = await ScrapingUtils.requestToCheerioPage(this.PAGE_URL);
     const chapters: Chapter[] = [];
@@ -34,6 +37,9 @@ class MangaSakiScraper implements Scraper {
             title: $(`${currentChapterPath} a`).text(),
             id: ArrayUtils.getLastOf(
               $(`${currentChapterPath} a`).attr("href")!.split("/")
+            ),
+            date: MangasakiUtils.calculateDateFromString(
+              $(`${currentChapterPath} .tm`).text()
             ),
           });
         } catch (e) {}
