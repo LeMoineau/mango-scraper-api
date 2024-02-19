@@ -1,46 +1,45 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
-import { ProtoManaging } from "../../services/proto-managing";
-import { Type } from "protobufjs";
 import {
   exampleFinalMangaPlusChaptersJson,
   exampleWeb_homeV3Json,
 } from "./test-examples/correct-response-example.spec";
 import mangaPlusScraper from "./mangaplus-scraper";
+import { MangaplusUtils } from "./utils/mangaplus-utils";
 
 describe("mangaplus-scraper", () => {
-  const A_Uint8Array: Uint8Array = {} as Uint8Array;
-  const A_TYPE: Type = {} as Type;
   const A_CORRECT_JSON: { [key: string]: any } = exampleWeb_homeV3Json;
+  const A_MANGA_ID = "123";
 
   beforeAll(() => {
-    vi.spyOn(ProtoManaging, "httpGetProtoFile").mockResolvedValue(A_Uint8Array);
-    vi.spyOn(ProtoManaging, "loadProtoFileAsync").mockResolvedValue(A_TYPE);
-    vi.spyOn(ProtoManaging, "decodeToJson").mockReturnValue(A_CORRECT_JSON);
+    vi.spyOn(
+      MangaplusUtils,
+      "decodeJsonFromMangaPlusRequest"
+    ).mockResolvedValue(A_CORRECT_JSON);
   });
 
-  it("should call ProtoManaging httpGetProtoFile with correct endpoint when get all chapters", async () => {
+  it("should call decodeJsonFromMangaPlusRequest with correct args when get all chapters", async () => {
     await mangaPlusScraper.getLatestChapters();
 
-    expect(ProtoManaging.httpGetProtoFile).toHaveBeenCalledWith(
-      `${mangaPlusScraper["API_ENDPOINT"]}/web/web_homeV3?lang=eng`
+    expect(MangaplusUtils.decodeJsonFromMangaPlusRequest).toHaveBeenCalledWith(
+      `${mangaPlusScraper["API_ENDPOINT"]}/web/web_homeV3?lang=eng`,
+      `${__dirname}/protos/web_homeV3.proto`,
+      "mangaplus.Web_homeV3"
     );
-  });
-
-  it("should call ProtoManaging loadProtoFileAsync when get all chapters", async () => {
-    await mangaPlusScraper.getLatestChapters();
-
-    expect(ProtoManaging.loadProtoFileAsync).toHaveBeenCalled();
-  });
-
-  it("should call decodeToJson when getting all chapters", async () => {
-    await mangaPlusScraper.getLatestChapters();
-
-    expect(ProtoManaging.decodeToJson).toHaveBeenCalled();
   });
 
   it("should return correct chapters json when getting all chapters", async () => {
     const chapters = await mangaPlusScraper.getLatestChapters();
 
     expect(chapters).toStrictEqual(exampleFinalMangaPlusChaptersJson);
+  });
+
+  it("should call decodeJsonFromMangaPlusRequest with correct args when getting manga infos", async () => {
+    await mangaPlusScraper.getManga(A_MANGA_ID);
+
+    expect(MangaplusUtils.decodeJsonFromMangaPlusRequest).toHaveBeenCalledWith(
+      `${mangaPlusScraper["API_ENDPOINT"]}/title_detailV2?title_id=${A_MANGA_ID}`,
+      `${__dirname}/protos/title_detailV2.proto`,
+      "mangaplus.Title_detailV2"
+    );
   });
 });

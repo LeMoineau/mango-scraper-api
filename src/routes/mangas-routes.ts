@@ -10,7 +10,11 @@ router.get("/", async (req: Request, res: Response) => {
     res.status(500).send(error);
   }
 });
-router.get("/:name/", async (req: Request, res: Response) => {});
+router.get("/:src/:id", async (req: Request, res: Response) => {
+  res.send(
+    await mangasController.get({ src: req.params.src, id: req.params.id })
+  );
+});
 router.get("/:name/chapters", async (req: Request, res: Response) => {});
 
 export default router;

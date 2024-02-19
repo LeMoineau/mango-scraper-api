@@ -1,10 +1,10 @@
 import scrapersConfig from "../config/scrapers-config";
 import Scraper from "../scrapers/scraper";
-import { ObjectUtils } from "../services/object-utils";
-import { TextFormatUtils } from "../services/text-format-utils";
-import IntersiteChapter from "../types/IntersiteChapter";
+import { ObjectUtils } from "../utils/object-utils";
+import { TextFormatUtils } from "../utils/text-format-utils";
+import IntersiteChapter from "../types/intersite/IntersiteChapter";
 import Chapter from "../types/chapter";
-import { ScraperName, ScrapersConfig } from "../types/scrapersConfig";
+import { ScraperName, ScrapersConfig } from "../config/scrapersConfig";
 
 class ScraperController {
   private scrapersEnabled: { [scraperName in ScraperName]: Scraper } = {};
@@ -48,16 +48,30 @@ class ScraperController {
       );
       if (!sameChapter) {
         sameChapter = {
-          title: {},
-          number: {},
+          title: {
+            [scraperName]: c.title,
+          },
+          number: {
+            [scraperName]: c.number,
+          },
           formattedNumber: TextFormatUtils.formatChapterNumber(c.number),
-          image: {},
-          date: {},
-          id: {},
+          image: {
+            [scraperName]: c.image,
+          },
+          date: {
+            [scraperName]: c.releaseDate,
+          },
+          id: {
+            [scraperName]: c.id,
+          },
           manga: {
             formattedTitle: TextFormatUtils.formatMangaTitle(c.manga.title),
-            title: {},
-            id: {},
+            title: {
+              [scraperName]: c.manga.title,
+            },
+            id: {
+              [scraperName]: c.manga.id,
+            },
           },
         };
         intersiteChapters.push(sameChapter);
@@ -65,13 +79,6 @@ class ScraperController {
       if (!sameChapter) {
         continue;
       }
-      sameChapter.title[scraperName] = c.title;
-      sameChapter.number[scraperName] = c.number;
-      sameChapter.image[scraperName] = c.image;
-      sameChapter.date[scraperName] = c.date;
-      sameChapter.id[scraperName] = c.id;
-      sameChapter.manga.title[scraperName] = c.manga.title;
-      sameChapter.manga.id[scraperName] = c.manga.id;
     }
   }
 

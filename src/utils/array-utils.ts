@@ -29,4 +29,15 @@ export namespace ArrayUtils {
     }
     throw new SplittingError(arr, splitter);
   }
+
+  export function transformEachItemOf<A, B>(
+    array: A[],
+    transformater: (item: A) => B
+  ): B[] {
+    let res: B[] = [];
+    for (let item of array) {
+      res.push(transformater(item));
+    }
+    return res;
+  }
 }

@@ -6,7 +6,7 @@ import settingsRoute from "./settings-routes";
 const router = Router();
 
 router.get("/", (_: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
+  res.send("Mango-api ready!");
 });
 
 router.use("/chapters", chaptersRoute);

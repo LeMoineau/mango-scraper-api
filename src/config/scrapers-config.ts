@@ -1,6 +1,6 @@
 import mangaplusScraper from "../scrapers/mangaplus/mangaplus-scraper";
 import mangasakiScraper from "../scrapers/mangasaki/mangasaki-scraper";
-import { ScrapersConfig } from "../types/scrapersConfig";
+import { ScrapersConfig } from "./scrapersConfig";
 
 export default {
   scrapers: {

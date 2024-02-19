@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import scraperController from "./scraper-controller";
 import scrapersConfig from "../config/scrapers-config";
-import { ObjectUtils } from "../services/object-utils";
+import { ObjectUtils } from "../utils/object-utils";
 import Scraper from "../scrapers/scraper";
-import IntersiteChapter from "../types/IntersiteChapter";
+import IntersiteChapter from "../types/intersite/IntersiteChapter";
 import Chapter from "../types/chapter";
 
 describe("scraper-controller", () => {
   const A_CHAPTER: Chapter = {
     id: "naruto-1",
     image: "an url",
-    date: new Date(),
+    releaseDate: new Date(),
     manga: {
       title: "naruto",
       id: "naruto",
@@ -27,7 +27,7 @@ describe("scraper-controller", () => {
       number: { mangaplus: A_CHAPTER.number },
       formattedNumber: "1",
       image: { mangaplus: A_CHAPTER.image },
-      date: { mangaplus: A_CHAPTER.date },
+      date: { mangaplus: A_CHAPTER.releaseDate },
       id: { mangaplus: A_CHAPTER.id },
       manga: {
         formattedTitle: "naruto",
@@ -107,7 +107,10 @@ describe("scraper-controller", () => {
         number: { mangaplus: A_CHAPTER.number, mangasaki: A_CHAPTER.number },
         formattedNumber: "1",
         image: { mangaplus: A_CHAPTER.image, mangasaki: A_CHAPTER.image },
-        date: { mangaplus: A_CHAPTER.date, mangasaki: A_CHAPTER.date },
+        date: {
+          mangaplus: A_CHAPTER.releaseDate,
+          mangasaki: A_CHAPTER.releaseDate,
+        },
         id: { mangaplus: A_CHAPTER.id, mangasaki: A_CHAPTER.id },
         manga: {
           formattedTitle: "naruto",

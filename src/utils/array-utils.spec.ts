@@ -47,4 +47,18 @@ describe("array-utils", () => {
       ArrayUtils.tryingSplitAndGet(A_STRING, A_SPLITTER, AN_INDEX, true)
     ).toThrow(SplittingError);
   });
+
+  it("should transform each item of array into new items", () => {
+    type A_FIRST_TYPE = { a: number };
+    type A_SECOND_TYPE = { b: number };
+    const AN_ARRAY = [{ a: 1 }, { a: 2 }];
+    const A_TRANSFORMATER = (a_item: A_FIRST_TYPE): A_SECOND_TYPE => {
+      return { b: a_item.a };
+    };
+
+    expect(ArrayUtils.transformEachItemOf(AN_ARRAY, A_TRANSFORMATER)).toEqual([
+      { b: 1 },
+      { b: 2 },
+    ]);
+  });
 });

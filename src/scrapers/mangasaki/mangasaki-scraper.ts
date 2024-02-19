@@ -1,8 +1,8 @@
 import Chapter from "../../types/chapter";
 import Manga from "../../types/manga";
 import Scraper from "../scraper";
-import { ScrapingUtils } from "../../services/scraping-utils";
-import { ArrayUtils } from "../../services/array-utils";
+import { ScrapingUtils } from "../../utils/scraping-utils";
+import { ArrayUtils } from "../../utils/array-utils";
 import { MangasakiUtils } from "./utils/mangasaki-utils";
 
 class MangaSakiScraper implements Scraper {
@@ -38,7 +38,7 @@ class MangaSakiScraper implements Scraper {
             id: ArrayUtils.getLastOf(
               $(`${currentChapterPath} a`).attr("href")!.split("/")
             ),
-            date: MangasakiUtils.calculateDateFromString(
+            releaseDate: MangasakiUtils.calculateDateFromString(
               $(`${currentChapterPath} .tm`).text()
             ),
           });
@@ -50,7 +50,7 @@ class MangaSakiScraper implements Scraper {
   async getMangas({ q }: { q?: string | undefined }): Promise<Manga[]> {
     throw Error("not yet implemented");
   }
-  async getManga(name: string): Promise<Manga> {
+  async getManga({}): Promise<Manga> {
     throw Error("not yet implemented");
   }
 }

@@ -1,6 +1,9 @@
-import Chapter from "./chapter";
+import { ChapterInfos } from "./chapter";
 
 export default interface Manga {
+  id: string;
   name: string;
-  chapters?: Chapter[];
+  author: string;
+  image: string;
+  chapters?: ChapterInfos[];
 }

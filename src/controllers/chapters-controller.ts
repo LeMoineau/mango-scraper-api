@@ -1,4 +1,4 @@
-import IntersiteChapter from "../types/IntersiteChapter";
+import IntersiteChapter from "../types/intersite/IntersiteChapter";
 import scraperController from "./scraper-controller";
 
 class ChaptersController {

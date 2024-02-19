@@ -1,7 +1,7 @@
 import axios from "axios";
 import { describe, expect, expectTypeOf, it, vi } from "vitest";
 import mangasakiScraper from "./mangasaki-scraper";
-import { ScrapingUtils } from "../../services/scraping-utils";
+import { ScrapingUtils } from "../../utils/scraping-utils";
 import { CheerioAPI, load } from "cheerio";
 import {
   MANGASAKI_HOME_PAGE_HTML,

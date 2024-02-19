@@ -1,4 +1,4 @@
-import { JsonObject } from "../types/jsonObject";
+import { JsonObject } from "../types/primitives/jsonObject";
 
 export namespace ObjectUtils {
   export async function forEachKeyInObject(

@@ -1,8 +1,8 @@
 import axios from "axios";
 import WrongScrapersConfigError from "../errors/WrongScrapersConfigError";
-import { ScrapersConfig } from "../types/scrapersConfig";
+import { ScrapersConfig } from "../config/scrapersConfig";
 import * as cheerio from "cheerio";
-import { JsonObject } from "../types/jsonObject";
+import { JsonObject } from "../types/primitives/jsonObject";
 import UnknownCheerioMethod from "../errors/UnknownCheerioMethod";
 
 export namespace ScrapingUtils {

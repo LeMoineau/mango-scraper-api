@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ScrapingUtils } from "./scraping-utils";
-import { ScrapersConfig } from "../types/scrapersConfig";
+import { ScrapersConfig } from "../config/scrapersConfig";
 import mangaplusScraper from "../scrapers/mangaplus/mangaplus-scraper";
 import WrongScrapersConfigError from "../errors/WrongScrapersConfigError";
 import axios from "axios";
