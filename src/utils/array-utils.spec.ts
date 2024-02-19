@@ -61,4 +61,14 @@ describe("array-utils", () => {
       { b: 2 },
     ]);
   });
+
+  it("should not transform item of transformater return undefined", () => {
+    type A_FIRST_TYPE = { a: number };
+    const AN_ARRAY = [{ a: 1 }, { a: 2 }];
+    const A_TRANSFORMATER = (_: A_FIRST_TYPE) => undefined;
+
+    expect(ArrayUtils.transformEachItemOf(AN_ARRAY, A_TRANSFORMATER)).toEqual(
+      []
+    );
+  });
 });

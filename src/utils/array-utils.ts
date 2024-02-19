@@ -32,11 +32,12 @@ export namespace ArrayUtils {
 
   export function transformEachItemOf<A, B>(
     array: A[],
-    transformater: (item: A) => B
+    transformater: (item: A) => B | undefined
   ): B[] {
     let res: B[] = [];
     for (let item of array) {
-      res.push(transformater(item));
+      const transform = transformater(item);
+      if (transform) res.push(transform);
     }
     return res;
   }

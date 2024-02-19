@@ -4,6 +4,7 @@ import Scraper from "../scraper";
 import { ScrapingUtils } from "../../utils/scraping-utils";
 import { ArrayUtils } from "../../utils/array-utils";
 import { MangasakiUtils } from "./utils/mangasaki-utils";
+import ChapterViewer from "../../types/chapterViewer";
 
 class MangaSakiScraper implements Scraper {
   private PAGE_URL =
@@ -52,6 +53,9 @@ class MangaSakiScraper implements Scraper {
   }
   async getManga({}): Promise<Manga> {
     throw Error("not yet implemented");
+  }
+  public async getChapterPages(chapterId: string): Promise<ChapterViewer> {
+    return {} as ChapterViewer;
   }
 }
 
