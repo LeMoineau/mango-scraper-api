@@ -9,7 +9,7 @@ router.get("/", (_: Request, res: Response) => {
   res.send("Mango-api ready!");
 });
 
-router.use("/chapters", chaptersRoute);
+router.use("/latestchapters", chaptersRoute);
 router.use("/mangas", mangasRoute);
 router.use("/settings", settingsRoute);
 

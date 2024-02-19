@@ -3,6 +3,7 @@ import { ScraperName } from "../config/scrapersConfig";
 import ChapterViewer from "../types/chapterViewer";
 import { IntersiteManga } from "../types/intersite/IntersiteManga";
 import Manga from "../types/manga";
+import { ObjectUtils } from "../utils/object-utils";
 import scraperController from "./scraper-controller";
 
 class MangasController {
@@ -13,23 +14,13 @@ class MangasController {
   }: {
     query?: string;
   }): Promise<IntersiteManga[]> {
-    return [];
+    return (await scrapersConfig.scrapers.mangaplus.scraper.getMangas({
+      q: query,
+    })) as any[];
   }
 
-  public async get({
-    name,
-    id,
-    src,
-  }: {
-    name?: string;
-    id?: string;
-    src?: ScraperName;
-  }): Promise<IntersiteManga | Manga> {
-    if (name) {
-    } else if (id && src) {
-      return await scrapersConfig.scrapers[src].scraper.getManga(id);
-    }
-    return {} as IntersiteManga;
+  public async get(id: string, src: string): Promise<Manga> {
+    return await scrapersConfig.scrapers[src].scraper.getManga(id);
   }
 
   public async getChapterPages(

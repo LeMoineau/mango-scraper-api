@@ -12,9 +12,7 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.get("/:src/:id", async (req: Request, res: Response) => {
-  res.send(
-    await mangasController.get({ src: req.params.src, id: req.params.id })
-  );
+  res.send(await mangasController.get(req.params.src, req.params.id));
 });
 
 router.get(

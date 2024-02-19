@@ -61,7 +61,13 @@ class MangaPlusScraper implements Scraper {
    * @returns a list of all mangas which correspond to user search
    */
   public async getMangas({ q }: { q?: string | undefined }): Promise<Manga[]> {
-    throw new Error("Function not implemented.");
+    const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
+      `${this.API_ENDPOINT}/title_list/allV2`,
+      `${__dirname}/protos/allV2.proto`,
+      "mangaplus.AllV2"
+    );
+    console.log(JSON.stringify(jsonRes));
+    return [];
   }
 
   /**
