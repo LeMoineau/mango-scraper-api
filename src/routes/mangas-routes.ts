@@ -14,6 +14,7 @@ router.get("/", async (req: Request, res: Response) => {
       try {
         res.send(await mangasController.getAll({ query: query }));
       } catch (error) {
+        console.error(error);
         res.status(500).send(error);
       }
     } catch (error) {
@@ -39,7 +40,8 @@ router.get("/", async (req: Request, res: Response) => {
           })
         );
       } catch (error) {
-        res.status(500).send(error + "");
+        console.error(error);
+        res.status(500).send(error);
       }
     } catch (error) {
       res.status(400).send(error);
@@ -58,9 +60,14 @@ router.get("/:src/:id", async (req: Request, res: Response) => {
     res.status(400).send("source must be a valid source name");
     return;
   }
-  res.send(
-    await mangasController.get(req.params.src as SourceName, req.params.id)
-  );
+  try {
+    res.send(
+      await mangasController.get(req.params.src as SourceName, req.params.id)
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
 });
 
 router.get(
@@ -70,13 +77,18 @@ router.get(
       res.status(400).send("source must be a valid source name");
       return;
     }
-    res.send(
-      await mangasController.getChapterPages(
-        req.params.src as SourceName,
-        req.params.mangaId,
-        req.params.chapterId
-      )
-    );
+    try {
+      res.send(
+        await mangasController.getChapterPages(
+          req.params.src as SourceName,
+          req.params.mangaId,
+          req.params.chapterId
+        )
+      );
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
   }
 );
 

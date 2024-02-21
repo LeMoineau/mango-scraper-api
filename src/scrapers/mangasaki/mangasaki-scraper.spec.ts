@@ -1,4 +1,3 @@
-import axios from "axios";
 import { describe, expect, expectTypeOf, it, vi } from "vitest";
 import mangasakiScraper from "./mangasaki-scraper";
 import { ScrapingUtils } from "../../utils/scraping-utils";
@@ -45,7 +44,7 @@ describe("mangasaki-scraper", () => {
     for (let c of chapters) {
       expect(c.id).toBeDefined();
       expect(c.image).toBeDefined();
-      expect(c.date).toBeDefined();
+      expect(c.releaseDate).toBeDefined();
       expect(c.number).toBeDefined();
       expect(c.title).toBeDefined();
       expect(c.manga).toBeDefined();

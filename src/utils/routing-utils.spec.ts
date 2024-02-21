@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { RoutingUtils } from "./routing-utils";
 import RoutingError from "../errors/RoutingError";
 
@@ -71,5 +71,37 @@ describe("RoutingUtils", () => {
   describe("areValidSrcs", () => {
     it("should return true if valid srcs", () => {});
     it("should return false if wrong srcs", () => {});
+  });
+
+  describe("tryCatchAndPrint", () => {
+    it("should call tryCallback", () => {
+      const A_TRY_CALLBACK = vi.fn();
+      const A_CATCH_CALLBACK = vi.fn();
+
+      RoutingUtils.tryCatchAndPrint(A_TRY_CALLBACK, A_CATCH_CALLBACK);
+
+      expect(A_TRY_CALLBACK).toHaveBeenCalled();
+    });
+
+    it("should not call catchCallback if no error encounter", () => {
+      const A_TRY_CALLBACK = vi.fn();
+      const A_CATCH_CALLBACK = vi.fn();
+
+      RoutingUtils.tryCatchAndPrint(A_TRY_CALLBACK, A_CATCH_CALLBACK);
+
+      expect(A_CATCH_CALLBACK).not.toHaveBeenCalled();
+    });
+
+    it("should call catchCallback with error if error encounter during tryCallback", () => {
+      const AN_ERROR = new Error("an error");
+      const A_TRY_CALLBACK = () => {
+        throw AN_ERROR;
+      };
+      const A_CATCH_CALLBACK = vi.fn();
+
+      RoutingUtils.tryCatchAndPrint(A_TRY_CALLBACK, A_CATCH_CALLBACK);
+
+      expect(A_CATCH_CALLBACK).toHaveBeenCalledWith(AN_ERROR);
+    });
   });
 });

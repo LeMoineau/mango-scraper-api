@@ -1,6 +1,5 @@
 import ScraperParsingError from "../../errors/ScraperParsingError";
 import { ArrayUtils } from "../../utils/array-utils";
-import { ProtoManaging } from "../../utils/proto-managing";
 import { TextFormatUtils } from "../../utils/text-format-utils";
 import Chapter, { ChapterInfos } from "../../types/chapter";
 import Manga from "../../types/manga";
@@ -8,6 +7,9 @@ import Scraper from "../scraper";
 import { MangaPlusCard } from "./types/mangaplusCard";
 import { MangaplusUtils } from "./utils/mangaplus-utils";
 import ChapterViewer, { ChapterPage } from "../../types/chapterViewer";
+import { MangaPlusManga } from "./types/mangaplusManga";
+import cacheStorageService from "../../services/cache-storage.service";
+import { CacheKeys } from "../../config/cache-keys";
 
 class MangaPlusScraper implements Scraper {
   private API_ENDPOINT =
@@ -60,14 +62,48 @@ class MangaPlusScraper implements Scraper {
    * Get all mangas from an user search
    * @returns a list of all mangas which correspond to user search
    */
-  public async getMangas({ q }: { q?: string | undefined }): Promise<Manga[]> {
-    const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
-      `${this.API_ENDPOINT}/title_list/allV2`,
-      `${__dirname}/protos/allV2.proto`,
-      "mangaplus.AllV2"
-    );
-    console.log(JSON.stringify(jsonRes));
-    return [];
+  public async getMangas({ q }: { q?: string }): Promise<Manga[]> {
+    let allMangas: Manga[] = [];
+    if (!cacheStorageService.isCached(CacheKeys.MANGAPLUS_ALL_MANGAS)) {
+      const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
+        `${this.API_ENDPOINT}/title_list/allV2`,
+        `${__dirname}/protos/allV2.proto`,
+        "mangaplus.AllV2"
+      );
+      allMangas = jsonRes.parent.data.mangas.map(
+        (m: {
+          title: string;
+          translations: Omit<MangaPlusManga, "views">[];
+        }): Manga => {
+          return {
+            id: `${m.translations[0].id}`,
+            name: m.title,
+            author: m.translations[0].author,
+            image: m.translations[0].portraitThumbnail,
+            chapters: [],
+          };
+        }
+      );
+      cacheStorageService.saveInCache(
+        CacheKeys.MANGAPLUS_ALL_MANGAS,
+        allMangas,
+        15 * 24 * 60 * 60 * 1000
+      );
+    } else {
+      allMangas = cacheStorageService.loadFromCache(
+        CacheKeys.MANGAPLUS_ALL_MANGAS
+      );
+    }
+    let mangasFound: Manga[] = [];
+    if (q) {
+      mangasFound = allMangas.filter((m: Manga) => {
+        return (
+          m.name.toLowerCase().includes(q.toLowerCase()) ||
+          q.toLowerCase().includes(m.name.toLowerCase())
+        );
+      });
+    }
+    return mangasFound;
   }
 
   /**

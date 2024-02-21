@@ -1,24 +1,17 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import settingsController from "./settings-controller";
+import config from "../config/config";
+import { SourceName } from "../types/primitives/scrapersConfig";
 
 describe("settings-controller", () => {
-  it("should return scrapers enabled when getting config", () => {
-    const res = settingsController.get();
+  describe("get", () => {
+    it("should return source enabled when getting config", () => {
+      const ENABLED_SOURCES: SourceName[] = ["mangaplus", "mangasaki"];
+      vi.spyOn(config, "getEnabledSource").mockReturnValue(ENABLED_SOURCES);
 
-    for (let SourceName of Object.keys(scrapersConfig.scrapers)) {
-      expect(res.scrapersEnabled).toContainEqual(SourceName);
-    }
-  });
+      const res = settingsController.get();
 
-  it("should return scrapers enabled order by trust level when getting config", () => {
-    const res = settingsController.get();
-
-    let previousTrustLevel = 0;
-    for (let SourceName of res.scrapersEnabled) {
-      expect(
-        scrapersConfig.scrapers[SourceName].trustLevel
-      ).toBeGreaterThanOrEqual(previousTrustLevel);
-      previousTrustLevel = scrapersConfig.scrapers[SourceName].trustLevel;
-    }
+      expect(res.scrapersEnabled).toStrictEqual(ENABLED_SOURCES);
+    });
   });
 });

@@ -10,6 +10,7 @@ class MangaSakiScraper implements Scraper {
   private PAGE_URL =
     process.env.MANGASAKI_URL ??
     "https://www.mangasaki.org/block_refresh/showmanga/lastest_list";
+
   async getLatestChapters(): Promise<Chapter[]> {
     const $ = await ScrapingUtils.requestToCheerioPage(this.PAGE_URL);
     const chapters: Chapter[] = [];
@@ -49,6 +50,7 @@ class MangaSakiScraper implements Scraper {
     return chapters;
   }
   async getMangas({ q }: { q?: string | undefined }): Promise<Manga[]> {
+    return [];
     throw Error("not yet implemented");
   }
   async getManga({}): Promise<Manga> {

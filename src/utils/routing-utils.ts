@@ -49,4 +49,17 @@ export namespace RoutingUtils {
   export function areValidSrcs(querySrcs: string[]): boolean {
     return ArrayUtils.includesAll(config.getEnabledSource(), querySrcs);
   }
+
+  export function tryCatchAndPrint(
+    tryCallback: () => void,
+    catchCallback: (err: any) => void,
+    dontLogError?: boolean
+  ) {
+    try {
+      tryCallback();
+    } catch (error: any) {
+      if (!dontLogError) console.error(error);
+      catchCallback(error);
+    }
+  }
 }

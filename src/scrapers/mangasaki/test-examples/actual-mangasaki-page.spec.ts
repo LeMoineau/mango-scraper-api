@@ -3,7 +3,7 @@ import { expect } from "vitest";
 export const MANGASAKI_HOME_PAGE_HTML = `
 <div class="block-wrapper odd block_1">
     <div id="block-showmanga-lastest-list--2" class="block block-showmanga">
-                        <div class="title block-title">Latest Manga Updates</div>
+                        <div class="title block-title">Latest Manga UpreleaseDates</div>
                     <div class="content">
       <div class="item-list"><ul id="latest-list"><li class="first"><a href="/manga/martial-inverse"><img class="pure-img" typeof="foaf:Image" src="https://www.mangasaki.org/sites/default/files/styles/minicover/public/manga/cover/20200704124143323.jpg?itok=fduFVhkv" width="30" height="39" alt="Martial Inverse" /></a><div class="item-list"><ul><li class="first last"><div class="tl"><a href="/manga/martial-inverse"><strong>Martial Inverse</strong></a></div><div class="item-list"><ul id="c-list"><li class="first last"><a href="/chapter/martial-inverse-378">Martial inverse 378</a><span class="tm">47 minutes ago</span></li>
 </ul></div></li>
@@ -114,7 +114,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "378",
     title: "Martial inverse 378",
     id: "martial-inverse-378",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -123,7 +123,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "44",
     title: "Colorless 44",
     id: "colorless-44",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -132,7 +132,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "43",
     title: "Colorless 43",
     id: "colorless-43",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -141,7 +141,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "119",
     title: "The S-Classes That I Raised 119",
     id: "s-classes-i-raised-119",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -150,7 +150,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "118",
     title: "The S-Classes That I Raised 118",
     id: "s-classes-i-raised-118",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -159,7 +159,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "117",
     title: "The S-Classes That I Raised 117",
     id: "s-classes-i-raised-117",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -173,7 +173,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     title:
       "Is It Odd That I Became An Adventurer Even If I Graduated The Witchcraft Institute? 51",
     id: "it-odd-i-became-adventurer-even-if-i-graduated-witchcraft-institute-51",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -182,7 +182,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "12",
     title: "Dragon and Chameleon 12",
     id: "dragon-and-chameleon-12",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -191,7 +191,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "11",
     title: "Dragon and Chameleon 11",
     id: "dragon-and-chameleon-11",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -200,7 +200,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "10",
     title: "Dragon and Chameleon 10",
     id: "dragon-and-chameleon-10",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -209,7 +209,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "9",
     title: "Dragon and Chameleon 9",
     id: "dragon-and-chameleon-9",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -218,7 +218,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "8",
     title: "Dragon and Chameleon 8",
     id: "dragon-and-chameleon-8",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -227,7 +227,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "7",
     title: "Dragon and Chameleon 7",
     id: "dragon-and-chameleon-7",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -236,7 +236,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "6.5",
     title: "Dragon and Chameleon 6.5",
     id: "dragon-and-chameleon-65",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -245,7 +245,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "6",
     title: "Dragon and Chameleon 6",
     id: "dragon-and-chameleon-6",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -254,7 +254,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "5",
     title: "Dragon and Chameleon 5",
     id: "dragon-and-chameleon-5",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -263,7 +263,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "4",
     title: "Dragon and Chameleon 4",
     id: "dragon-and-chameleon-4",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -272,7 +272,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "3",
     title: "Dragon and Chameleon 3",
     id: "dragon-and-chameleon-3",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -281,7 +281,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "2",
     title: "Dragon and Chameleon 2",
     id: "dragon-and-chameleon-2",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -290,7 +290,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "1",
     title: "Dragon and Chameleon 1",
     id: "dragon-and-chameleon-1",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -304,7 +304,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     title:
       "Tensei Shitara dai Nana Ouji dattanode, Kimamani Majutsu o Kiwamemasu 149",
     id: "tensei-shitara-dai-nana-ouji-dattanode-kimamani-majutsu-o-kiwamemasu-149",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -313,7 +313,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "11",
     title: "Baki Rahen 11",
     id: "baki-rahen-11",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -325,7 +325,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "429",
     title: "Perfect Secret Love: The Bad New Wife is a Little Sweet 429",
     id: "perfect-secret-love-bad-new-wife-little-sweet-429",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -334,7 +334,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "94",
     title: "Dong Gun 94",
     id: "dong-gun-94",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -343,7 +343,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "95",
     title: "Dong Gun 95",
     id: "dong-gun-95",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -352,7 +352,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "143",
     title: "Build Up 143",
     id: "build-143",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -361,7 +361,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "142",
     title: "Build Up 142",
     id: "build-142",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -370,7 +370,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "249",
     title: "Other World Warrior 249",
     id: "other-world-warrior-249",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -379,7 +379,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "184",
     title: "Yankee JK KuzuHana-chan 184",
     id: "yankee-jk-kuzuhana-chan-184",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -388,7 +388,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "331",
     title: "Mairimashita! Iruma-kun 331",
     id: "mairimashita-iruma-kun-331",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -397,7 +397,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "144",
     title: "Blinded by the Setting Sun 144",
     id: "blinded-setting-sun-144",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -409,7 +409,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "249",
     title: "Dimensional Mercenary ( Other World Warrior ) 249",
     id: "dimensional-mercenary-other-world-warrior-249",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -418,7 +418,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "149",
     title: "Angelic Lady 149",
     id: "angelic-lady-149",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -427,7 +427,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "10",
     title: "Blood Parasite 10",
     id: "blood-parasite-10",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -436,7 +436,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "9",
     title: "Blood Parasite 9",
     id: "blood-parasite-9",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -445,7 +445,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "8",
     title: "Blood Parasite 8",
     id: "blood-parasite-8",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -454,7 +454,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "7",
     title: "Blood Parasite 7",
     id: "blood-parasite-7",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -463,7 +463,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "6",
     title: "Blood Parasite 6",
     id: "blood-parasite-6",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -472,7 +472,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "5",
     title: "Blood Parasite 5",
     id: "blood-parasite-5",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -481,7 +481,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "4",
     title: "Blood Parasite 4",
     id: "blood-parasite-4",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -490,7 +490,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "3",
     title: "Blood Parasite 3",
     id: "blood-parasite-3",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -499,7 +499,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "2",
     title: "Blood Parasite 2",
     id: "blood-parasite-2",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -508,7 +508,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "1",
     title: "Blood Parasite 1",
     id: "blood-parasite-1",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -517,7 +517,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "182",
     title: "Shadow House 182",
     id: "shadow-house-182",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -526,7 +526,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "334",
     title: "unOrdinary 334",
     id: "unordinary-334",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -535,7 +535,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "123",
     title: "Absolute Martial Arts 123",
     id: "absolute-martial-arts-123",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -544,7 +544,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "118",
     title: "Limit Breaker 118",
     id: "limit-breaker-118",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -553,7 +553,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "178",
     title: "I Log In Alone 178",
     id: "i-log-alone-178",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -565,7 +565,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "214",
     title: "Overgeared (Team Argo) 214",
     id: "overgeared-team-argo-214",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
   {
     image:
@@ -577,6 +577,6 @@ export const MANGASAKI_HOME_RESULT_JSON = [
     number: "213",
     title: "Overgeared (Team Argo) 213",
     id: "overgeared-team-argo-213",
-    date: expect.any(Date),
+    releaseDate: expect.any(Date),
   },
 ];
