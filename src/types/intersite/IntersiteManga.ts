@@ -1,10 +1,11 @@
 import { IntersiteField } from "./IntersiteField";
-import { ChapterInfos } from "../chapter";
+import { IntersiteChapterInfos } from "./IntersiteChapter";
 
 export interface IntersiteManga {
   id: IntersiteField<string>;
   name: IntersiteField<string>;
+  formattedName: string;
   author: IntersiteField<string>;
   image: IntersiteField<string>;
-  chapters?: IntersiteField<ChapterInfos[]>;
+  chapters: IntersiteChapterInfos[];
 }

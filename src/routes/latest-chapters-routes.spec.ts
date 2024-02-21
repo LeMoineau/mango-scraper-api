@@ -1,8 +1,8 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import express from "express";
-import chaptersRouter from "./chapters-routes";
-import chaptersController from "../controllers/chapters-controller";
+import chaptersRouter from "./latest-chapters-routes";
+import chaptersController from "../controllers/latest-chapters-controller";
 
 describe("chapters-routes", () => {
   const AN_ERROR = "une erreur";
@@ -13,21 +13,21 @@ describe("chapters-routes", () => {
   });
 
   it("should call ChaptersController getAll", async () => {
-    vi.spyOn(chaptersController, "getAll");
+    vi.spyOn(chaptersController, "get");
 
     await request(app).get("/chapters");
 
-    expect(chaptersController.getAll).toHaveBeenCalled();
+    expect(chaptersController.get).toHaveBeenCalled();
   });
 
   it("should return ok status when getting not error", async () => {
-    vi.spyOn(chaptersController, "getAll").mockResolvedValue([]);
+    vi.spyOn(chaptersController, "get").mockResolvedValue([]);
 
     await request(app).get("/chapters").expect(200);
   });
 
   it("should return 500 status when getting error", async () => {
-    vi.spyOn(chaptersController, "getAll").mockRejectedValue(AN_ERROR);
+    vi.spyOn(chaptersController, "get").mockRejectedValue(AN_ERROR);
 
     await request(app).get("/chapters").expect(500);
   });

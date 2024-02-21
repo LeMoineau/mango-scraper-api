@@ -1,13 +1,9 @@
-import scrapersConfig from "../config/scrapers-config";
+import config from "../config/config";
 
 class SettingsController {
-  public getConfig() {
+  public get() {
     return {
-      scrapersEnabled: Object.keys(scrapersConfig.scrapers).sort(
-        (a, b) =>
-          scrapersConfig.scrapers[a].trustLevel -
-          scrapersConfig.scrapers[b].trustLevel
-      ),
+      scrapersEnabled: config.getEnabledSource(),
     };
   }
 }

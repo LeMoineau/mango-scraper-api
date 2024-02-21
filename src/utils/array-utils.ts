@@ -30,6 +30,12 @@ export namespace ArrayUtils {
     throw new SplittingError(arr, splitter);
   }
 
+  /**
+   * Transform each item of an array<A> into an array<B>
+   * @param array source array<A> from where change items
+   * @param transformater function which transform an item of type A to type B
+   * @returns result array<B>
+   */
   export function transformEachItemOf<A, B>(
     array: A[],
     transformater: (item: A) => B | undefined
@@ -40,5 +46,12 @@ export namespace ArrayUtils {
       if (transform) res.push(transform);
     }
     return res;
+  }
+
+  export function includesAll<T>(src: T[], target: T[]): boolean {
+    for (let t of target) {
+      if (!src.includes(t)) return false;
+    }
+    return true;
   }
 }

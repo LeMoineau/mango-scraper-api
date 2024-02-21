@@ -4,7 +4,7 @@ import settingsController from "../controllers/settings-controller";
 const router = Router();
 
 router.get("/", (_: Request, res: Response) => {
-  res.send(settingsController.getConfig());
+  res.send(settingsController.get());
 });
 
 export default router;

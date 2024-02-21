@@ -1,12 +1,12 @@
 import { IntersiteField } from "./IntersiteField";
 
 export interface IntersiteChapterInfos {
+  id: IntersiteField<string>;
   title: IntersiteField<string>;
   number: IntersiteField<string>;
   formattedNumber: string;
   image: IntersiteField<string>;
-  date: IntersiteField<Date>;
-  id: IntersiteField<string>;
+  realeaseDate: IntersiteField<Date>;
 }
 
 export default interface IntersiteChapter extends IntersiteChapterInfos {

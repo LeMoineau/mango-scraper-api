@@ -95,7 +95,7 @@ class MangaPlusScraper implements Scraper {
                 c[label],
                 (item: any): ChapterInfos => {
                   return {
-                    id: item.chapterId,
+                    id: `${item.chapterId}`,
                     number: item.chapter,
                     title: item.title,
                     image: item.thumbnail,

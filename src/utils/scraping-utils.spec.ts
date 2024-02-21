@@ -1,11 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ScrapingUtils } from "./scraping-utils";
-import { ScrapersConfig } from "../config/scrapersConfig";
+import { ScrapersConfig } from "../types/primitives/scrapersConfig";
 import mangaplusScraper from "../scrapers/mangaplus/mangaplus-scraper";
-import WrongScrapersConfigError from "../errors/WrongScrapersConfigError";
+import WrongScrapersConfigError from "../errors/MangoApiConfigError";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import UnknownCheerioMethod from "../errors/UnknownCheerioMethod";
 
 // vi.mock("cheerio", () => {
 //   return {
@@ -31,7 +30,7 @@ describe("scraping-utils", () => {
           trustLevel: 1,
           scraper: mangaplusScraper,
         },
-        another: {
+        mangasaki: {
           enabled: true,
           trustLevel: 2,
           scraper: mangaplusScraper,
@@ -42,7 +41,7 @@ describe("scraping-utils", () => {
 
   it("should throw wrong scrapers config error when verify scrapers config with enabled same trustLevel", () => {
     const A_CONFIG_WITH_SAME_TRUSTLEVEL = A_CORRECT_CONFIG;
-    A_CONFIG_WITH_SAME_TRUSTLEVEL.scrapers.another.trustLevel = 1;
+    A_CONFIG_WITH_SAME_TRUSTLEVEL.scrapers.mangasaki.trustLevel = 1;
     expect(() =>
       ScrapingUtils.verifyConfig(A_CONFIG_WITH_SAME_TRUSTLEVEL)
     ).toThrowError(WrongScrapersConfigError);
@@ -50,8 +49,8 @@ describe("scraping-utils", () => {
 
   it("should be ok when verify scrapers config with same trustLevel but not enabled", () => {
     const A_CONFIG_WITH_SAME_TRUSTLEVEL_BUT_NOT_ENABLED = A_CORRECT_CONFIG;
-    A_CONFIG_WITH_SAME_TRUSTLEVEL_BUT_NOT_ENABLED.scrapers.another.trustLevel = 1;
-    A_CONFIG_WITH_SAME_TRUSTLEVEL_BUT_NOT_ENABLED.scrapers.another.enabled =
+    A_CONFIG_WITH_SAME_TRUSTLEVEL_BUT_NOT_ENABLED.scrapers.mangasaki.trustLevel = 1;
+    A_CONFIG_WITH_SAME_TRUSTLEVEL_BUT_NOT_ENABLED.scrapers.mangasaki.enabled =
       false;
     expect(() =>
       ScrapingUtils.verifyConfig(A_CONFIG_WITH_SAME_TRUSTLEVEL_BUT_NOT_ENABLED)

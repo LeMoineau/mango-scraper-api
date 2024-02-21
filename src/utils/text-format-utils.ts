@@ -1,6 +1,6 @@
 export namespace TextFormatUtils {
   export function formatChapterNumber(chapterNumber: string): string {
-    let res = chapterNumber.trim();
+    let res = chapterNumber.trim().replace(/[^0-9\-]+/g, "");
     try {
       const numberRes = Number(res); // to remove left 0 as "045"
       if (!Number.isNaN(numberRes)) {

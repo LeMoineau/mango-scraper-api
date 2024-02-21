@@ -1,0 +1,14 @@
+{
+  "scrapers": {
+    "mangaplus": {
+      "enabled": true,
+      "trustLevel": 1,
+      "scraper": "./../scrapers/mangaplus/mangaplus-scraper"
+    },
+    "mangasaki": {
+      "enabled": true,
+      "trustLevel": 2,
+      "scraper": "./../scrapers/mangasaki/mangasaki-scraper"
+    }
+  }
+}

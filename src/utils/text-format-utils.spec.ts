@@ -23,7 +23,15 @@ describe("text-format-utils", () => {
 
     const res = TextFormatUtils.formatChapterNumber(A_CHAPTER_NUMBER);
 
-    expect(res).toBe("S7-45");
+    expect(res).toBe("7-45");
+  });
+
+  it("should remove # when chapter number has a #", () => {
+    const A_CHAPTER_NUMBER = "#141";
+
+    const res = TextFormatUtils.formatChapterNumber(A_CHAPTER_NUMBER);
+
+    expect(res).toBe("141");
   });
 
   it("should put to lowercase when format manga title", () => {

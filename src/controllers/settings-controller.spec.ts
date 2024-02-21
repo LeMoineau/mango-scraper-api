@@ -1,25 +1,24 @@
 import { describe, expect, it } from "vitest";
 import settingsController from "./settings-controller";
-import scrapersConfig from "../config/scrapers-config";
 
 describe("settings-controller", () => {
   it("should return scrapers enabled when getting config", () => {
-    const res = settingsController.getConfig();
+    const res = settingsController.get();
 
-    for (let scraperName of Object.keys(scrapersConfig.scrapers)) {
-      expect(res.scrapersEnabled).toContainEqual(scraperName);
+    for (let SourceName of Object.keys(scrapersConfig.scrapers)) {
+      expect(res.scrapersEnabled).toContainEqual(SourceName);
     }
   });
 
   it("should return scrapers enabled order by trust level when getting config", () => {
-    const res = settingsController.getConfig();
+    const res = settingsController.get();
 
     let previousTrustLevel = 0;
-    for (let scraperName of res.scrapersEnabled) {
+    for (let SourceName of res.scrapersEnabled) {
       expect(
-        scrapersConfig.scrapers[scraperName].trustLevel
+        scrapersConfig.scrapers[SourceName].trustLevel
       ).toBeGreaterThanOrEqual(previousTrustLevel);
-      previousTrustLevel = scrapersConfig.scrapers[scraperName].trustLevel;
+      previousTrustLevel = scrapersConfig.scrapers[SourceName].trustLevel;
     }
   });
 });

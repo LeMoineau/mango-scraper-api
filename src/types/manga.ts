@@ -5,5 +5,5 @@ export default interface Manga {
   name: string;
   author: string;
   image: string;
-  chapters?: ChapterInfos[];
+  chapters: ChapterInfos[];
 }
