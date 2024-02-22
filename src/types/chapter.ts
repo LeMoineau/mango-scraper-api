@@ -2,7 +2,7 @@ export interface ChapterInfos {
   id: string;
   title: string;
   number: string;
-  image: string;
+  image?: string;
   releaseDate: Date;
   expirationDate?: Date;
 }

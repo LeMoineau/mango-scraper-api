@@ -57,4 +57,38 @@ describe("text-format-utils", () => {
 
     expect(res).toBe("lpop");
   });
+
+  describe("isNumber", () => {
+    it("should return true if string is a number", () => {
+      const A_NUMBER_STRING = "123";
+
+      expect(TextFormatUtils.isNumber(A_NUMBER_STRING)).toBeTruthy();
+    });
+
+    it("should return false if string is not a number", () => {
+      const A_NUMBER_STRING = "123a";
+
+      expect(TextFormatUtils.isNumber(A_NUMBER_STRING)).toBeFalsy();
+    });
+  });
+
+  describe("stringWithout", () => {
+    it("should remove target string of src string", () => {
+      const A_STRING = "test a string";
+      const THE_STRING_TO_REMOVE = "test";
+
+      expect(
+        TextFormatUtils.stringWithout(A_STRING, THE_STRING_TO_REMOVE)
+      ).toBe("a string");
+    });
+
+    it("should remove all occurence of target string of src string", () => {
+      const A_STRING = "test atest stringtest";
+      const THE_STRING_TO_REMOVE = "test";
+
+      expect(
+        TextFormatUtils.stringWithout(A_STRING, THE_STRING_TO_REMOVE)
+      ).toBe("a string");
+    });
+  });
 });

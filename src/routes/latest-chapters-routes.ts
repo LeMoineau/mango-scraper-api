@@ -7,6 +7,7 @@ router.get("/", async (_: Request, res: Response) => {
   try {
     res.send(await latestChapters.get());
   } catch (error) {
+    console.error(error);
     res.status(500).send(error);
   }
 });

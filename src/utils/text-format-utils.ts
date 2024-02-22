@@ -17,4 +17,18 @@ export namespace TextFormatUtils {
       .replace(/[^a-zA-Z0-9]+/g, "");
     return res;
   }
+
+  export function isNumber(str: string): boolean {
+    return !Number.isNaN(Number(str));
+  }
+
+  /**
+   * Remove a string from a string
+   * @param strToRemove string to remove
+   * @returns string without the string to remove
+   */
+  export function stringWithout(src: string, strToRemove: string): string {
+    const regex = new RegExp(`${strToRemove}`, "g");
+    return src.replace(regex, "").trim();
+  }
 }
