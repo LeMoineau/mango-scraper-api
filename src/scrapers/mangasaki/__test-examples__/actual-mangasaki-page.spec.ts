@@ -425,3 +425,213 @@ window.eu_cookie_compliance_cookie_name = "";
 </body>
 </html>
 `;
+
+export const MANGASAKI_ONE_PIECE_CHAPTER_PAGE_HTML = `
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html class="iem7"  lang="en" dir="ltr"><![endif]-->
+<!--[if lte IE 6]><html class="lt-ie9 lt-ie8 lt-ie7"  lang="en" dir="ltr"><![endif]-->
+<!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8"  lang="en" dir="ltr"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9"  lang="en" dir="ltr"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)]><!--><html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+<head>
+<title>One Piece 1108 | MangaSaki</title>
+<meta name="HandheldFriendly" content="true">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="MobileOptimized" content="width">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="https://www.mangasaki.org/sites/all/themes/abc/favicon.ico" type="image/vnd.microsoft.icon" />
+<meta name="description" content="read One Piece 1108 online" />
+<meta name="robots" content="follow, index" />
+<meta name="generator" content="Drupal 7 (https://www.drupal.org)" />
+<link rel="canonical" href="https://www.mangasaki.org/chapter/one-piece-1108" />
+<link rel="shortlink" href="https://www.mangasaki.org/node/1030654" />
+<link type="text/css" rel="stylesheet" href="https://www.mangasaki.org/sites/default/files/css/css_hn26HJafBdTYEpxYXgpP2XqtZdW1_nIQhyvBdODHpGk.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.mangasaki.org/sites/default/files/css/css_y5V-74fl2u3TPnO7Vzl0srF2_LEAmcANj4_-6qPJyxk.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.mangasaki.org/sites/default/files/css/css_qyXaFnJECVD_aICiclvj2L7nhnsbh4r44z1PoEi45bc.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.mangasaki.org/sites/default/files/css/css_Ncw_tX18CjpUEojReKbflOcPjt6xEOK78htwP_1pmwY.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.mangasaki.org/sites/default/files/css/css_f02GTtFdf0Y6l02oQOFmZCdd825ARKqOB81lEmN8HYk.css" media="all" />
+<!--[if IE 8]>
+<link type="text/css" rel="stylesheet" href="https://www.mangasaki.org/sites/default/files/css/css_LSutHW6YN_eqZVwhPc2vUdKGicjx3_ZSR5_PM985FC4.css" media="all" />
+<![endif]-->
+<!--[if gt IE 8]><!-->
+<link type="text/css" rel="stylesheet" href="https://www.mangasaki.org/sites/default/files/css/css_16OCho5X6EHb4S09Lyo4-dpRvKESywDmNvn_rsKKtcc.css" media="all" />
+<!--<![endif]-->
+<link type="text/css" rel="stylesheet" href="https://www.mangasaki.org/sites/default/files/css/css_0N4WnjcmjwfRLFRSJKd9I4gryG6KaF9hOXz7HKYokIQ.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.mangasaki.org/sites/default/files/css/css_4Vn-b-JyGqbW_teTIVB0hzTSO7rSix2HdJSjTz3MRig.css" media="print" />
+<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+window.jQuery || document.write("<script src='/sites/all/modules/jquery_update/replace/jquery/1.7/jquery.min.js'>\x3C/script>")
+//--><!]]>
+</script>
+<script type="text/javascript" src="https://www.mangasaki.org/misc/jquery-extend-3.4.0.js?v=1.7.2"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/misc/jquery-html-prefilter-3.5.0-backport.js?v=1.7.2"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/misc/jquery.once.js?v=1.2"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/misc/drupal.js?s8gx2f"></script>
+<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+window.jQuery.ui || document.write("<script src='/sites/all/modules/jquery_update/replace/ui/ui/minified/jquery-ui.min.js'>\x3C/script>")
+//--><!]]>
+</script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/eu_cookie_compliance/js/jquery.cookie-1.4.1.min.js?v=1.4.1"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/misc/ui/jquery.ui.position-1.13.0-backport.js?v=1.10.2"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/jquery_update/replace/misc/jquery.form.min.js?v=2.69"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/misc/ajax.js?v=7.97"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/jquery_update/js/jquery_update.js?v=0.0.1"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/authcache/authcache.js?s8gx2f"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/manga_grabimg/manga_grabimg.js?s8gx2f"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/search_autocomplete/js/jquery.autocomplete.js?s8gx2f"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/authcache/modules/authcache_menu/authcache_menu.js?s8gx2f"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/misc/progress.js?v=7.97"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/scroll_button/js/scroll_button.js?s8gx2f"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/showmanga/js/jquery-doubletap.js?s8gx2f"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/showmanga/js/enlar.js?s8gx2f"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/themes/abc/js/bootstrap.js?s8gx2f"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","setHasJsCookie":0,"ajaxPageState":{"theme":"abc","theme_token":"_qpQYnbVIIXtBfevVdUJ9h5CKORBaExWVdaamaXuw28","jquery_version":"1.7","js":{"sites\/all\/modules\/block_refresh\/js\/block_refresh.js":1,"0":1,"sites\/all\/modules\/eu_cookie_compliance\/js\/eu_cookie_compliance.min.js":1,"modules\/statistics\/statistics.js":1,"\/\/ajax.aspnetcdn.com\/ajax\/jQuery\/jquery-1.7.2.min.js":1,"1":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery-html-prefilter-3.5.0-backport.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"\/\/ajax.aspnetcdn.com\/ajax\/jquery.ui\/1.10.2\/jquery-ui.min.js":1,"2":1,"sites\/all\/modules\/eu_cookie_compliance\/js\/jquery.cookie-1.4.1.min.js":1,"misc\/ui\/jquery.ui.position-1.13.0-backport.js":1,"sites\/all\/modules\/jquery_update\/replace\/misc\/jquery.form.min.js":1,"misc\/ajax.js":1,"sites\/all\/modules\/jquery_update\/js\/jquery_update.js":1,"sites\/all\/modules\/authcache\/authcache.js":1,"sites\/all\/modules\/manga_grabimg\/manga_grabimg.js":1,"sites\/all\/modules\/search_autocomplete\/js\/jquery.autocomplete.js":1,"sites\/all\/modules\/authcache\/modules\/authcache_menu\/authcache_menu.js":1,"misc\/progress.js":1,"sites\/all\/modules\/scroll_button\/js\/scroll_button.js":1,"sites\/all\/modules\/showmanga\/js\/jquery-doubletap.js":1,"sites\/all\/modules\/showmanga\/js\/enlar.js":1,"sites\/all\/themes\/abc\/js\/bootstrap.js":1},"css":{"sites\/all\/themes\/abc\/css\/drupal\/drupal-system-min.css":1,"misc\/ui\/jquery.ui.core.css":1,"misc\/ui\/jquery.ui.theme.css":1,"misc\/ui\/jquery.ui.menu.css":1,"misc\/ui\/jquery.ui.autocomplete.css":1,"sites\/all\/themes\/abc\/css\/drupal\/drupal-default-min.css":1,"sites\/all\/modules\/date\/date_api\/date.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/block_refresh\/css\/block_refresh.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/tagclouds\/tagclouds.css":1,"sites\/all\/modules\/search_autocomplete\/css\/themes\/user-blue.css":1,"sites\/all\/modules\/search_autocomplete\/css\/themes\/basic-green.css":1,"sites\/all\/modules\/eu_cookie_compliance\/css\/eu_cookie_compliance.css":1,"sites\/all\/modules\/scroll_button\/css\/scroll_button.css":1,"public:\/\/ctools\/css\/fed7994d30c73cc5d15ce79879b2a3dd.css":1,"sites\/all\/themes\/abc\/css\/yui\/pure-min.css":1,"sites\/all\/themes\/abc\/css\/yui\/grids-responsive-old-ie-min.css":1,"sites\/all\/themes\/abc\/css\/yui\/grids-responsive-min.css":1,"sites\/all\/themes\/abc\/css\/style.css":1,"sites\/all\/themes\/abc\/_custom\/custom-style.css":1,"sites\/all\/themes\/abc\/css\/print.css":1}},"authcache":{"q":"node\/1030654","cp":{"path":"\/","domain":".mangasaki.org","secure":true},"cl":1},"block_refresh":{"settings":{"block-showmanga-lastest-list":{"element":"block-showmanga-lastest-list","auto":1,"manual":1,"init":1,"arguments":0,"panels":0,"timer":"60","block":{"block":"showmanga","delta":"lastest_list"},"bypass_page_cache":0,"bypass_external_cache":"15"}},"args":["node","1030654"],"query":""},"showmanga":{"paths":["https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/2\/303936\/\/20240222113008121.jpeg","\u003Ch12 class=\u0022h12container\u0022 data-pub=\u00223378dc38281632293d6fb281136029f9\u0022 data-adunit=\u002233264\u0022 data-type=\u0022responsive\u0022 data-format=\u0022standard\u0022 data-init=\u0022false\u0022\u003E\u003C\/h12\u003E","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/5\/303936\/\/20240222113009259.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/10\/303936\/\/20240222113011792.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/2\/303936\/\/20240222113012112.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/10\/303936\/\/20240222113013194.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/10\/303936\/\/20240222113015595.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/4\/303936\/\/20240222113016139.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/3\/303936\/\/20240222113017310.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/2\/303936\/\/20240222113018394.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/3\/303936\/\/20240222113020757.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/5\/303936\/\/20240222113021972.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/1\/303936\/\/20240222113022650.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/6\/303936\/\/20240222113023413.jpeg","https:\/\/www.mangasaki.org\/sites\/default\/files\/manga2\/8\/303936\/\/20240222113026923.jpeg"],"count_p":14,"prev_nid":"1030239","next_nid":"1030716","last_nid":"1030654","ngid":"303936","nid":"1030654"},"search_autocomplete":{"form1":{"selector":"#search-form[action=\u0022\/search\/node\u0022] #edit-keys","minChars":"3","max_sug":"10","type":"internal","datas":"https:\/\/www.mangasaki.org\/search_autocomplete\/autocomplete\/1\/","fid":"1","theme":"basic-green","auto_submit":"1","auto_redirect":"1"},"form2":{"selector":"#search-form[action=\u0022\/search\/user\u0022] #edit-keys","minChars":"3","max_sug":"10","type":"internal","datas":"https:\/\/www.mangasaki.org\/search_autocomplete\/autocomplete\/2\/","fid":"2","theme":"user-blue","auto_submit":"1","auto_redirect":"1"},"form3":{"selector":"#edit-search-block-form--2","minChars":"3","max_sug":"10","type":"internal","datas":"https:\/\/www.mangasaki.org\/search_autocomplete\/autocomplete\/3\/","fid":"3","theme":"basic-green","auto_submit":"1","auto_redirect":"1"}},"eu_cookie_compliance":{"cookie_policy_version":"1.0.0","popup_enabled":1,"popup_agreed_enabled":0,"popup_hide_agreed":0,"popup_clicking_confirmation":false,"popup_scrolling_confirmation":false,"popup_html_info":"\u003Cdiv class=\u0022eu-cookie-compliance-banner eu-cookie-compliance-banner-info eu-cookie-compliance-banner--opt-in\u0022\u003E\n  \u003Cdiv class=\u0022popup-content info\u0022\u003E\n        \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Cp\u003E\u0026lt;h2\u0026gt;We use cookies on this site to enhance your user experience\u0026lt;\/h2\u0026gt;\u0026lt;p\u0026gt;By clicking the Accept button, you agree to us doing so.\u0026lt;\/p\u0026gt;\u003C\/p\u003E\n              \u003Cbutton type=\u0022button\u0022 class=\u0022find-more-button eu-cookie-compliance-more-button\u0022\u003ENo, give me more info\u003C\/button\u003E\n          \u003C\/div\u003E\n    \n    \u003Cdiv id=\u0022popup-buttons\u0022 class=\u0022\u0022\u003E\n            \u003Cbutton type=\u0022button\u0022 class=\u0022agree-button eu-cookie-compliance-secondary-button\u0022\u003EOK, I agree\u003C\/button\u003E\n              \u003Cbutton type=\u0022button\u0022 class=\u0022decline-button eu-cookie-compliance-default-button\u0022 \u003ENo, thanks\u003C\/button\u003E\n          \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E","use_mobile_message":false,"mobile_popup_html_info":"\u003Cdiv class=\u0022eu-cookie-compliance-banner eu-cookie-compliance-banner-info eu-cookie-compliance-banner--opt-in\u0022\u003E\n  \u003Cdiv class=\u0022popup-content info\u0022\u003E\n        \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Cp\u003E\u0026lt;h2\u0026gt;We use cookies on this site to enhance your user experience\u0026lt;\/h2\u0026gt;\u0026lt;p\u0026gt;By tapping the Accept button, you agree to us doing so.\u0026lt;\/p\u0026gt;\u003C\/p\u003E\n              \u003Cbutton type=\u0022button\u0022 class=\u0022find-more-button eu-cookie-compliance-more-button\u0022\u003ENo, give me more info\u003C\/button\u003E\n          \u003C\/div\u003E\n    \n    \u003Cdiv id=\u0022popup-buttons\u0022 class=\u0022\u0022\u003E\n            \u003Cbutton type=\u0022button\u0022 class=\u0022agree-button eu-cookie-compliance-secondary-button\u0022\u003EOK, I agree\u003C\/button\u003E\n              \u003Cbutton type=\u0022button\u0022 class=\u0022decline-button eu-cookie-compliance-default-button\u0022 \u003ENo, thanks\u003C\/button\u003E\n          \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E\n","mobile_breakpoint":"768","popup_html_agreed":"\u003Cdiv\u003E\n  \u003Cdiv class=\u0022popup-content agreed\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Cp\u003E\u0026lt;h2\u0026gt;Thank you for accepting cookies\u0026lt;\/h2\u0026gt;\u0026lt;p\u0026gt;You can now hide this message or find out more about cookies.\u0026lt;\/p\u0026gt;\u003C\/p\u003E\n    \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022hide-popup-button eu-cookie-compliance-hide-button\u0022\u003EHide\u003C\/button\u003E\n              \u003Cbutton type=\u0022button\u0022 class=\u0022find-more-button eu-cookie-compliance-more-button-thank-you\u0022 \u003EMore info\u003C\/button\u003E\n          \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E","popup_use_bare_css":false,"popup_height":"auto","popup_width":"100%","popup_delay":1000,"popup_link":"\/","popup_link_new_window":1,"popup_position":true,"fixed_top_position":1,"popup_language":"en","store_consent":false,"better_support_for_screen_readers":0,"reload_page":0,"domain":"","domain_all_sites":0,"popup_eu_only_js":0,"cookie_lifetime":"100","cookie_session":false,"disagree_do_not_show_popup":0,"method":"opt_in","allowed_cookies":"","withdraw_markup":"\u003Cbutton type=\u0022button\u0022 class=\u0022eu-cookie-withdraw-tab\u0022\u003EPrivacy settings\u003C\/button\u003E\n\u003Cdiv class=\u0022eu-cookie-withdraw-banner\u0022\u003E\n  \u003Cdiv class=\u0022popup-content info\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Ch2\u003EWe use cookies on this site to enhance your user experience\u003C\/h2\u003E\n\u003Cp\u003EYou have given your consent for us to set cookies.\u003C\/p\u003E\n    \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022eu-cookie-withdraw-button\u0022\u003EWithdraw consent\u003C\/button\u003E\n    \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E\n","withdraw_enabled":false,"withdraw_button_on_info_popup":0,"cookie_categories":[],"cookie_categories_details":[],"enable_save_preferences_button":1,"cookie_name":"","cookie_value_disagreed":"0","cookie_value_agreed_show_thank_you":"1","cookie_value_agreed":"2","containing_element":"body","automatic_cookies_removal":1,"close_button_action":"close_banner"},"ajax":{"edit-select-pics":{"wrapper":"images","effect":"fade","callback":"showmanga_ajax_multi_callback","event":"change","url":"\/system\/ajax","submit":{"_triggering_element_name":"select_pics"}}},"urlIsAjaxTrusted":{"\/system\/ajax":true,"\/chapter\/one-piece-1108":true},"statistics":{"data":{"nid":"1030654"},"url":"\/modules\/statistics\/statistics.php"},"scroll_button":{"title":"","position":"float","buttons":{"top":1,"bot":1},"always_show":0,"speed":"slow","duration":400,"distance":"100","offset":{"x":"80","y":"3"},"css":".scrollnav","color":{"bg":"#bababa","hv":"#999999"}}});
+//--><!]]>
+</script>
+</head>
+<body id="pid-chapter-one-piece-1108" class="html not-front not-logged-in no-sidebars page-node page-node- page-node-1030654 node-type-article not-admin section-chapter page-chapter/one-piece-1108 bimg bi4 bgf sn4 nt4 fb1 mb7 lb8 mr6 tr4 bt6 mc fs1 nb1 nbl bicons pi rnd lg-en">
+
+<h12 class="h12container" data-pub="3378dc38281632293d6fb281136029f9" data-adunit="33263" data-type="sticky" data-format="stickybottom" data-init="false"></h12>
+<script async src="https://tags.h12-media.com/load2.js"></script>
+<div id="skip-link">
+<a href="#main" class="element-invisible element-focusable">Skip to main content</a>
+<a href="#search-block-form" class="element-invisible element-focusable">Skip to search</a>
+</div>
+<div id="bg1"><div id="bg2">
+<div class="sizer0 clearfix" style="max-width:80em;">
+<div id="header" role="banner">
+<div class="logo">
+<div id="top-elements">
+</div>
+<a href="/" title="Home"><img src="/sites/all/themes/abc/images/logo/green/m.png" alt="Home" class="logoimg" /></a> <div id="name-and-slogan">
+<p id="site-name"><a href="/" title="Home">MangaSaki</a></p>
+</div>
+</div>
+<div class="menuband clearfix">
+<div id="menu" class="menu-wrapper">
+<a href="/" class="pure-menu-heading" title>
+<img src="/sites/all/themes/abc/images/logo/green/m.png" alt="Home" class="logomob" /> MangaSaki </a>
+<a href="#" id="toggles" class="menu-toggle"><s class="bars"></s><s class="bars"></s><div class="element-invisible">toggle</div></a>
+<div class="pure-menu pure-menu-horizontal menu-transform" role="navigation" aria-label="Menu">
+<div class="element-invisible">Main menu</div>
+<ul class="pure-menu-list"><li class="pure-menu-item"><a href="/user/login?destination=node/1030654" title="Login to the site." class="popups-form-reload pure-menu-link menu-481">Login</a></li><li class="pure-menu-item"><a href="/user/register" title="Register a new account" class="popups-form-reload pure-menu-link menu-482">Register</a></li><li class="pure-menu-item"><a href="/directory" title class="leaf pure-menu-link menu-624">Directory</a></li><li class="pure-menu-item"><a href="/directory/hot" title="Hot Manga" class="leaf pure-menu-link menu-2962">Hot</a></li><li class="pure-menu-item"><a href="/directory/new" title="Newly added manga" class="leaf pure-menu-link menu-2963">New</a></li><li class="pure-menu-item"><a href="/tagclouds/chunk/1" title class="last leaf pure-menu-link menu-2964">Genres</a></li></ul>
+</div>
+</div>
+</div>
+</div>
+<div id="breadcrumb" class="clearfix"></div>
+<div class="clearfix">
+<div id="middlecontainer" class="pure-g">
+<div class="pure-u-1 pure-u-md-24-24">
+<div id="main" role="main">
+<center><h1 class="title">One Piece 1108 | <a href="/node/303936">Manga Info</a></h1></center> <div class="tabs"></div>
+<ul class="action-links"></ul>
+<h12 class="h12container" data-pub="3378dc38281632293d6fb281136029f9" data-adunit="33264" data-type="responsive" data-format="standard" data-init="false"></h12>
+<div class="region region-content">
+<div class="block-wrapper odd block_1">
+<div id="block-system-main" class="block block-system">
+<div class="content">
+<div class="clearfix"></div>
+<div class="candy1">
+</div>
+<div id="node-1030654" class="node node-article odd   full-node node-type-article clearfix" about="/chapter/one-piece-1108" typeof="sioc:Item foaf:Document">
+<span property="dc:title" content="One Piece 1108" class="rdf-meta element-hidden"></span>
+<div class="content clearfix">
+<form action="/chapter/one-piece-1108" method="post" id="showmanga-select-chapter" class="pure-form" accept-charset="UTF-8"><div><p class="f_v_instr">Reader Instruction:~<strong> Mobile: doubletaps ,PC:click,<- -> arrows keys also work. </strong></p><div id="images" align="center"></div><div class="addthisf"><div class="addthis_sharing_toolbox"></div></div><input type="hidden" name="form_build_id" value="form-GM9YWdnfV6YwiqLFIKE0oEz05cRiPEJoFFqMBDHxAoc" />
+<input type="hidden" name="form_id" value="showmanga_select_chapter" />
+<div class="form-item form-type-select form-item-select-node">
+</div>
+<div class="form-item form-type-select form-item-select-page">
+<select id="edit-select-page" name="select_page" class="form-select"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option></select>
+</div>
+<div class="form-item form-type-select form-item-select-pics">
+<select id="edit-select-pics" name="select_pics" class="form-select"><option value="11">Long Strip</option><option value="0">Single Page</option></select>
+</div>
+</div></form>
+</div>
+<div class="clearfix"></div>
+<div class="candy">
+<div class="good good-1">
+<div id="300x250-1"> <iframe data-aa="2260642" src="//ad.a-ads.com/2260642?size=300x250" style="width:300px; height:250px; border:0px; padding:0; overflow:hidden; background-color: transparent;"></iframe> </div>
+</div>
+<div class="good good-2">
+</div>
+<div class="good good-3">
+
+<h12 class="h12container" data-pub="3378dc38281632293d6fb281136029f9" data-adunit="33264" data-type="responsive" data-format="standard" data-init="false"></h12>
+</div>
+</div>
+</div>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0"></script>
+<div class="fb-comments" data-href="https://mangasaki.com/chapter/one-piece-1108" data-width="100%" data-numposts="50" colorscheme="dark"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div role="navigation" aria-label="Menu 2">
+<div class="element-invisible">Main menu</div><ul id="menu2" class="links clearfix"><li class="menu-481 first"><a href="/user/login?destination=node/1030654" title="Login to the site." class="popups-form-reload">Login</a></li>
+<li class="menu-482"><a href="/user/register?destination=node/1030654" title="Register a new account" class="popups-form-reload">Register</a></li>
+<li class="menu-624"><a href="/directory" title>Directory</a></li>
+<li class="menu-2962"><a href="/directory/hot" title="Hot Manga">Hot</a></li>
+<li class="menu-2963"><a href="/directory/new" title="Newly added manga">New</a></li>
+<li class="menu-2964 last"><a href="/tagclouds/chunk/1" title>Genres</a></li>
+</ul> </div>
+<script type="text/javascript">
+                (function($) {
+                    var p_v = $.cookie('Drupal.visitor.saki');
+                    $('#edit-select-pics').val(p_v);
+                    var isshow = localStorage.getItem('isshow');
+                    if (isshow== null) {
+                        localStorage.setItem('isshow', 1);
+                        $('.f_v_instr').css("display","inline");
+                    }else{
+                        $('.f_v_instr').css("display","none");
+                    }
+
+
+                }(jQuery));
+            </script>
+<div id="footer" class="pure-g" role="contentinfo">
+<div class="pure-u-1 pure-u-md-1-5"><div id="soclinks"></div></div>
+<div class="pure-u-1 pure-u-md-3-5"> <div class="region region-footer">
+<div class="block-wrapper odd block_1">
+<div id="block-scroll-button-scroll-button" class="block block-scroll-button float .scrollnav" style="bottom:3%; left:80%;">
+<div class="content">
+<div id="scroll_top" class="scroll-button float " style="background-color:#bababa; bottom:3%; left:80%;" title></div><div id="scroll_bot" class="scroll-button float " style="background-color:#bababa; bottom:3%; left:80%;" title></div> </div>
+</div>
+</div>
+</div>
+</div>
+<div class="pure-u-1 pure-u-md-1-5"></div>
+</div>
+<div id="brand"></div>
+</div>
+</div></div>
+<script type="text/javascript" src="https://www.mangasaki.org/sites/all/modules/block_refresh/js/block_refresh.js?s8gx2f"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+window.eu_cookie_compliance_cookie_name = "";
+//--><!]]>
+</script>
+<script type="text/javascript" defer="defer" src="https://www.mangasaki.org/sites/all/modules/eu_cookie_compliance/js/eu_cookie_compliance.min.js?s8gx2f"></script>
+<script type="text/javascript" src="https://www.mangasaki.org/modules/statistics/statistics.js?s8gx2f"></script>
+<!--[if IE 9]>
+<script type="text/javascript" async src="/sites/all/themes/abc/js/classList.min.js"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script type="text/javascript" async src="/sites/all/themes/abc/js/toggles.min.js"></script>
+<!--<![endif]-->
+</body>
+</html>
+`;

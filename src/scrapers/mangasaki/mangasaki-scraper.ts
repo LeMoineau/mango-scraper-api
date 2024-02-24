@@ -6,7 +6,8 @@ import { ArrayUtils } from "../../utils/array-utils";
 import { MangasakiUtils } from "./utils/mangasaki-utils";
 import ChapterViewer from "../../types/chapterViewer";
 import { TextFormatUtils } from "../../utils/text-format-utils";
-import { CheerioAPI } from "cheerio";
+import { CheerioAPI, load } from "cheerio";
+import { MANGASAKI_ONE_PIECE_CHAPTER_PAGE_HTML } from "./__test-examples__/actual-mangasaki-page.spec";
 
 class MangaSakiScraper implements Scraper {
   private PAGE_URL = process.env.MANGASAKI_URL ?? "https://www.mangasaki.org";
@@ -96,10 +97,22 @@ class MangaSakiScraper implements Scraper {
   }
 
   public async getChapterPages(
-    mangaId: string,
+    _: string,
     chapterId: string
   ): Promise<ChapterViewer> {
-    return {} as ChapterViewer;
+    const $ = await ScrapingUtils.requestToCheerioPage(
+      `${this.PAGE_URL}/chapter/${chapterId}`
+    );
+    let pages: string[] = $.html()
+      .split(`,"showmanga":{"paths":["`)[1]
+      .split(`"],"count_p":`)[0]
+      .split('","');
+    pages.splice(1, 1);
+    return {
+      pages: pages.map((p) => {
+        return { url: p };
+      }),
+    };
   }
 }
 

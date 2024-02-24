@@ -1,5 +1,6 @@
 import { expect } from "vitest";
 import Manga from "../../../types/manga";
+import ChapterViewer from "../../../types/chapterViewer";
 
 export const MANGASAKI_HOME_RESULT_JSON = [
   {
@@ -486,122 +487,169 @@ export const MANGASAKI_MANGA_ONE_PIECE_RESULT_JSON: Manga = {
     {
       id: "/chapter/one-piece-1108",
       number: "1108",
-      title: "1108",
+      title: "One Piece 1108",
       releaseDate: new Date("2024-02-22T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-1107",
       number: "1107",
-      title: "1107",
+      title: "One Piece 1107",
       releaseDate: new Date("2024-02-15T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1107",
-      number: "1107",
-      title: "(V2) 1107",
+      number: "(V2) 1107",
+      title: "One Piece (V2) 1107",
       releaseDate: new Date("2024-02-15T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1106",
-      number: "1106",
-      title: "(V2) 1106",
+      number: "(V2) 1106",
+      title: "One Piece (V2) 1106",
       releaseDate: new Date("2024-02-01T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-1106",
       number: "1106",
-      title: "1106",
+      title: "One Piece 1106",
       releaseDate: new Date("2024-02-01T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1105",
-      number: "1105",
-      title: "(V2) 1105",
+      number: "(V2) 1105",
+      title: "One Piece (V2) 1105",
       releaseDate: new Date("2024-01-31T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1104",
-      number: "1104",
-      title: "(V2) 1104",
+      number: "(V2) 1104",
+      title: "One Piece (V2) 1104",
       releaseDate: new Date("2024-01-18T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1103",
-      number: "1103",
-      title: "(V2) 1103",
+      number: "(V2) 1103",
+      title: "One Piece (V2) 1103",
       releaseDate: new Date("2023-12-27T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1102",
-      number: "1102",
-      title: "(V2) 1102",
+      number: "(V2) 1102",
+      title: "One Piece (V2) 1102",
       releaseDate: new Date("2023-12-21T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1101",
-      number: "1101",
-      title: "(V2) 1101",
+      number: "(V2) 1101",
+      title: "One Piece (V2) 1101",
       releaseDate: new Date("2023-12-07T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1100",
-      number: "1100",
-      title: "(V2) 1100",
+      number: "(V2) 1100",
+      title: "One Piece (V2) 1100",
       releaseDate: new Date("2023-11-29T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1099",
-      number: "1099",
-      title: "(V2) 1099",
+      number: "(V2) 1099",
+      title: "One Piece (V2) 1099",
       releaseDate: new Date("2023-11-23T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1098",
-      number: "1098",
-      title: "(V2) 1098",
+      number: "(V2) 1098",
+      title: "One Piece (V2) 1098",
       releaseDate: new Date("2023-11-08T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1097",
-      number: "1097",
-      title: "(V2) 1097",
+      number: "(V2) 1097",
+      title: "One Piece (V2) 1097",
       releaseDate: new Date("2023-11-01T00:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1096",
-      number: "1096",
-      title: "(V2) 1096",
+      number: "(V2) 1096",
+      title: "One Piece (V2) 1096",
       releaseDate: new Date("2023-10-25T23:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1095",
-      number: "1095",
-      title: "(V2) 1095",
+      number: "(V2) 1095",
+      title: "One Piece (V2) 1095",
       releaseDate: new Date("2023-10-11T23:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1094",
-      number: "1094",
-      title: "(V2) 1094",
+      number: "(V2) 1094",
+      title: "One Piece (V2) 1094",
       releaseDate: new Date("2023-10-04T23:00:00.000Z"),
     },
     {
       id: "/chapter/one-piece-v2-1093",
-      number: "1093",
-      title: "(V2) 1093",
+      number: "(V2) 1093",
+      title: "One Piece (V2) 1093",
       releaseDate: new Date("2023-09-20T23:00:00.000Z"),
     },
     {
       id: "/chapter/ooooooooone-piece-v2-1092",
-      number: "1092",
-      title: "(V2) 1092",
+      number: "(V2) 1092",
+      title: "One Piece (V2) 1092",
       releaseDate: new Date("2023-09-13T23:00:00.000Z"),
     },
     {
       id: "/chapter/ooooooooone-piece-v2-1090",
-      number: "1090",
-      title: "(V2) 1090",
+      number: "(V2) 1090",
+      title: "One Piece (V2) 1090",
       releaseDate: new Date("2023-08-16T23:00:00.000Z"),
+    },
+  ],
+};
+
+export const MANGASAKI_CHAPTER_ONE_PIECE_RESULT_JSON: ChapterViewer = {
+  pages: [
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/2/303936//20240222113008121.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/5/303936//20240222113009259.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/10/303936//20240222113011792.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/2/303936//20240222113012112.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/10/303936//20240222113013194.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/10/303936//20240222113015595.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/4/303936//20240222113016139.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/3/303936//20240222113017310.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/2/303936//20240222113018394.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/3/303936//20240222113020757.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/5/303936//20240222113021972.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/1/303936//20240222113022650.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/6/303936//20240222113023413.jpeg",
+    },
+    {
+      url: "https://www.mangasaki.org/sites/default/files/manga2/8/303936//20240222113026923.jpeg",
     },
   ],
 };
