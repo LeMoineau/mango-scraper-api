@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "api to send mail",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "rimraf dist && tsc && npm run copy:proto",
     "add-build": "git add dist",
