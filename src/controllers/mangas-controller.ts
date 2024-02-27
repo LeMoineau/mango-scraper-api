@@ -7,10 +7,8 @@ import {
 import Manga, { MangaInfos } from "../types/manga";
 import { IntersiteUtils } from "../utils/intersite-utils";
 import config from "../config/config";
-import cacheStorageService from "../services/cache-storage.service";
-import { CacheKeys } from "../config/cache-keys";
-import { ArrayUtils } from "../utils/array-utils";
 import formattedNameService from "../services/formatted-name.service";
+import { ChapterId, FormattedName } from "../types/primitives/id";
 
 class MangasController {
   public constructor() {}
@@ -21,18 +19,20 @@ class MangasController {
     ids,
   }: {
     query?: string;
-    srcs: SourceName[];
-    ids: string[];
+    srcs?: SourceName[];
+    ids?: string[];
   }): Promise<IntersiteMangaInfos[]> {
     let mangas: { [src in SourceName]?: MangaInfos[] } = {};
-    if (ids.length <= 0 && query) {
+    if (ids && ids.length <= 0 && query) {
       // Par recherche
-      for (let src of srcs.length > 0 ? srcs : config.getEnabledSource()) {
+      for (let src of srcs && srcs.length > 0
+        ? srcs
+        : config.getEnabledSource()) {
         mangas[src] = await config.getScraperOfSrc(src).getMangas({
           q: query,
         });
       }
-    } else if (srcs.length === ids.length) {
+    } else if (srcs && ids && srcs.length === ids.length) {
       // Par sources et ids
       for (let i = 0; i < srcs.length; i++) {
         mangas[srcs[i]] = [
@@ -80,12 +80,12 @@ class MangasController {
 
   public async getChapterPages(
     src: SourceName,
-    mangaId: string,
-    chapterId: string
+    formattedName: FormattedName,
+    chapterId: ChapterId
   ): Promise<ChapterViewer> {
     return await config
       .getScraperOfSrc(src)
-      .getChapterPages(mangaId, chapterId);
+      .getChapterPages(formattedName, chapterId);
   }
 }
 

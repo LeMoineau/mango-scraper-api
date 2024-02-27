@@ -1,6 +1,7 @@
 import Chapter from "../types/chapter";
 import ChapterViewer from "../types/chapterViewer";
 import Manga, { MangaInfos } from "../types/manga";
+import { FormattedName } from "../types/primitives/id";
 
 export default interface Scraper {
   /**
@@ -24,12 +25,12 @@ export default interface Scraper {
 
   /**
    * Get the chapter viewer including all its pages
-   * @param mangaId manga id from the source
+   * @param formattedName manga formattedName
    * @param chapterId chapter id from the source
    * @returns the chapter viewer of the chapter including all its pages
    */
   getChapterPages: (
-    mangaId: string,
+    formattedName: FormattedName,
     chapterId: string
   ) => Promise<ChapterViewer>;
 }

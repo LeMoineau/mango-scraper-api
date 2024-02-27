@@ -5,15 +5,17 @@ import { ArrayUtils } from "./array-utils";
 
 export namespace RoutingUtils {
   /**
-   * Convert a query param to string array
+   * Convert a query param to string array of undefined if not defined
    * @param queryParam targeted query param
    * @throws RoutingError if cannot convert query param to array
-   * @returns the string array
+   * @returns the string array or undefined if query param not defined
    */
-  export function convertQueryParamToArray(queryParam: any): string[] {
+  export function convertQueryParamToArray(
+    queryParam: any
+  ): string[] | undefined {
     try {
-      let srcs: string[] = [];
       if (queryParam) {
+        let srcs: string[] = [];
         if (Array.isArray(queryParam)) {
           srcs = queryParam;
         } else if (typeof queryParam === "string") {
@@ -21,25 +23,48 @@ export namespace RoutingUtils {
         } else {
           srcs = JSON.parse(queryParam as string);
         }
+        return srcs;
       }
-      return srcs;
+      return;
     } catch {
       throw new RoutingError(`cannot convert "${queryParam}" to array`);
     }
   }
 
   /**
-   * Convert a query param to string
+   * Convert a query param to string or undefined if not defined
    * @param queryParam targeted query param
    * @throws RoutingError if query param is not a string
-   * @returns the string
+   * @returns the string or undefined if query param not defined
    */
-  export function convertQueryParamToString(queryParam: any): string {
+  export function convertQueryParamToString(
+    queryParam: any
+  ): string | undefined {
+    if (!queryParam) {
+      return;
+    }
     if (typeof queryParam === "string") {
       return queryParam as string;
-    } else {
-      throw new RoutingError(`"${queryParam}" is not a string`);
     }
+    throw new RoutingError(`"${queryParam}" is not a string`);
+  }
+
+  /**
+   * Convert a query param to boolean or undefined if not defined
+   * @param queryParam targeted query param
+   * @throws RoutingError if query param is not a boolean
+   * @returns the boolean or undefined if query param not defined
+   */
+  export function convertQueryParamToBoolean(
+    queryParam: any
+  ): boolean | undefined {
+    if (!queryParam) {
+      return;
+    }
+    if (typeof queryParam === "string") {
+      return queryParam.toLowerCase() === "true";
+    }
+    throw new RoutingError(`"${queryParam}" is not a boolean`);
   }
 
   export function isValidSrc(querySrc: string): boolean {
