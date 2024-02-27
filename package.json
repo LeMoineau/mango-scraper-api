@@ -2,8 +2,7 @@
   "name": "manga-scraper-api",
   "version": "1.0.0",
   "description": "api to send mail",
-  "main": "index.js",
-  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
     "build": "rimraf dist && tsc && npm run copy:proto",
     "add-build": "git add dist",
