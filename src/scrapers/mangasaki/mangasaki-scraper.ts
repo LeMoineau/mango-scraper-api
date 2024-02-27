@@ -1,13 +1,12 @@
 import Chapter, { ChapterInfos } from "../../types/chapter";
-import Manga from "../../types/manga";
+import Manga, { MangaInfos } from "../../types/manga";
 import Scraper from "../scraper";
 import { ScrapingUtils } from "../../utils/scraping-utils";
 import { ArrayUtils } from "../../utils/array-utils";
 import { MangasakiUtils } from "./utils/mangasaki-utils";
 import ChapterViewer from "../../types/chapterViewer";
 import { TextFormatUtils } from "../../utils/text-format-utils";
-import { CheerioAPI, load } from "cheerio";
-import { MANGASAKI_ONE_PIECE_CHAPTER_PAGE_HTML } from "./__test-examples__/actual-mangasaki-page.spec";
+import { CheerioAPI } from "cheerio";
 
 class MangaSakiScraper implements Scraper {
   private PAGE_URL = process.env.MANGASAKI_URL ?? "https://www.mangasaki.org";
@@ -53,9 +52,31 @@ class MangaSakiScraper implements Scraper {
     return chapters;
   }
 
-  async getMangas({ q }: { q?: string | undefined }): Promise<Manga[]> {
-    return [];
-    throw Error("not yet implemented");
+  async getMangas({ q }: { q?: string | undefined }): Promise<MangaInfos[]> {
+    const $ = await ScrapingUtils.requestToCheerioPage(
+      `${this.PAGE_URL}/search/node/${q}`
+    );
+    let searchRes: string[] = [];
+    $(".search-results li").each((i) => {
+      searchRes.push(
+        ArrayUtils.getLastOf(
+          $(`.search-results li:nth-child(${i + 1}) a`)
+            .attr("href")!
+            .split("/")
+        )
+      );
+    });
+    let mangas: MangaInfos[] = [];
+    for (let res of searchRes) {
+      const manga = await this.getManga(res);
+      mangas.push({
+        id: manga.id,
+        name: manga.name,
+        author: manga.author,
+        image: manga.image,
+      });
+    }
+    return mangas;
   }
 
   async getManga(id: string): Promise<Manga> {
@@ -100,9 +121,16 @@ class MangaSakiScraper implements Scraper {
     _: string,
     chapterId: string
   ): Promise<ChapterViewer> {
-    const $ = await ScrapingUtils.requestToCheerioPage(
-      `${this.PAGE_URL}/chapter/${chapterId}`
-    );
+    let $: CheerioAPI;
+    if (TextFormatUtils.isNumber(chapterId)) {
+      $ = await ScrapingUtils.requestToCheerioPage(
+        `${this.PAGE_URL}/node/${chapterId}`
+      );
+    } else {
+      $ = await ScrapingUtils.requestToCheerioPage(
+        `${this.PAGE_URL}/chapter/${chapterId}`
+      );
+    }
     let pages: string[] = $.html()
       .split(`,"showmanga":{"paths":["`)[1]
       .split(`"],"count_p":`)[0]

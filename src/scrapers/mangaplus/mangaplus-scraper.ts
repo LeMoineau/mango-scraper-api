@@ -2,7 +2,7 @@ import ScraperParsingError from "../../errors/ScraperParsingError";
 import { ArrayUtils } from "../../utils/array-utils";
 import { TextFormatUtils } from "../../utils/text-format-utils";
 import Chapter, { ChapterInfos } from "../../types/chapter";
-import Manga from "../../types/manga";
+import Manga, { MangaInfos } from "../../types/manga";
 import Scraper from "../scraper";
 import { MangaPlusCard } from "./types/mangaplusCard";
 import { MangaplusUtils } from "./utils/mangaplus-utils";
@@ -62,8 +62,8 @@ class MangaPlusScraper implements Scraper {
    * Get all mangas from an user search
    * @returns a list of all mangas which correspond to user search
    */
-  public async getMangas({ q }: { q?: string }): Promise<Manga[]> {
-    let allMangas: Manga[] = [];
+  public async getMangas({ q }: { q?: string }): Promise<MangaInfos[]> {
+    let allMangas: MangaInfos[] = [];
     if (!cacheStorageService.isCached(CacheKeys.MANGAPLUS_ALL_MANGAS)) {
       const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
         `${this.API_ENDPOINT}/title_list/allV2`,
@@ -74,13 +74,12 @@ class MangaPlusScraper implements Scraper {
         (m: {
           title: string;
           translations: Omit<MangaPlusManga, "views">[];
-        }): Manga => {
+        }): MangaInfos => {
           return {
             id: `${m.translations[0].id}`,
             name: m.title,
             author: m.translations[0].author,
             image: m.translations[0].portraitThumbnail,
-            chapters: [],
           };
         }
       );
@@ -94,9 +93,9 @@ class MangaPlusScraper implements Scraper {
         CacheKeys.MANGAPLUS_ALL_MANGAS
       );
     }
-    let mangasFound: Manga[] = [];
+    let mangasFound: MangaInfos[] = [];
     if (q) {
-      mangasFound = allMangas.filter((m: Manga) => {
+      mangasFound = allMangas.filter((m: MangaInfos) => {
         return (
           m.name.toLowerCase().includes(q.toLowerCase()) ||
           q.toLowerCase().includes(m.name.toLowerCase())

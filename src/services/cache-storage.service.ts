@@ -1,5 +1,6 @@
+import { DefaultValues } from "../config/default-values";
+
 class CacheStorageService {
-  private DEFAULT_LIFETIME = 60000; // 1min
   private cache: { [key: string]: { value: any; expirationTime: Date } } = {};
 
   constructor() {}
@@ -8,9 +9,23 @@ class CacheStorageService {
     this.cache[key] = {
       value,
       expirationTime: new Date(
-        new Date().getTime() + (lifetimeInMs ?? this.DEFAULT_LIFETIME)
+        new Date().getTime() + (lifetimeInMs ?? DefaultValues.LIFETIME)
       ),
     };
+  }
+
+  public saveInJsonInCache<T>(
+    jsonKey: string,
+    key: string,
+    value: T,
+    lifetimeInMs?: number
+  ) {
+    let json = this.loadFromCache(jsonKey);
+    if (!json) {
+      json = {};
+    }
+    json[key] = value;
+    this.saveInCache(jsonKey, json, lifetimeInMs);
   }
 
   public isCached(key: string): boolean {
@@ -23,6 +38,14 @@ class CacheStorageService {
     }
     delete this.cache[key];
     return;
+  }
+
+  public loadFromJsonFromCache(keyJson: string, key: string): any | undefined {
+    const res = this.loadFromCache(keyJson);
+    if (!res) {
+      return;
+    }
+    return res[key];
   }
 }
 

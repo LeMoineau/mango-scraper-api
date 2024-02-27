@@ -2,12 +2,44 @@ import Chapter, { ChapterInfos } from "../types/chapter";
 import IntersiteChapter, {
   IntersiteChapterInfos,
 } from "../types/intersite/IntersiteChapter";
-import { IntersiteManga } from "../types/intersite/IntersiteManga";
-import Manga from "../types/manga";
+import {
+  IntersiteManga,
+  IntersiteMangaInfos,
+} from "../types/intersite/IntersiteManga";
+import Manga, { MangaInfos } from "../types/manga";
 import { SourceName } from "../types/primitives/scrapersConfig";
 import { TextFormatUtils } from "./text-format-utils";
 
 export namespace IntersiteUtils {
+  export function convertMangasInfosToIntersiteMangasInfos(mangasInfosBySrc: {
+    [src in SourceName]?: MangaInfos[];
+  }): IntersiteMangaInfos[] {
+    let intersiteMangasInfos: IntersiteMangaInfos[] = [];
+    for (let src of Object.keys(mangasInfosBySrc) as SourceName[]) {
+      for (let manga of mangasInfosBySrc[src]!) {
+        const formattedName = TextFormatUtils.formatMangaTitle(manga.name);
+        let sameManga = intersiteMangasInfos.find(
+          (m) => m.formattedName === formattedName
+        );
+        if (!sameManga) {
+          sameManga = {
+            id: {},
+            name: {},
+            formattedName,
+            author: {},
+            image: {},
+          };
+          intersiteMangasInfos.push(sameManga);
+        }
+        sameManga.id[src] = manga.id;
+        sameManga.name[src] = manga.name;
+        sameManga.author[src] = manga.author;
+        sameManga.image[src] = manga.image;
+      }
+    }
+    return intersiteMangasInfos;
+  }
+
   export function convertMangasToIntersiteMangas(mangasBySrc: {
     [src in SourceName]?: Manga[];
   }): IntersiteManga[] {
@@ -121,8 +153,6 @@ export namespace IntersiteUtils {
             },
           };
           intersiteChapters.push(sameChapter);
-        } else {
-          console.log("same chapters", sameChapter, chapter, src);
         }
         sameChapter.id[src] = chapter.id;
         sameChapter.number[src] = chapter.number;

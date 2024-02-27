@@ -1,9 +1,16 @@
 import { SourceName } from "../types/primitives/scrapersConfig";
 import ChapterViewer from "../types/chapterViewer";
-import { IntersiteManga } from "../types/intersite/IntersiteManga";
-import Manga from "../types/manga";
+import {
+  IntersiteManga,
+  IntersiteMangaInfos,
+} from "../types/intersite/IntersiteManga";
+import Manga, { MangaInfos } from "../types/manga";
 import { IntersiteUtils } from "../utils/intersite-utils";
 import config from "../config/config";
+import cacheStorageService from "../services/cache-storage.service";
+import { CacheKeys } from "../config/cache-keys";
+import { ArrayUtils } from "../utils/array-utils";
+import formattedNameService from "../services/formatted-name.service";
 
 class MangasController {
   public constructor() {}
@@ -14,31 +21,61 @@ class MangasController {
     ids,
   }: {
     query?: string;
-    srcs?: SourceName[];
-    ids?: string[];
-  }): Promise<IntersiteManga[]> {
-    let mangas: { [src in SourceName]?: Manga[] } = {};
-    if (query) {
+    srcs: SourceName[];
+    ids: string[];
+  }): Promise<IntersiteMangaInfos[]> {
+    let mangas: { [src in SourceName]?: MangaInfos[] } = {};
+    if (ids.length <= 0 && query) {
       // Par recherche
-      for (let src of config.getEnabledSource()) {
+      for (let src of srcs.length > 0 ? srcs : config.getEnabledSource()) {
         mangas[src] = await config.getScraperOfSrc(src).getMangas({
           q: query,
         });
       }
-    } else if (srcs && ids && srcs.length === ids.length) {
+    } else if (srcs.length === ids.length) {
       // Par sources et ids
       for (let i = 0; i < srcs.length; i++) {
         mangas[srcs[i]] = [
           await config.getScraperOfSrc(srcs[i]).getManga(ids[i]),
         ];
-        console.log(mangas[srcs[i]], mangas[srcs[i]]![0].chapters);
       }
     }
-    return IntersiteUtils.convertMangasToIntersiteMangas(mangas);
+    const intersiteMangasInfos =
+      IntersiteUtils.convertMangasInfosToIntersiteMangasInfos(mangas);
+    formattedNameService.saveFormattedNamesFromMangasInfos(
+      intersiteMangasInfos
+    );
+    return intersiteMangasInfos;
   }
 
-  public async get(src: SourceName, id: string): Promise<Manga> {
-    return await config.getScraperOfSrc(src).getManga(id);
+  public async get({
+    formattedName,
+    srcs,
+    dontDigIn,
+  }: {
+    formattedName: string;
+    srcs?: SourceName[];
+    dontDigIn?: boolean;
+  }): Promise<IntersiteManga | undefined> {
+    const mangaIds = await formattedNameService.getMangaIdsFromFormattedName(
+      formattedName,
+      dontDigIn
+    );
+    if (!mangaIds) {
+      return;
+    }
+    const mangasBySrc: { [key in SourceName]?: Manga[] } = {};
+    for (let src of Object.keys(mangaIds) as SourceName[]) {
+      if (srcs && !srcs.includes(src)) {
+        continue;
+      }
+      mangasBySrc[src] = [
+        await config.getScraperOfSrc(src).getManga(mangaIds[src]),
+      ];
+    }
+    const intersiteMangas =
+      IntersiteUtils.convertMangasToIntersiteMangas(mangasBySrc);
+    return intersiteMangas.length > 0 ? intersiteMangas[0] : undefined;
   }
 
   public async getChapterPages(

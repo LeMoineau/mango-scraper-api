@@ -48,6 +48,12 @@ export namespace ArrayUtils {
     return res;
   }
 
+  /**
+   * Check if target array include all items of src array
+   * @param src
+   * @param target
+   * @returns true if target contains all src items, false else
+   */
   export function includesAll<T>(src: T[], target: T[]): boolean {
     for (let t of target) {
       if (!src.includes(t)) return false;

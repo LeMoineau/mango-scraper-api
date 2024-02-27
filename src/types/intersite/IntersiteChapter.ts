@@ -1,7 +1,8 @@
+import { ChapterId, FormattedName, MangaId } from "../primitives/id";
 import { IntersiteField } from "./IntersiteField";
 
 export interface IntersiteChapterInfos {
-  id: IntersiteField<string>;
+  id: IntersiteField<ChapterId>;
   title: IntersiteField<string>;
   number: IntersiteField<string>;
   formattedNumber: string;
@@ -11,8 +12,8 @@ export interface IntersiteChapterInfos {
 
 export default interface IntersiteChapter extends IntersiteChapterInfos {
   manga: {
-    formattedTitle: string;
+    formattedTitle: FormattedName;
     title: IntersiteField<string>;
-    id: IntersiteField<string>;
+    id: IntersiteField<MangaId>;
   };
 }

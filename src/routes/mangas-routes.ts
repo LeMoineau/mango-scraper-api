@@ -6,72 +6,71 @@ import { SourceName } from "../types/primitives/scrapersConfig";
 const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  let query: string;
-  let srcs, ids: string[];
-  if (req.query.query) {
-    try {
-      query = RoutingUtils.convertQueryParamToString(req.query.query);
-      try {
-        res.send(await mangasController.getAll({ query: query }));
-      } catch (error) {
-        console.error(error);
-        res.status(500).send(error);
-      }
-    } catch (error) {
-      res.status(400).send(error);
-    }
-  } else if (req.query.srcs && req.query.ids) {
-    try {
-      srcs = RoutingUtils.convertQueryParamToArray(req.query.srcs);
-      ids = RoutingUtils.convertQueryParamToArray(req.query.ids);
-      if (srcs.length !== ids.length) {
-        res.status(400).send("srcs and ids array must have the same size");
-        return;
-      }
-      if (!RoutingUtils.areValidSrcs(srcs)) {
-        res.status(400).send("srcs must be valid source names");
-        return;
-      }
-      try {
-        res.send(
-          await mangasController.getAll({
-            srcs: srcs as SourceName[],
-            ids: ids,
-          })
+  try {
+    const query = RoutingUtils.convertQueryParamToString(req.query.query);
+    const srcs = RoutingUtils.convertQueryParamToArray(req.query.srcs);
+    const ids = RoutingUtils.convertQueryParamToArray(req.query.ids);
+    if (ids.length > 0 && srcs.length !== ids.length) {
+      res
+        .status(400)
+        .send(
+          "when ids is specified, srcs and ids array must have the same size"
         );
-      } catch (error) {
-        console.error(error);
-        res.status(500).send(error);
-      }
-    } catch (error) {
-      res.status(400).send(error);
+      return;
     }
-  } else {
+    if (!RoutingUtils.areValidSrcs(srcs)) {
+      res.status(400).send("srcs must be valid source names");
+      return;
+    }
+    try {
+      res.send(
+        await mangasController.getAll({
+          query,
+          srcs: srcs as SourceName[],
+          ids,
+        })
+      );
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("server error");
+    }
+  } catch (error) {
     res
       .status(400)
       .send(
-        "/mangas request must contains 'query' param or 'srcs' and 'ids' params"
+        "/mangas request must contains 'query', 'srcs' or/and 'ids' params"
       );
   }
 });
 
-router.get("/:src/:id", async (req: Request, res: Response) => {
-  if (!RoutingUtils.isValidSrc(req.params.src)) {
-    res.status(400).send("source must be a valid source name");
-    return;
-  }
+router.get("/:formattedName", async (req: Request, res: Response) => {
   try {
-    res.send(
-      await mangasController.get(req.params.src as SourceName, req.params.id)
+    const formattedName = RoutingUtils.convertQueryParamToString(
+      req.params.formattedName
     );
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error);
+    try {
+      const manga = await mangasController.get({ formattedName });
+      if (!manga) {
+        res
+          .status(404)
+          .send(
+            `manga not found. Try making a global search at /mangas?query=YOUR_MANGA`
+          );
+        return;
+      }
+      res.send(manga);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("server error");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(400).send("formattedname must be a string");
   }
 });
 
 router.get(
-  "/:src/:mangaId/chapters/:chapterId",
+  "/:formattedName/chapters/:chapterId",
   async (req: Request, res: Response) => {
     if (!RoutingUtils.isValidSrc(req.params.src)) {
       res.status(400).send("source must be a valid source name");

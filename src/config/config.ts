@@ -42,6 +42,10 @@ class MangoApiConfig {
     }
   }
 
+  /**
+   * Get all enabled sources sort by trust level
+   * @returns array of enabled source sort by trust level
+   */
   public getEnabledSource(): SourceName[] {
     return Object.values(this.trustedScrapers).filter((e) => {
       return e.length > 0;
