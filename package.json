@@ -9,7 +9,7 @@
     "dev": "nodemon src/index.ts",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "copy:proto": "cpx ./src/**/*.proto ./dist"
+    "copy:proto": "cpx ./src/**/*.proto ./dist/src"
   },
   "pre-commit": [
     "build",

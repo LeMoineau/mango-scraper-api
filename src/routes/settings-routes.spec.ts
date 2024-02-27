@@ -12,10 +12,10 @@ describe("chapters-routes", () => {
   });
 
   it("should call settings controller get config when getting settings", async () => {
-    vi.spyOn(settingsController, "getConfig");
+    vi.spyOn(settingsController, "get");
 
     await request(app).get("/settings");
 
-    expect(settingsController.getConfig).toHaveBeenCalled();
+    expect(settingsController.get).toHaveBeenCalled();
   });
 });
