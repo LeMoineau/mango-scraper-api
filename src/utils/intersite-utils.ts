@@ -115,7 +115,8 @@ export namespace IntersiteUtils {
         sameChapter.number[src] = chapter.number;
         sameChapter.title[src] = chapter.title;
         if (chapter.image) sameChapter.image[src] = chapter.image;
-        sameChapter.realeaseDate[src] = chapter.releaseDate;
+        if (chapter.releaseDate)
+          sameChapter.realeaseDate[src] = chapter.releaseDate;
       }
     }
     return intersiteChapters;
@@ -158,7 +159,8 @@ export namespace IntersiteUtils {
         sameChapter.number[src] = chapter.number;
         sameChapter.title[src] = chapter.title;
         if (chapter.image) sameChapter.image[src] = chapter.image;
-        sameChapter.realeaseDate[src] = chapter.releaseDate;
+        if (chapter.releaseDate)
+          sameChapter.realeaseDate[src] = chapter.releaseDate;
         sameChapter.manga.id[src] = chapter.manga.id;
         sameChapter.manga.title[src] = chapter.manga.title;
       }

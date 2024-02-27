@@ -3,7 +3,7 @@ export interface ChapterInfos {
   title: string;
   number: string;
   image?: string;
-  releaseDate: Date;
+  releaseDate?: Date;
   expirationDate?: Date;
 }
 

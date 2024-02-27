@@ -97,7 +97,9 @@ class MangaSakiScraper implements Scraper {
         i + 1
       })`;
       chapters.push({
-        id: $(`${currentChapterPath} a`).attr("href")!,
+        id: ArrayUtils.getLastOf(
+          $(`${currentChapterPath} a`).attr("href")!.split("/")
+        ),
         number: TextFormatUtils.stringWithout(
           $(`${currentChapterPath} a`).text(),
           mangaTitle
@@ -108,6 +110,31 @@ class MangaSakiScraper implements Scraper {
         ),
       });
     });
+    const urlFirstChapter = $(
+      `div#main .node-manga table tbody tr:nth-child(1) a`
+    ).attr("href");
+    if (urlFirstChapter) {
+      const $2 = await ScrapingUtils.requestToCheerioPage(
+        `${this.PAGE_URL}/${urlFirstChapter}`
+      );
+      $2("select#edit-select-node option").each((i) => {
+        const currentChapter = $2(
+          `select#edit-select-node option:nth-child(${i + 1})`
+        );
+        const chapterNumber = TextFormatUtils.stringWithout(
+          $(currentChapter).text(),
+          mangaTitle
+        );
+        const sameChapter = chapters.find((c) => c.number === chapterNumber);
+        if (!sameChapter) {
+          chapters.push({
+            id: $(currentChapter).attr("value")!,
+            number: chapterNumber,
+            title: $(currentChapter).text(),
+          });
+        }
+      });
+    }
     return {
       id: id,
       name: mangaTitle,
