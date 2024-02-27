@@ -39,7 +39,7 @@ var __importDefault =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProtoManaging = void 0;
-const protobufjs_1 = require("/node_modules/protobufjs/index.js");
+const protobufjs_1 = require("./../node_modules/protobufjs/index.js");
 const axios_1 = __importDefault(require("axios"));
 var ProtoManaging;
 (function (ProtoManaging) {
