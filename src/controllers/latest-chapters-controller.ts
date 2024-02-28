@@ -8,9 +8,13 @@ import { IntersiteUtils } from "../utils/intersite-utils";
 class LatestChaptersController {
   public constructor() {}
 
-  public async get(): Promise<IntersiteChapter[]> {
+  public async get({
+    srcs,
+  }: {
+    srcs?: SourceName[];
+  }): Promise<IntersiteChapter[]> {
     const chaptersBySrc: { [src in SourceName]?: Chapter[] } = {};
-    for (let src of config.getEnabledSource()) {
+    for (let src of srcs ? srcs : config.getEnabledSource()) {
       const chapters = await config.getScraperOfSrc(src).getLatestChapters();
       chaptersBySrc[src] = chapters;
     }
