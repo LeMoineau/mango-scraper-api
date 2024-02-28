@@ -23,11 +23,9 @@ class MangasController {
     ids?: string[];
   }): Promise<IntersiteMangaInfos[]> {
     let mangas: { [src in SourceName]?: MangaInfos[] } = {};
-    if (ids && ids.length <= 0 && query) {
+    if (!ids && query) {
       // Par recherche
-      for (let src of srcs && srcs.length > 0
-        ? srcs
-        : config.getEnabledSource()) {
+      for (let src of srcs ? srcs : config.getEnabledSource()) {
         mangas[src] = await config.getScraperOfSrc(src).getMangas({
           q: query,
         });

@@ -4,6 +4,7 @@
   "description": "manga scraper api",
   "main": "dist/src/index.js",
   "scripts": {
+    "build": "rimraf ./dist && tsc && npm run copy:proto",
     "dev": "nodemon src/index.ts",
     "test": "vitest",
     "coverage": "vitest run --coverage",

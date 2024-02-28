@@ -30,11 +30,12 @@ router.get("/", async (req: Request, res: Response) => {
       res.status(400).send("srcs must be valid source names");
       return;
     }
+    console.log("srcs", srcs);
     try {
       res.send(
         await mangasController.getAll({
           query,
-          srcs: srcs as SourceName[],
+          srcs: srcs && (srcs as SourceName[]),
           ids,
         })
       );
