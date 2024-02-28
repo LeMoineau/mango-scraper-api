@@ -18,22 +18,22 @@ const routing_utils_1 = require("../utils/routing-utils");
 const router = (0, express_1.Router)();
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const srcs = routing_utils_1.RoutingUtils.convertQueryParamToArray(req.query.srcs);
         try {
-            const srcs = routing_utils_1.RoutingUtils.convertQueryParamToArray(req.query.srcs);
             if (srcs && !routing_utils_1.RoutingUtils.areValidSrcs(srcs)) {
                 res.status(400).send("srcs must be valid source names");
                 return;
             }
             res.send(yield latest_chapters_controller_1.default.get({ srcs: srcs && srcs }));
         }
-        catch (err) {
-            console.error(err);
-            res.status(400).send("wrong parameter: srcs must be string array");
+        catch (error) {
+            console.error(error);
+            res.status(500).send(error);
         }
     }
-    catch (error) {
-        console.error(error);
-        res.status(500).send(error);
+    catch (err) {
+        console.error(err);
+        res.status(400).send("wrong parameter: srcs must be string array");
     }
 }));
 exports.default = router;
