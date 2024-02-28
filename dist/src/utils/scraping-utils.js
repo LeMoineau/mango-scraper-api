@@ -84,7 +84,7 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ScrapingUtils = void 0;
 // const axios_1 = __importDefault(require("axios"));
-const cheerio = __importStar(require("cheerio"));
+// const cheerio = __importStar(require("cheerio"));
 var ScrapingUtils;
 (function (ScrapingUtils) {
   function requestToCheerioPage(url) {
