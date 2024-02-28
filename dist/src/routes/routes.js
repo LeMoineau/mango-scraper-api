@@ -24,7 +24,7 @@ router.get("/", (_, res) => {
       files.forEach((file) => {
         node_modules.push(file);
       });
-      fs.readFile(`${__dirname}/../../../package.json`, (err, data) => {
+      fs.readFile(`${__dirname}/../../../package.json`, "utf8", (err, data) => {
         if (err) throw err;
         res.send({
           msg: "Mango-api ready!",
