@@ -89,16 +89,10 @@ var ScrapingUtils;
 (function (ScrapingUtils) {
   function requestToCheerioPage(url) {
     return __awaiter(this, void 0, void 0, function* () {
-      return yield axios_1.default
-        .get(url)
-        .then((res) => {
-          console.log(err + "la");
-          return cheerio.load(res.data);
-        })
-        .catch((err) => {
-          console.error(Object.keys(err));
-          console.error("labas");
-        });
+      return yield axios_1.default.get(url).then((res) => {
+        console.log(err + "la");
+        return cheerio.load(res.data);
+      });
     });
   }
   ScrapingUtils.requestToCheerioPage = requestToCheerioPage;
