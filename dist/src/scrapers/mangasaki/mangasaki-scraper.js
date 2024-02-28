@@ -47,9 +47,15 @@ class MangaSakiScraper {
   }
   getLatestChapters() {
     return __awaiter(this, void 0, void 0, function* () {
-      const $ = yield scraping_utils_1.ScrapingUtils.requestToCheerioPage(
-        `https://www.mangasaki.org`
-      );
+      let $;
+      try {
+        $ = yield scraping_utils_1.ScrapingUtils.requestToCheerioPage(
+          `https://www.mangasaki.org`
+        );
+      } catch (err) {
+        console.error(err + "ici");
+        return;
+      }
       const chapters = [];
       $("ul#latest-list > li").each((i) => {
         const currentMangaPath = `ul#latest-list > li:nth-child(${i + 1})`;
