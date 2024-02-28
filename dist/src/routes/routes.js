@@ -15,11 +15,21 @@ const router = (0, express_1.Router)();
 router.get("/", (_, res) => {
   const fs = require("fs");
   let f = [];
+  let node_modules = [];
   fs.readdir(`${__dirname}/../../../`, (err, files) => {
     files.forEach((file) => {
       f.push(file);
     });
-    res.send({ msg: "Mango-api ready!", files: f });
+    fs.readdir(`${__dirname}/../../../node_modules`, (err, files) => {
+      files.forEach((file) => {
+        f.push(file);
+      });
+      res.send({
+        msg: "Mango-api ready!",
+        files: f,
+        node_modules: node_modules,
+      });
+    });
   });
 });
 router.use("/latestchapters", latest_chapters_routes_1.default);
