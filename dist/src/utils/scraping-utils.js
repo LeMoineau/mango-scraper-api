@@ -95,7 +95,10 @@ var ScrapingUtils;
           console.log(err + "la");
           return cheerio.load(res.data);
         })
-        .catch((err) => console.error(err + "labas"));
+        .catch((err) => {
+          console.error(Object.keys(err));
+          console.error("labas");
+        });
     });
   }
   ScrapingUtils.requestToCheerioPage = requestToCheerioPage;
