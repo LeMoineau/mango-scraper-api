@@ -17,10 +17,10 @@ const formatted_name_service_1 = __importDefault(require("../services/formatted-
 const intersite_utils_1 = require("../utils/intersite-utils");
 class LatestChaptersController {
     constructor() { }
-    get() {
+    get({ srcs, }) {
         return __awaiter(this, void 0, void 0, function* () {
             const chaptersBySrc = {};
-            for (let src of config_1.default.getEnabledSource()) {
+            for (let src of srcs ? srcs : config_1.default.getEnabledSource()) {
                 const chapters = yield config_1.default.getScraperOfSrc(src).getLatestChapters();
                 chaptersBySrc[src] = chapters;
             }

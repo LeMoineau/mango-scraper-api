@@ -37,10 +37,11 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(400).send("srcs must be valid source names");
             return;
         }
+        console.log("srcs", srcs);
         try {
             res.send(yield mangas_controller_1.default.getAll({
                 query,
-                srcs: srcs,
+                srcs: srcs && srcs,
                 ids,
             }));
         }

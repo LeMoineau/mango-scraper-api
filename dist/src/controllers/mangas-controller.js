@@ -20,11 +20,9 @@ class MangasController {
     getAll({ query, srcs, ids, }) {
         return __awaiter(this, void 0, void 0, function* () {
             let mangas = {};
-            if (ids && ids.length <= 0 && query) {
+            if (!ids && query) {
                 // Par recherche
-                for (let src of srcs && srcs.length > 0
-                    ? srcs
-                    : config_1.default.getEnabledSource()) {
+                for (let src of srcs ? srcs : config_1.default.getEnabledSource()) {
                     mangas[src] = yield config_1.default.getScraperOfSrc(src).getMangas({
                         q: query,
                     });
