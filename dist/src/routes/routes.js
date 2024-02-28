@@ -13,28 +13,7 @@ const mangas_routes_1 = __importDefault(require("./mangas-routes"));
 const settings_routes_1 = __importDefault(require("./settings-routes"));
 const router = (0, express_1.Router)();
 router.get("/", (_, res) => {
-  const fs = require("fs");
-  let f = [];
-  let node_modules = [];
-  fs.readdir(`${__dirname}/../../../`, (err, files) => {
-    files.forEach((file) => {
-      f.push(file);
-    });
-    fs.readdir(`${__dirname}/../../../node_modules`, (err, files) => {
-      files.forEach((file) => {
-        node_modules.push(file);
-      });
-      fs.readFile(`${__dirname}/../../../package.json`, "utf8", (err, data) => {
-        if (err) throw err;
-        res.send({
-          msg: "Mango-api ready!",
-          files: f,
-          node_modules: node_modules,
-          packagejson: data,
-        });
-      });
-    });
-  });
+  res.send("Mango-api ready!");
 });
 router.use("/latestchapters", latest_chapters_routes_1.default);
 router.use("/mangas", mangas_routes_1.default);
