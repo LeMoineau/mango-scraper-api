@@ -39,8 +39,8 @@ var __importDefault =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProtoManaging = void 0;
-// const axios_1 = __importDefault(require("axios"));
-// const protobufjs_1 = require("protobufjs");
+const axios_1 = __importDefault(require("axios"));
+const protobufjs_1 = require("protobufjs");
 var ProtoManaging;
 (function (ProtoManaging) {
   function loadProtoFileAsync(filename, type) {
