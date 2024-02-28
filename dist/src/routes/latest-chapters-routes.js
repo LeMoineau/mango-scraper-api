@@ -60,7 +60,7 @@ router.get("/", (req, res) =>
         );
       } catch (error) {
         console.error("une erreur");
-        res.status(500).send(error);
+        res.status(500).send(error.response);
       }
     } catch (err) {
       console.error(err);
