@@ -14,13 +14,13 @@ const settings_routes_1 = __importDefault(require("./settings-routes"));
 const router = (0, express_1.Router)();
 router.get("/", (_, res) => {
   const fs = require("fs");
-  const res = "";
+  const f = "";
   fs.readdir(__dirname, (err, files) => {
     files.forEach((file) => {
-      res += ", " + file;
+      f += ", " + file;
     });
   });
-  res.send("Mango-api ready!" + res);
+  res.send("Mango-api ready!" + f);
 });
 router.use("/latestchapters", latest_chapters_routes_1.default);
 router.use("/mangas", mangas_routes_1.default);
