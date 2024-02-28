@@ -62,7 +62,7 @@ router.get("/", (req, res) =>
         // console.error(error.response);
         console.error(Object.keys(error.response));
         console.error("une erreur");
-        res.status(500).send(error.response);
+        res.status(500).send(error.response.data);
       }
     } catch (err) {
       console.error(err);
