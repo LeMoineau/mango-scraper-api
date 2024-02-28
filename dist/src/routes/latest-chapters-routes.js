@@ -59,6 +59,8 @@ router.get("/", (req, res) =>
           yield latest_chapters_controller_1.default.get({ srcs: srcs && srcs })
         );
       } catch (error) {
+        console.error(error.response);
+        console.error(Object.keys(error));
         console.error("une erreur");
         res.status(500).send(error.response);
       }
