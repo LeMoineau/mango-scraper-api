@@ -24,10 +24,14 @@ router.get("/", (_, res) => {
       files.forEach((file) => {
         node_modules.push(file);
       });
-      res.send({
-        msg: "Mango-api ready!",
-        files: f,
-        node_modules: node_modules,
+      fs.readFile(`${__dirname}/../../../package.json`, (err, data) => {
+        if (err) throw err;
+        res.send({
+          msg: "Mango-api ready!",
+          files: f,
+          node_modules: node_modules,
+          packagejson: data,
+        });
       });
     });
   });
