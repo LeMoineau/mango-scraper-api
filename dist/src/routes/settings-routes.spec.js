@@ -12,17 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const mangas_controller_1 = __importDefault(require("../controllers/mangas-controller"));
-const router = (0, express_1.Router)();
-router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        res.send(yield mangas_controller_1.default.getAll({}));
-    }
-    catch (error) {
-        res.status(500).send(error);
-    }
-}));
-router.get("/:name/", (req, res) => __awaiter(void 0, void 0, void 0, function* () { }));
-router.get("/:name/chapters", (req, res) => __awaiter(void 0, void 0, void 0, function* () { }));
-exports.default = router;
+const vitest_1 = require("vitest");
+const supertest_1 = __importDefault(require("supertest"));
+const express_1 = __importDefault(require("express"));
+const settings_routes_1 = __importDefault(require("./settings-routes"));
+const settings_controller_1 = __importDefault(require("../controllers/settings-controller"));
+(0, vitest_1.describe)("chapters-routes", () => {
+    const app = (0, express_1.default)();
+    (0, vitest_1.beforeAll)(() => {
+        app.use("/settings", settings_routes_1.default);
+    });
+    (0, vitest_1.it)("should call settings controller get config when getting settings", () => __awaiter(void 0, void 0, void 0, function* () {
+        vitest_1.vi.spyOn(settings_controller_1.default, "getConfig");
+        yield (0, supertest_1.default)(app).get("/settings");
+        (0, vitest_1.expect)(settings_controller_1.default.getConfig).toHaveBeenCalled();
+    }));
+});

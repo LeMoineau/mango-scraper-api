@@ -10,7 +10,7 @@ router.get("/", async (req: Request, res: Response) => {
     const query = RoutingUtils.convertQueryParamToString(req.query.query);
     const srcs = RoutingUtils.convertQueryParamToArray(req.query.srcs);
     const ids = RoutingUtils.convertQueryParamToArray(req.query.ids);
-    if (!query || (!ids && !srcs)) {
+    if (!query && !ids && !srcs) {
       res
         .status(400)
         .send(
@@ -30,7 +30,6 @@ router.get("/", async (req: Request, res: Response) => {
       res.status(400).send("srcs must be valid source names");
       return;
     }
-    console.log("srcs", srcs);
     try {
       res.send(
         await mangasController.getAll({

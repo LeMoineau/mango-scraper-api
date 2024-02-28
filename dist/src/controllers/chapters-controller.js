@@ -12,17 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const mangas_controller_1 = __importDefault(require("../controllers/mangas-controller"));
-const router = (0, express_1.Router)();
-router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        res.send(yield mangas_controller_1.default.getAll({}));
+const scraper_controller_1 = __importDefault(require("./scraper-controller"));
+class ChaptersController {
+    constructor() { }
+    getAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield scraper_controller_1.default.getLatestChaptersOfAllScrapers();
+        });
     }
-    catch (error) {
-        res.status(500).send(error);
-    }
-}));
-router.get("/:name/", (req, res) => __awaiter(void 0, void 0, void 0, function* () { }));
-router.get("/:name/chapters", (req, res) => __awaiter(void 0, void 0, void 0, function* () { }));
-exports.default = router;
+}
+exports.default = new ChaptersController();

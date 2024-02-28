@@ -37,9 +37,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ScrapingUtils = void 0;
 const axios_1 = __importDefault(require("axios"));
+const WrongScrapersConfigError_1 = __importDefault(require("../errors/WrongScrapersConfigError"));
 const cheerio = __importStar(require("cheerio"));
 var ScrapingUtils;
 (function (ScrapingUtils) {
+    function verifyConfig(config) {
+        const trustLevels = [];
+        for (let scraperName of Object.keys(config.scrapers)) {
+            const targetScraper = config.scrapers[scraperName];
+            if (!targetScraper.enabled) {
+                continue;
+            }
+            if (trustLevels.includes(targetScraper.trustLevel)) {
+                throw new WrongScrapersConfigError_1.default("same trustLevel for at least 2 of enabled scrapers");
+            }
+            trustLevels.push(targetScraper.trustLevel);
+        }
+    }
+    ScrapingUtils.verifyConfig = verifyConfig;
     function requestToCheerioPage(url) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield axios_1.default.get(url).then((res) => cheerio.load(res.data));

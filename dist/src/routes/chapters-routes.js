@@ -13,27 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const latest_chapters_controller_1 = __importDefault(require("../controllers/latest-chapters-controller"));
-const routing_utils_1 = require("../utils/routing-utils");
+const chapters_controller_1 = __importDefault(require("../controllers/chapters-controller"));
 const router = (0, express_1.Router)();
-router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const srcs = routing_utils_1.RoutingUtils.convertQueryParamToArray(req.query.srcs);
-        try {
-            if (srcs && !routing_utils_1.RoutingUtils.areValidSrcs(srcs)) {
-                res.status(400).send("srcs must be valid source names");
-                return;
-            }
-            res.send(yield latest_chapters_controller_1.default.get({ srcs: srcs && srcs }));
-        }
-        catch (error) {
-            console.error(error);
-            res.status(500).send(error);
-        }
+        res.send(yield chapters_controller_1.default.getAll());
     }
-    catch (err) {
-        console.error(err);
-        res.status(400).send("wrong parameter: srcs must be string array");
+    catch (error) {
+        res.status(500).send(error);
     }
 }));
 exports.default = router;

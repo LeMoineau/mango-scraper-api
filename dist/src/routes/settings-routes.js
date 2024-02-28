@@ -7,6 +7,6 @@ const express_1 = require("express");
 const settings_controller_1 = __importDefault(require("../controllers/settings-controller"));
 const router = (0, express_1.Router)();
 router.get("/", (_, res) => {
-    res.send(settings_controller_1.default.get());
+    res.send(settings_controller_1.default.getConfig());
 });
 exports.default = router;

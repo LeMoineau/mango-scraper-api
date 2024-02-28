@@ -31,34 +31,4 @@ var ArrayUtils;
         throw new SplittingError_1.default(arr, splitter);
     }
     ArrayUtils.tryingSplitAndGet = tryingSplitAndGet;
-    /**
-     * Transform each item of an array<A> into an array<B>
-     * @param array source array<A> from where change items
-     * @param transformater function which transform an item of type A to type B
-     * @returns result array<B>
-     */
-    function transformEachItemOf(array, transformater) {
-        let res = [];
-        for (let item of array) {
-            const transform = transformater(item);
-            if (transform)
-                res.push(transform);
-        }
-        return res;
-    }
-    ArrayUtils.transformEachItemOf = transformEachItemOf;
-    /**
-     * Check if target array include all items of src array
-     * @param src
-     * @param target
-     * @returns true if target contains all src items, false else
-     */
-    function includesAll(src, target) {
-        for (let t of target) {
-            if (!src.includes(t))
-                return false;
-        }
-        return true;
-    }
-    ArrayUtils.includesAll = includesAll;
 })(ArrayUtils || (exports.ArrayUtils = ArrayUtils = {}));

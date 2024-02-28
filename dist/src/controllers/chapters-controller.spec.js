@@ -12,17 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const mangas_controller_1 = __importDefault(require("../controllers/mangas-controller"));
-const router = (0, express_1.Router)();
-router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        res.send(yield mangas_controller_1.default.getAll({}));
-    }
-    catch (error) {
-        res.status(500).send(error);
-    }
-}));
-router.get("/:name/", (req, res) => __awaiter(void 0, void 0, void 0, function* () { }));
-router.get("/:name/chapters", (req, res) => __awaiter(void 0, void 0, void 0, function* () { }));
-exports.default = router;
+const vitest_1 = require("vitest");
+const scraper_controller_1 = __importDefault(require("./scraper-controller"));
+const chapters_controller_1 = __importDefault(require("./chapters-controller"));
+(0, vitest_1.describe)("chapters-controller", () => {
+    (0, vitest_1.it)("should call scraper controller getLatestChapters method", () => __awaiter(void 0, void 0, void 0, function* () {
+        vitest_1.vi.spyOn(scraper_controller_1.default, "getLatestChaptersOfAllScrapers").mockImplementation(() => __awaiter(void 0, void 0, void 0, function* () { return []; }));
+        yield chapters_controller_1.default.getAll();
+        (0, vitest_1.expect)(scraper_controller_1.default.getLatestChaptersOfAllScrapers).toHaveBeenCalled();
+    }));
+});
