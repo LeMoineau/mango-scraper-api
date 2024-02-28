@@ -47,7 +47,7 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         catch (error) {
             console.error(error);
-            res.status(500).send("server error");
+            res.status(500).send(error);
         }
     }
     catch (error) {
