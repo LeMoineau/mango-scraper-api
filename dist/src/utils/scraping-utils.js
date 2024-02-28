@@ -91,7 +91,11 @@ var ScrapingUtils;
     return __awaiter(this, void 0, void 0, function* () {
       return yield axios_1.default
         .get(url)
-        .then((res) => cheerio.load(res.data));
+        .then((res) => {
+          console.log(err);
+          return cheerio.load(res.data);
+        })
+        .catch((err) => console.error(err));
     });
   }
   ScrapingUtils.requestToCheerioPage = requestToCheerioPage;
