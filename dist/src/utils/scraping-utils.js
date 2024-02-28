@@ -92,10 +92,10 @@ var ScrapingUtils;
       return yield axios_1.default
         .get(url)
         .then((res) => {
-          console.log(err);
+          console.log(err + "la");
           return cheerio.load(res.data);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error(err + "labas"));
     });
   }
   ScrapingUtils.requestToCheerioPage = requestToCheerioPage;
