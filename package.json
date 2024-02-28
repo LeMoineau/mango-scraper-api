@@ -1,8 +1,8 @@
 {
   "name": "manga-scraper-api",
   "version": "1.0.0",
-  "description": "api to send mail",
-  "main": "dist/index.js",
+  "description": "manga scraper api",
+  "main": "dist/src/index.js",
   "scripts": {
     "build": "rimraf dist && tsc && npm run copy:proto",
     "add-build": "git add dist",
@@ -11,10 +11,6 @@
     "coverage": "vitest run --coverage",
     "copy:proto": "cpx ./src/**/*.proto ./dist/src"
   },
-  "pre-commit": [
-    "build",
-    "add-build"
-  ],
   "author": "Pierrot",
   "license": "ISC",
   "devDependencies": {
@@ -23,7 +19,6 @@
     "@types/supertest": "^2.0.16",
     "cpx": "^1.5.0",
     "nodemon": "^3.0.1",
-    "pre-commit": "^1.2.2",
     "prettier": "^3.1.0",
     "rimraf": "^5.0.5",
     "supertest": "^6.3.3",
