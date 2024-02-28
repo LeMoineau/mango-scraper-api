@@ -22,7 +22,7 @@ router.get("/", (_, res) => {
     });
     fs.readdir(`${__dirname}/../../../node_modules`, (err, files) => {
       files.forEach((file) => {
-        f.push(file);
+        node_modules.push(file);
       });
       res.send({
         msg: "Mango-api ready!",
