@@ -89,10 +89,20 @@ var ScrapingUtils;
 (function (ScrapingUtils) {
   function requestToCheerioPage(url) {
     return __awaiter(this, void 0, void 0, function* () {
-      return yield axios_1.default.get(url).then((res) => {
-        console.log(res.request);
-        return cheerio.load(res.data);
-      });
+      return yield axios_1.default
+        .get(url, {
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "user-agent":
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "accept-encoding": "gzip, compress, deflate, br",
+            host: "www.mangasaki.org",
+          },
+        })
+        .then((res) => {
+          console.log(res.request);
+          return cheerio.load(res.data);
+        });
     });
   }
   ScrapingUtils.requestToCheerioPage = requestToCheerioPage;
