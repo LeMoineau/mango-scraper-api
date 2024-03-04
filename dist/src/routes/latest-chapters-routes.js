@@ -59,12 +59,12 @@ router.get("/", (req, res) =>
           yield latest_chapters_controller_1.default.get({ srcs: srcs && srcs })
         );
       } catch (err) {
-        console.error(err);
         console.error(Object.keys(err));
-        console.error(err.request.rawHeaders);
+        console.error(Object.keys(err.response));
+        // console.error(err.request.rawHeaders);
         console.error(err.request._headers);
-        console.error(err.request.kHeaders);
-        res.status(500).send(err.response);
+        // console.error(err.request.kHeaders);
+        res.status(500).send(err);
       }
     } catch (err) {
       console.error(err);
