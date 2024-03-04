@@ -63,8 +63,20 @@ router.get("/", (req, res) =>
         console.error(Object.keys(err.response));
         // console.error(err.request.rawHeaders);
         console.error(err.request._headers);
+        console.error(err.config);
+        console.error(err.message);
+        console.error(err.name);
+        console.error(err.code);
         // console.error(err.request.kHeaders);
-        res.status(500).send(err.response.data);
+        res
+          .status(500)
+          .send({
+            ...err.request._headers,
+            ...err.config,
+            ...err.message,
+            ...err.name,
+            ...err.code,
+          });
       }
     } catch (err) {
       console.error(err);
