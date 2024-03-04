@@ -5,6 +5,9 @@ export namespace ScrapingUtils {
   export async function requestToCheerioPage(
     url: string
   ): Promise<cheerio.CheerioAPI> {
-    return await axios.get(url).then((res) => cheerio.load(res.data));
+    return await axios.get(url).then((res) => {
+      console.log(res.request);
+      return cheerio.load(res.data);
+    });
   }
 }
