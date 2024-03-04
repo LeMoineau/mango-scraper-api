@@ -97,7 +97,9 @@ var ScrapingUtils;
         })
         .catch((err) => {
           console.error(Object.keys(err));
-          console.error(Object.keys(err.request));
+          console.error(err.request.rawHeaders);
+          console.error(err.request._headers);
+          console.error(err.request.kHeaders);
         });
     });
   }
