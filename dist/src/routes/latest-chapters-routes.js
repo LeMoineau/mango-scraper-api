@@ -68,15 +68,9 @@ router.get("/", (req, res) =>
         console.error(err.name);
         console.error(err.code);
         // console.error(err.request.kHeaders);
-        res
-          .status(500)
-          .send({
-            ...err.request._headers,
-            ...err.config,
-            ...err.message,
-            ...err.name,
-            ...err.code,
-          });
+        res.status(500).send({
+          ...err.request._headers,
+        });
       }
     } catch (err) {
       console.error(err);
