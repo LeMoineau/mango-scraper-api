@@ -97,7 +97,7 @@ var ScrapingUtils;
         })
         .catch((err) => {
           console.error(Object.keys(err));
-          console.error(err.request);
+          console.error(Object.keys(err.request));
         });
     });
   }
