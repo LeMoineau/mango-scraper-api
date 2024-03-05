@@ -52,7 +52,6 @@ var ScrapingUtils;
                 },
             })
                 .then((res) => {
-                console.log(res.request._headers);
                 return cheerio.load(res.data);
             });
         });
