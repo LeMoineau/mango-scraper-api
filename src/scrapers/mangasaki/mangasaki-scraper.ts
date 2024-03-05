@@ -1,5 +1,5 @@
 import Chapter, { ChapterInfos } from "../../types/chapter";
-import Manga, { MangaInfos } from "../../types/manga";
+import Manga, { MangaInfos, MangaSearchInfos } from "../../types/manga";
 import Scraper from "../scraper";
 import { ScrapingUtils } from "../../utils/scraping-utils";
 import { ArrayUtils } from "../../utils/array-utils";
@@ -52,30 +52,22 @@ class MangaSakiScraper implements Scraper {
     return chapters;
   }
 
-  async getMangas({ q }: { q?: string | undefined }): Promise<MangaInfos[]> {
+  async getMangas({
+    q,
+  }: {
+    q?: string | undefined;
+  }): Promise<MangaSearchInfos[]> {
     const $ = await ScrapingUtils.requestToCheerioPage(
       `${this.PAGE_URL}/search/node/${q}`
     );
-    let searchRes: string[] = [];
+    let mangas: MangaSearchInfos[] = [];
     $(".search-results li").each((i) => {
-      searchRes.push(
-        ArrayUtils.getLastOf(
-          $(`.search-results li:nth-child(${i + 1}) a`)
-            .attr("href")!
-            .split("/")
-        )
-      );
-    });
-    let mangas: MangaInfos[] = [];
-    for (let res of searchRes) {
-      const manga = await this.getManga(res);
+      const targetSearch = `.search-results li:nth-child(${i + 1}) a`;
       mangas.push({
-        id: manga.id,
-        name: manga.name,
-        author: manga.author,
-        image: manga.image,
+        id: ArrayUtils.getLastOf($(targetSearch).attr("href")!.split("/")),
+        name: $(targetSearch).text(),
       });
-    }
+    });
     return mangas;
   }
 

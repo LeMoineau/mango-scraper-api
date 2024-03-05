@@ -4,7 +4,7 @@ import {
   IntersiteManga,
   IntersiteMangaInfos,
 } from "../types/intersite/IntersiteManga";
-import Manga, { MangaInfos } from "../types/manga";
+import Manga, { MangaInfos, MangaSearchInfos } from "../types/manga";
 import { IntersiteUtils } from "../utils/intersite-utils";
 import config from "../config/config";
 import formattedNameService from "../services/formatted-name.service";
@@ -22,7 +22,7 @@ class MangasController {
     srcs?: SourceName[];
     ids?: string[];
   }): Promise<IntersiteMangaInfos[]> {
-    let mangas: { [src in SourceName]?: MangaInfos[] } = {};
+    let mangas: { [src in SourceName]?: MangaSearchInfos[] } = {};
     if (!ids && query) {
       // Par recherche
       for (let src of srcs ? srcs : config.getEnabledSource()) {

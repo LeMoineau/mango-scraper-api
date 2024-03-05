@@ -1,6 +1,6 @@
 import Chapter from "../types/chapter";
 import ChapterViewer from "../types/chapterViewer";
-import Manga, { MangaInfos } from "../types/manga";
+import Manga, { MangaInfos, MangaSearchInfos } from "../types/manga";
 import { FormattedName } from "../types/primitives/id";
 
 export default interface Scraper {
@@ -14,7 +14,7 @@ export default interface Scraper {
    * Get all mangas from an user search
    * @returns a list of all mangas which correspond to user search
    */
-  getMangas: ({ q }: { q?: string }) => Promise<MangaInfos[]>;
+  getMangas: ({ q }: { q?: string }) => Promise<MangaSearchInfos[]>;
 
   /**
    * Get all informations about a manga including its chapters

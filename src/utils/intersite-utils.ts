@@ -6,13 +6,13 @@ import {
   IntersiteManga,
   IntersiteMangaInfos,
 } from "../types/intersite/IntersiteManga";
-import Manga, { MangaInfos } from "../types/manga";
+import Manga, { MangaInfos, MangaSearchInfos } from "../types/manga";
 import { SourceName } from "../types/primitives/scrapersConfig";
 import { TextFormatUtils } from "./text-format-utils";
 
 export namespace IntersiteUtils {
   export function convertMangasInfosToIntersiteMangasInfos(mangasInfosBySrc: {
-    [src in SourceName]?: MangaInfos[];
+    [src in SourceName]?: (MangaInfos | MangaSearchInfos)[];
   }): IntersiteMangaInfos[] {
     let intersiteMangasInfos: IntersiteMangaInfos[] = [];
     for (let src of Object.keys(mangasInfosBySrc) as SourceName[]) {
@@ -33,8 +33,8 @@ export namespace IntersiteUtils {
         }
         sameManga.id[src] = manga.id;
         sameManga.name[src] = manga.name;
-        sameManga.author[src] = manga.author;
-        sameManga.image[src] = manga.image;
+        if (manga.author) sameManga.author[src] = manga.author;
+        if (manga.image) sameManga.image[src] = manga.image;
       }
     }
     return intersiteMangasInfos;
