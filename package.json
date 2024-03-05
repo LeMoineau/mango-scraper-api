@@ -2,7 +2,7 @@
   "name": "manga-scraper-api",
   "version": "1.0.0",
   "description": "manga scraper api",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc && npm run copy:proto",
     "dev": "nodemon src/index.ts",

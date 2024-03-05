@@ -22,8 +22,10 @@ var IntersiteUtils;
                 }
                 sameManga.id[src] = manga.id;
                 sameManga.name[src] = manga.name;
-                sameManga.author[src] = manga.author;
-                sameManga.image[src] = manga.image;
+                if (manga.author)
+                    sameManga.author[src] = manga.author;
+                if (manga.image)
+                    sameManga.image[src] = manga.image;
             }
         }
         return intersiteMangasInfos;

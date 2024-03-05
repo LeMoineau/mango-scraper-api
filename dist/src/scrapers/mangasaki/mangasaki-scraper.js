@@ -47,25 +47,17 @@ class MangaSakiScraper {
             return chapters;
         });
     }
-    getMangas({ q }) {
+    getMangas({ q, }) {
         return __awaiter(this, void 0, void 0, function* () {
             const $ = yield scraping_utils_1.ScrapingUtils.requestToCheerioPage(`${this.PAGE_URL}/search/node/${q}`);
-            let searchRes = [];
-            $(".search-results li").each((i) => {
-                searchRes.push(array_utils_1.ArrayUtils.getLastOf($(`.search-results li:nth-child(${i + 1}) a`)
-                    .attr("href")
-                    .split("/")));
-            });
             let mangas = [];
-            for (let res of searchRes) {
-                const manga = yield this.getManga(res);
+            $(".search-results li").each((i) => {
+                const targetSearch = `.search-results li:nth-child(${i + 1}) a`;
                 mangas.push({
-                    id: manga.id,
-                    name: manga.name,
-                    author: manga.author,
-                    image: manga.image,
+                    id: array_utils_1.ArrayUtils.getLastOf($(targetSearch).attr("href").split("/")),
+                    name: $(targetSearch).text(),
                 });
-            }
+            });
             return mangas;
         });
     }
