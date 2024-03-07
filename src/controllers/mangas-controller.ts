@@ -1,14 +1,17 @@
-import { SourceName } from "../types/primitives/scrapersConfig";
-import ChapterViewer from "../types/chapterViewer";
+import ChapterViewer from "@services-common/types/chapterViewer";
 import {
   IntersiteManga,
   IntersiteMangaInfos,
-} from "../types/intersite/IntersiteManga";
-import Manga, { MangaInfos, MangaSearchInfos } from "../types/manga";
+} from "@services-common/types/intersite/IntersiteManga";
+import Manga, { MangaSearchInfos } from "@services-common/types/manga";
 import { IntersiteUtils } from "../utils/intersite-utils";
 import config from "../config/config";
 import formattedNameService from "../services/formatted-name.service";
-import { ChapterId, FormattedName } from "../types/primitives/id";
+import {
+  ChapterId,
+  FormattedName,
+  SourceName,
+} from "@services-common/types/primitives/id";
 
 class MangasController {
   public constructor() {}

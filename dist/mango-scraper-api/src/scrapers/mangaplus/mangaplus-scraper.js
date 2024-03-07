@@ -150,6 +150,8 @@ class MangaPlusScraper {
                             return {
                                 url: item.image.url,
                                 decryptionKey: item.image.decryptionKey,
+                                width: item.image.width,
+                                height: item.image.height,
                             };
                         }),
                     ],

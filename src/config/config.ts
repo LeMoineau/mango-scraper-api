@@ -1,8 +1,8 @@
 import MangoApiConfigError from "../errors/MangoApiConfigError";
 import Scraper from "../scrapers/scraper";
-import { JsonObject } from "../types/primitives/jsonObject";
-import { SourceName } from "../types/primitives/scrapersConfig";
+import { JsonObject } from "@services-common/types/primitives/jsonObject";
 import mangoApiConfigJson from "./../../mango-api-config.json";
+import { SourceName } from "@services-common/types/primitives/id";
 
 class MangoApiConfig {
   private scrapersEnabled: { [src in SourceName]?: Scraper } = {};

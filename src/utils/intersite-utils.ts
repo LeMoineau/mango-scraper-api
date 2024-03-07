@@ -1,13 +1,16 @@
-import Chapter, { ChapterInfos } from "../types/chapter";
+import Chapter, { ChapterInfos } from "@services-common/types/chapter";
 import IntersiteChapter, {
   IntersiteChapterInfos,
-} from "../types/intersite/IntersiteChapter";
+} from "@services-common/types/intersite/IntersiteChapter";
 import {
   IntersiteManga,
   IntersiteMangaInfos,
-} from "../types/intersite/IntersiteManga";
-import Manga, { MangaInfos, MangaSearchInfos } from "../types/manga";
-import { SourceName } from "../types/primitives/scrapersConfig";
+} from "@services-common/types/intersite/IntersiteManga";
+import Manga, {
+  MangaInfos,
+  MangaSearchInfos,
+} from "@services-common/types/manga";
+import { SourceName } from "../types/scrapersConfig";
 import { TextFormatUtils } from "./text-format-utils";
 
 export namespace IntersiteUtils {

@@ -2,13 +2,13 @@
   "name": "manga-scraper-api",
   "version": "1.0.0",
   "description": "manga scraper api",
-  "main": "dist/src/index.js",
+  "main": "dist/mango-scraper-api/src/index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc && npm run copy:proto",
     "dev": "nodemon src/index.ts",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "copy:proto": "cpx ./src/**/*.proto ./dist/src"
+    "copy:proto": "cpx ./src/**/*.proto ./dist/mango-scraper-api/src"
   },
   "author": "Pierrot",
   "license": "ISC",

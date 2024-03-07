@@ -1,10 +1,10 @@
-import Chapter, { ChapterInfos } from "../../types/chapter";
-import Manga, { MangaInfos, MangaSearchInfos } from "../../types/manga";
+import Chapter, { ChapterInfos } from "@services-common/types/chapter";
+import Manga, { MangaSearchInfos } from "@services-common/types/manga";
 import Scraper from "../scraper";
 import { ScrapingUtils } from "../../utils/scraping-utils";
 import { ArrayUtils } from "../../utils/array-utils";
 import { MangasakiUtils } from "./utils/mangasaki-utils";
-import ChapterViewer from "../../types/chapterViewer";
+import ChapterViewer from "@services-common/types/chapterViewer";
 import { TextFormatUtils } from "../../utils/text-format-utils";
 import { CheerioAPI } from "cheerio";
 

@@ -1,7 +1,7 @@
-import { Router, Request, Response, query } from "express";
+import { Router, Request, Response } from "express";
 import mangasController from "../controllers/mangas-controller";
 import { RoutingUtils } from "../utils/routing-utils";
-import { SourceName } from "../types/primitives/scrapersConfig";
+import { SourceName } from "@services-common/types/primitives/id";
 
 const router = Router();
 

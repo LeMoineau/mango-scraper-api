@@ -1,9 +1,9 @@
 import config from "../config/config";
 import formattedNameService from "../services/formatted-name.service";
-import Chapter from "../types/chapter";
-import IntersiteChapter from "../types/intersite/IntersiteChapter";
-import { SourceName } from "../types/primitives/scrapersConfig";
+import IntersiteChapter from "@services-common/types/intersite/IntersiteChapter";
 import { IntersiteUtils } from "../utils/intersite-utils";
+import Chapter from "@services-common/types/chapter";
+import { SourceName } from "@services-common/types/primitives/id";
 
 class LatestChaptersController {
   public constructor() {}

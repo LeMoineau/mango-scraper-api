@@ -1,12 +1,14 @@
 import ScraperParsingError from "../../errors/ScraperParsingError";
 import { ArrayUtils } from "../../utils/array-utils";
 import { TextFormatUtils } from "../../utils/text-format-utils";
-import Chapter, { ChapterInfos } from "../../types/chapter";
-import Manga, { MangaInfos, MangaSearchInfos } from "../../types/manga";
+import Chapter, { ChapterInfos } from "@services-common/types/chapter";
+import Manga, { MangaSearchInfos } from "@services-common/types/manga";
 import Scraper from "../scraper";
 import { MangaPlusCard } from "./types/mangaplusCard";
 import { MangaplusUtils } from "./utils/mangaplus-utils";
-import ChapterViewer, { ChapterPage } from "../../types/chapterViewer";
+import ChapterViewer, {
+  ChapterPage,
+} from "@services-common/types/chapterViewer";
 import { MangaPlusManga } from "./types/mangaplusManga";
 import cacheStorageService from "../../services/cache-storage.service";
 import { CacheKeys } from "../../config/cache-keys";
@@ -182,6 +184,8 @@ class MangaPlusScraper implements Scraper {
               return {
                 url: item.image.url,
                 decryptionKey: item.image.decryptionKey,
+                width: item.image.width,
+                height: item.image.height,
               };
             }
           ),

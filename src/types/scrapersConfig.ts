@@ -1,6 +1,5 @@
-import Scraper from "../../scrapers/scraper";
-
-export type SourceName = "mangaplus" | "mangasaki";
+import { SourceName } from "@services-common/types/primitives/id";
+import Scraper from "../scrapers/scraper";
 
 export interface ScraperConfig {
   enabled: boolean;
