@@ -1,7 +1,7 @@
-import Chapter from "@services-common/types/chapter";
-import ChapterViewer from "@services-common/types/chapterViewer";
-import Manga, { MangaSearchInfos } from "@services-common/types/manga";
-import { FormattedName } from "@services-common/types/primitives/id";
+import Chapter from "@shared/types/chapter";
+import ChapterViewer from "@shared/types/chapterViewer";
+import Manga, { MangaSearchInfos } from "@shared/types/manga";
+import { FormattedName } from "@shared/types/primitives/id";
 
 export default interface Scraper {
   /**

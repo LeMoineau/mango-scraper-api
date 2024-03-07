@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import mangasController from "../controllers/mangas-controller";
 import { RoutingUtils } from "../utils/routing-utils";
-import { SourceName } from "@services-common/types/primitives/id";
+import { SourceName } from "@shared/types/primitives/id";
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-import { SourceName } from "@services-common/types/primitives/id";
+import { SourceName } from "@shared/types/primitives/id";
 import Scraper from "../scrapers/scraper";
 
 export interface ScraperConfig {

@@ -1,4 +1,4 @@
-import { JsonObject } from "@services-common/types/primitives/jsonObject";
+import { JsonObject } from "@shared/types/primitives/jsonObject";
 
 export namespace ObjectUtils {
   export async function forEachKeyInObject(

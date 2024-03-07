@@ -1,5 +1,5 @@
 import { ProtoManaging } from "../../../utils/proto-managing";
-import { JsonObject } from "@services-common/types/primitives/jsonObject";
+import { JsonObject } from "@shared/types/primitives/jsonObject";
 
 export namespace MangaplusUtils {
   export async function decodeJsonFromMangaPlusRequest(

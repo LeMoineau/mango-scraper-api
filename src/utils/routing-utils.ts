@@ -1,6 +1,6 @@
 import config from "../config/config";
 import RoutingError from "../errors/RoutingError";
-import { SourceName } from "../types/scrapersConfig";
+import { SourceName } from "@shared/types/primitives/id";
 import { ArrayUtils } from "./array-utils";
 
 export namespace RoutingUtils {
