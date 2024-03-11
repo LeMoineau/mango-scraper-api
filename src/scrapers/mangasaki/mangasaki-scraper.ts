@@ -7,6 +7,7 @@ import { MangasakiUtils } from "./utils/mangasaki-utils";
 import ChapterViewer from "@shared/types/chapterViewer";
 import { TextFormatUtils } from "../../utils/text-format-utils";
 import { CheerioAPI } from "cheerio";
+import axios from "axios";
 
 class MangaSakiScraper implements Scraper {
   private PAGE_URL = process.env.MANGASAKI_URL ?? "https://www.mangasaki.org";
@@ -155,11 +156,13 @@ class MangaSakiScraper implements Scraper {
       .split(`"],"count_p":`)[0]
       .split('","');
     pages.splice(1, 1);
-    return {
-      pages: pages.map((p) => {
-        return { url: p };
-      }),
-    };
+    const chapterViewer: ChapterViewer = { pages: [] };
+    for (let p of pages) {
+      chapterViewer.pages.push(
+        (await axios.get(p, { responseType: "arraybuffer" })).data
+      );
+    }
+    return chapterViewer;
   }
 }
 
