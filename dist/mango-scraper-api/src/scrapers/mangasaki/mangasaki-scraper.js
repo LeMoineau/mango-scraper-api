@@ -8,11 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const scraping_utils_1 = require("../../utils/scraping-utils");
 const array_utils_1 = require("../../utils/array-utils");
 const mangasaki_utils_1 = require("./utils/mangasaki-utils");
 const text_format_utils_1 = require("../../utils/text-format-utils");
+const axios_1 = __importDefault(require("axios"));
 class MangaSakiScraper {
     constructor() {
         var _a;
@@ -120,11 +124,11 @@ class MangaSakiScraper {
                 .split(`"],"count_p":`)[0]
                 .split('","');
             pages.splice(1, 1);
-            return {
-                pages: pages.map((p) => {
-                    return { url: p };
-                }),
-            };
+            const chapterViewer = { pages: [] };
+            for (let p of pages) {
+                chapterViewer.pages.push((yield axios_1.default.get(p, { responseType: "arraybuffer" })).data);
+            }
+            return chapterViewer;
         });
     }
 }
