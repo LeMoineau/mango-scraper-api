@@ -18,11 +18,9 @@ class DefaultPageLoader {
     getPage(chapterViewer, pageNb) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(chapterViewer.pages[pageNb - 1].url);
                 const res = yield axios_1.default.get(new URL(chapterViewer.pages[pageNb - 1].url).href, {
                     responseType: "arraybuffer",
                 });
-                console.log(res.data);
                 return res.data;
             }
             catch (err) {

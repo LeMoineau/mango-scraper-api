@@ -15,6 +15,18 @@ export namespace MangaplusUtils {
     return ProtoManaging.decodeToJson(Message, res);
   }
 
+  export function decodeImageMangaPlus(
+    imageBuffer: Buffer,
+    encryption_key: string
+  ): Buffer {
+    const decodedKey = hex2Bin(encryption_key);
+    const arr = new Uint8Array(imageBuffer);
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] ^= decodedKey[i % decodedKey.length];
+    }
+    return Buffer.from(arr);
+  }
+
   // TO DECODE IMAGE VIEWER FROM MANGAPLUS -> IN CLIENT SIDE
   // export function getBlobImageURL(image_url: string, encryption_key: string) {
   //   return new Promise(function (t, n) {
@@ -40,7 +52,7 @@ export namespace MangaplusUtils {
   //   });
   // }
 
-  // export function hex2Bin(hex: string) {
-  //   return new Uint8Array(hex.match(/.{1,2}/g)!.map((t) => parseInt(t, 16)));
-  // }
+  export function hex2Bin(hex: string) {
+    return new Uint8Array(hex.match(/.{1,2}/g)!.map((t) => parseInt(t, 16)));
+  }
 }

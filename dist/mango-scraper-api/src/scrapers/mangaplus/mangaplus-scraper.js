@@ -18,6 +18,7 @@ const text_format_utils_1 = require("../../utils/text-format-utils");
 const mangaplus_utils_1 = require("./utils/mangaplus-utils");
 const cache_storage_service_1 = __importDefault(require("../../services/cache-storage.service"));
 const cache_keys_1 = require("../../config/cache-keys");
+const axios_1 = __importDefault(require("axios"));
 class MangaPlusScraper {
     constructor() {
         var _a;
@@ -167,7 +168,14 @@ class MangaPlusScraper {
     }
     getPage(chapterViewer, pageNb) {
         return __awaiter(this, void 0, void 0, function* () {
-            return;
+            const page = chapterViewer.pages[pageNb - 1];
+            const res = yield axios_1.default.get(new URL(page.url).href, {
+                responseType: "arraybuffer",
+            });
+            if (!page.decryptionKey) {
+                return res.data;
+            }
+            return mangaplus_utils_1.MangaplusUtils.decodeImageMangaPlus(res.data, page.decryptionKey);
         });
     }
 }

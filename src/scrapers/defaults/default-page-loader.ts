@@ -6,16 +6,14 @@ export default class DefaultPageLoader {
   public async getPage(
     chapterViewer: ChapterViewer,
     pageNb: number
-  ): Promise<any> {
+  ): Promise<Buffer> {
     try {
-      console.log(chapterViewer.pages[pageNb - 1].url);
       const res = await axios.get(
         new URL(chapterViewer.pages[pageNb - 1].url).href,
         {
           responseType: "arraybuffer",
         }
       );
-      console.log(res.data);
       return res.data;
     } catch (err) {
       console.error(err);

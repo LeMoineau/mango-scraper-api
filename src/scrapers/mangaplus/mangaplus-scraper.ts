@@ -10,6 +10,7 @@ import ChapterViewer, { ChapterPage } from "@shared/types/chapterViewer";
 import { MangaPlusManga } from "./types/mangaplusManga";
 import cacheStorageService from "../../services/cache-storage.service";
 import { CacheKeys } from "../../config/cache-keys";
+import axios from "axios";
 
 class MangaPlusScraper implements Scraper {
   private API_ENDPOINT =
@@ -202,8 +203,15 @@ class MangaPlusScraper implements Scraper {
   public async getPage(
     chapterViewer: ChapterViewer,
     pageNb: number
-  ): Promise<any> {
-    return;
+  ): Promise<Buffer> {
+    const page = chapterViewer.pages[pageNb - 1];
+    const res = await axios.get(new URL(page.url).href, {
+      responseType: "arraybuffer",
+    });
+    if (!page.decryptionKey) {
+      return res.data;
+    }
+    return MangaplusUtils.decodeImageMangaPlus(res.data, page.decryptionKey);
   }
 }
 

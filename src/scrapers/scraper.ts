@@ -40,5 +40,5 @@ export default interface Scraper {
    * @param nbPage targeted chapter page
    * @returns Buffer of the image of the chapter
    */
-  getPage: (chapterViewer: ChapterViewer, pageNb: number) => Promise<any>;
+  getPage: (chapterViewer: ChapterViewer, pageNb: number) => Promise<Buffer>;
 }

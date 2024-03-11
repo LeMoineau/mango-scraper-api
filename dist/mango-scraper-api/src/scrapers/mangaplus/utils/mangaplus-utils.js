@@ -21,6 +21,15 @@ var MangaplusUtils;
         });
     }
     MangaplusUtils.decodeJsonFromMangaPlusRequest = decodeJsonFromMangaPlusRequest;
+    function decodeImageMangaPlus(imageBuffer, encryption_key) {
+        const decodedKey = hex2Bin(encryption_key);
+        const arr = new Uint8Array(imageBuffer);
+        for (let i = 0; i < arr.length; i++) {
+            arr[i] ^= decodedKey[i % decodedKey.length];
+        }
+        return Buffer.from(arr);
+    }
+    MangaplusUtils.decodeImageMangaPlus = decodeImageMangaPlus;
     // TO DECODE IMAGE VIEWER FROM MANGAPLUS -> IN CLIENT SIDE
     // export function getBlobImageURL(image_url: string, encryption_key: string) {
     //   return new Promise(function (t, n) {
@@ -45,7 +54,8 @@ var MangaplusUtils;
     //       i.send();
     //   });
     // }
-    // export function hex2Bin(hex: string) {
-    //   return new Uint8Array(hex.match(/.{1,2}/g)!.map((t) => parseInt(t, 16)));
-    // }
+    function hex2Bin(hex) {
+        return new Uint8Array(hex.match(/.{1,2}/g).map((t) => parseInt(t, 16)));
+    }
+    MangaplusUtils.hex2Bin = hex2Bin;
 })(MangaplusUtils || (exports.MangaplusUtils = MangaplusUtils = {}));
