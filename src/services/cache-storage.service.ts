@@ -40,7 +40,7 @@ class CacheStorageService {
     return;
   }
 
-  public loadFromJsonFromCache(keyJson: string, key: string): any | undefined {
+  public loadFromJsonFromCache<T>(keyJson: string, key: string): T | undefined {
     const res = this.loadFromCache(keyJson);
     if (!res) {
       return;

@@ -67,6 +67,22 @@ export namespace RoutingUtils {
     throw new RoutingError(`"${queryParam}" is not a boolean`);
   }
 
+  /**
+   * Convert a query param to number or undefined if not defined
+   * @param queryParam targeted query param
+   * @throws RoutingError if query param is not a boolean
+   * @returns the number or undefined if query param not defined
+   */
+  export function convertQueryParamToNumber(
+    queryParam: any
+  ): number | undefined {
+    try {
+      return Number(queryParam);
+    } catch (err) {
+      throw new RoutingError(`"${queryParam}" is not a number`);
+    }
+  }
+
   export function isValidSrc(querySrc: string): boolean {
     return config.getEnabledSource().includes(querySrc as SourceName);
   }

@@ -155,6 +155,7 @@ class MangaPlusScraper {
                             };
                         }),
                     ],
+                    nbPages: jsonRes.parent.data.pages.length,
                 };
                 return res;
             }
@@ -162,6 +163,11 @@ class MangaPlusScraper {
                 console.error(error);
                 throw new ScraperParsingError_1.default("json received from manga plus api not have the expected format");
             }
+        });
+    }
+    getPage(chapterViewer, pageNb) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return;
         });
     }
 }

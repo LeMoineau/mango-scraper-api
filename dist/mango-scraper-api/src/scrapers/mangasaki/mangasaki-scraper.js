@@ -16,10 +16,11 @@ const scraping_utils_1 = require("../../utils/scraping-utils");
 const array_utils_1 = require("../../utils/array-utils");
 const mangasaki_utils_1 = require("./utils/mangasaki-utils");
 const text_format_utils_1 = require("../../utils/text-format-utils");
-const axios_1 = __importDefault(require("axios"));
-class MangaSakiScraper {
+const default_page_loader_1 = __importDefault(require("../defaults/default-page-loader"));
+class MangaSakiScraper extends default_page_loader_1.default {
     constructor() {
         var _a;
+        super(...arguments);
         this.PAGE_URL = (_a = process.env.MANGASAKI_URL) !== null && _a !== void 0 ? _a : "https://www.mangasaki.org";
     }
     getLatestChapters() {
@@ -124,11 +125,12 @@ class MangaSakiScraper {
                 .split(`"],"count_p":`)[0]
                 .split('","');
             pages.splice(1, 1);
-            const chapterViewer = { pages: [] };
-            for (let p of pages) {
-                chapterViewer.pages.push((yield axios_1.default.get(p, { responseType: "arraybuffer" })).data);
-            }
-            return chapterViewer;
+            return {
+                pages: pages.map((p) => {
+                    return { url: p };
+                }),
+                nbPages: pages.length,
+            };
         });
     }
 }

@@ -5,4 +5,5 @@ var CacheKeys;
 (function (CacheKeys) {
     CacheKeys.MANGAPLUS_ALL_MANGAS = "mangaplus-all-mangas";
     CacheKeys.FORMATTED_MANGA_NAMES = "formatted-manga-names";
+    CacheKeys.CHAPTERS_PAGES = "chapters-pages";
 })(CacheKeys || (exports.CacheKeys = CacheKeys = {}));

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const intersite_utils_1 = require("../utils/intersite-utils");
 const config_1 = __importDefault(require("../config/config"));
 const formatted_name_service_1 = __importDefault(require("../services/formatted-name.service"));
+const chapters_page_service_1 = __importDefault(require("../services/chapters-page.service"));
 class MangasController {
     constructor() { }
     getAll({ query, srcs, ids, }) {
@@ -62,9 +63,20 @@ class MangasController {
     }
     getChapterPages(src, formattedName, chapterId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield config_1.default
+            const chapterViewer = yield config_1.default
                 .getScraperOfSrc(src)
                 .getChapterPages(formattedName, chapterId);
+            chapters_page_service_1.default.saveNewChapterViewer(src, formattedName, chapterId, chapterViewer);
+            return chapterViewer;
+        });
+    }
+    getChapterPage(src, formattedName, chapterId, pageNb) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let chapterViewer = chapters_page_service_1.default.getChapterViewer(src, formattedName, chapterId);
+            if (!chapterViewer) {
+                chapterViewer = yield this.getChapterPages(src, formattedName, chapterId);
+            }
+            return yield config_1.default.getScraperOfSrc(src).getPage(chapterViewer, pageNb);
         });
     }
 }

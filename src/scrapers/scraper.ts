@@ -33,4 +33,12 @@ export default interface Scraper {
     formattedName: FormattedName,
     chapterId: string
   ) => Promise<ChapterViewer>;
+
+  /**
+   * Get the targeted page of a chapter
+   * @param chapterViewer chapterViewer of the targeted chapter
+   * @param nbPage targeted chapter page
+   * @returns Buffer of the image of the chapter
+   */
+  getPage: (chapterViewer: ChapterViewer, pageNb: number) => Promise<any>;
 }

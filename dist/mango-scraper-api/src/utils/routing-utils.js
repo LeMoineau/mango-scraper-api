@@ -69,6 +69,21 @@ var RoutingUtils;
         throw new RoutingError_1.default(`"${queryParam}" is not a boolean`);
     }
     RoutingUtils.convertQueryParamToBoolean = convertQueryParamToBoolean;
+    /**
+     * Convert a query param to number or undefined if not defined
+     * @param queryParam targeted query param
+     * @throws RoutingError if query param is not a boolean
+     * @returns the number or undefined if query param not defined
+     */
+    function convertQueryParamToNumber(queryParam) {
+        try {
+            return Number(queryParam);
+        }
+        catch (err) {
+            throw new RoutingError_1.default(`"${queryParam}" is not a number`);
+        }
+    }
+    RoutingUtils.convertQueryParamToNumber = convertQueryParamToNumber;
     function isValidSrc(querySrc) {
         return config_1.default.getEnabledSource().includes(querySrc);
     }

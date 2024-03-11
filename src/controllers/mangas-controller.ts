@@ -12,6 +12,7 @@ import {
   FormattedName,
   SourceName,
 } from "@shared/types/primitives/id";
+import chaptersPageService from "../services/chapters-page.service";
 
 class MangasController {
   public constructor() {}
@@ -84,9 +85,33 @@ class MangasController {
     formattedName: FormattedName,
     chapterId: ChapterId
   ): Promise<ChapterViewer> {
-    return await config
+    const chapterViewer = await config
       .getScraperOfSrc(src)
       .getChapterPages(formattedName, chapterId);
+    chaptersPageService.saveNewChapterViewer(
+      src,
+      formattedName,
+      chapterId,
+      chapterViewer
+    );
+    return chapterViewer;
+  }
+
+  public async getChapterPage(
+    src: SourceName,
+    formattedName: FormattedName,
+    chapterId: ChapterId,
+    pageNb: number
+  ): Promise<any> {
+    let chapterViewer = chaptersPageService.getChapterViewer(
+      src,
+      formattedName,
+      chapterId
+    );
+    if (!chapterViewer) {
+      chapterViewer = await this.getChapterPages(src, formattedName, chapterId);
+    }
+    return await config.getScraperOfSrc(src).getPage(chapterViewer, pageNb);
   }
 }
 

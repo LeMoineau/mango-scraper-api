@@ -135,4 +135,47 @@ router.get(
   }
 );
 
+router.get(
+  "/:formattedName/chapters/:src/:chapterId/:pageNb",
+  async (req: Request, res: Response) => {
+    try {
+      const formattedName = RoutingUtils.convertQueryParamToString(
+        req.params.formattedName
+      )!;
+      const src = RoutingUtils.convertQueryParamToString(req.params.src)!;
+      const chapterId = RoutingUtils.convertQueryParamToString(
+        req.params.chapterId
+      )!;
+      const pageNb = RoutingUtils.convertQueryParamToNumber(req.params.pageNb)!;
+      if (src && !RoutingUtils.isValidSrc(src)) {
+        res.status(400).send("source must be a valid source name");
+        return;
+      }
+      if (pageNb <= 0) {
+        res.status(400).send("page number must 1 or greater");
+        return;
+      }
+      try {
+        res.send(
+          await mangasController.getChapterPage(
+            src as SourceName,
+            formattedName,
+            chapterId,
+            pageNb
+          )
+        );
+      } catch (error) {
+        console.error(error);
+        res.status(500).send(error);
+      }
+    } catch (err) {
+      res
+        .status(400)
+        .send(
+          "wrong arguments: formattedName, src and chapterId must be string"
+        );
+    }
+  }
+);
+
 export default router;

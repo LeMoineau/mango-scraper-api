@@ -188,6 +188,7 @@ class MangaPlusScraper implements Scraper {
             }
           ),
         ],
+        nbPages: jsonRes.parent.data.pages.length,
       };
       return res;
     } catch (error) {
@@ -196,6 +197,13 @@ class MangaPlusScraper implements Scraper {
         "json received from manga plus api not have the expected format"
       );
     }
+  }
+
+  public async getPage(
+    chapterViewer: ChapterViewer,
+    pageNb: number
+  ): Promise<any> {
+    return;
   }
 }
 
