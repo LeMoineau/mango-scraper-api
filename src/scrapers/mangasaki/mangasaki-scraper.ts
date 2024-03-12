@@ -8,6 +8,7 @@ import ChapterViewer from "@shared/types/chapterViewer";
 import { TextFormatUtils } from "../../utils/text-format-utils";
 import { CheerioAPI } from "cheerio";
 import DefaultPageLoader from "../defaults/default-page-loader";
+import { ChapterId, MangaId } from "@shared/types/primitives/id";
 
 class MangaSakiScraper extends DefaultPageLoader implements Scraper {
   private PAGE_URL = process.env.MANGASAKI_URL ?? "https://www.mangasaki.org";
@@ -137,9 +138,9 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
     };
   }
 
-  public async getChapterPages(
-    _: string,
-    chapterId: string
+  public async getChapterViewer(
+    _: MangaId,
+    chapterId: ChapterId
   ): Promise<ChapterViewer> {
     let $: CheerioAPI;
     if (TextFormatUtils.isNumber(chapterId)) {
@@ -156,11 +157,20 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
       .split(`"],"count_p":`)[0]
       .split('","');
     pages.splice(1, 1);
+    const title = $("h1.title").text().split("|")[0].trim();
+    const number = ArrayUtils.getLastOf(title.split(" "));
     return {
+      id: chapterId,
+      title,
+      number,
       pages: pages.map((p) => {
         return { url: p };
       }),
       nbPages: pages.length,
+      manga: {
+        id: ArrayUtils.getLastOf($("h1.title a").attr("href")!.split("/")),
+        name: TextFormatUtils.stringWithout(title, number).trim(),
+      },
     };
   }
 }

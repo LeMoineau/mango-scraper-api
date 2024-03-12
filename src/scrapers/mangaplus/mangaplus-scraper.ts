@@ -11,6 +11,7 @@ import { MangaPlusManga } from "./types/mangaplusManga";
 import cacheStorageService from "../../services/cache-storage.service";
 import { CacheKeys } from "../../config/cache-keys";
 import axios from "axios";
+import { ChapterId, MangaId } from "@shared/types/primitives/id";
 
 class MangaPlusScraper implements Scraper {
   private API_ENDPOINT =
@@ -90,9 +91,9 @@ class MangaPlusScraper implements Scraper {
         15 * 24 * 60 * 60 * 1000
       );
     } else {
-      allMangas = cacheStorageService.loadFromCache(
+      allMangas = cacheStorageService.loadFromCache<MangaSearchInfos[]>(
         CacheKeys.MANGAPLUS_ALL_MANGAS
-      );
+      )!;
     }
     let mangasFound: MangaSearchInfos[] = [];
     if (q) {
@@ -164,9 +165,9 @@ class MangaPlusScraper implements Scraper {
    * @param chapterId mangaplus chapter id
    * @returns the chapter viewer of the chapter including all its pages
    */
-  public async getChapterPages(
-    _: string,
-    chapterId: string
+  public async getChapterViewer(
+    _: MangaId,
+    chapterId: ChapterId
   ): Promise<ChapterViewer> {
     const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
       `${this.API_ENDPOINT}/manga_viewer?chapter_id=${chapterId}&split=yes&img_quality=high`,
@@ -175,6 +176,11 @@ class MangaPlusScraper implements Scraper {
     );
     try {
       const res: ChapterViewer = {
+        id: chapterId,
+        title: `${jsonRes.parent.data.titleName} - ${jsonRes.parent.data.chapterName}`,
+        number: TextFormatUtils.formatChapterNumber(
+          jsonRes.parent.data.chapterName
+        ),
         pages: [
           ...ArrayUtils.transformEachItemOf(
             jsonRes.parent.data.pages,
@@ -190,6 +196,10 @@ class MangaPlusScraper implements Scraper {
           ),
         ],
         nbPages: jsonRes.parent.data.pages.length,
+        manga: {
+          id: jsonRes.parent.data.titleId,
+          name: jsonRes.parent.data.titleName,
+        },
       };
       return res;
     } catch (error) {

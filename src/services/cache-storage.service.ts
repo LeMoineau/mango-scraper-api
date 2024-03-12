@@ -20,7 +20,7 @@ class CacheStorageService {
     value: T,
     lifetimeInMs?: number
   ) {
-    let json = this.loadFromCache(jsonKey);
+    let json = this.loadFromCache<{ [key: string]: T }>(jsonKey);
     if (!json) {
       json = {};
     }
@@ -32,16 +32,16 @@ class CacheStorageService {
     return this.cache[key] && this.cache[key].expirationTime! >= new Date();
   }
 
-  public loadFromCache(key: string): any | undefined {
+  public loadFromCache<T>(key: string): T | undefined {
     if (this.isCached(key)) {
-      return this.cache[key].value;
+      return this.cache[key].value as T;
     }
     delete this.cache[key];
     return;
   }
 
   public loadFromJsonFromCache<T>(keyJson: string, key: string): T | undefined {
-    const res = this.loadFromCache(keyJson);
+    const res = this.loadFromCache<{ [key: string]: T }>(keyJson);
     if (!res) {
       return;
     }

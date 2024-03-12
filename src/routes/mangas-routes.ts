@@ -66,7 +66,7 @@ router.get("/:formattedName", async (req: Request, res: Response) => {
           res.status(400).send("srcs must be valid src");
           return;
         }
-        const manga = await mangasController.get({
+        const manga = await mangasController.getByFormattedName({
           formattedName,
           srcs: srcs && (srcs as SourceName[]),
           dontDigIn,
@@ -99,28 +99,29 @@ router.get("/:formattedName", async (req: Request, res: Response) => {
 });
 
 router.get(
-  "/:formattedName/chapters/:src/:chapterId",
+  "/:formattedName/chapters/:formattedNumber",
   async (req: Request, res: Response) => {
     try {
       const formattedName = RoutingUtils.convertQueryParamToString(
         req.params.formattedName
       )!;
-      const src = RoutingUtils.convertQueryParamToString(req.params.src)!;
-      const chapterId = RoutingUtils.convertQueryParamToString(
-        req.params.chapterId
+      const formattedNumber = RoutingUtils.convertQueryParamToString(
+        req.params.formattedNumber
       )!;
-      if (src && !RoutingUtils.isValidSrc(src)) {
-        res.status(400).send("source must be a valid source name");
-        return;
-      }
+      const dontDigIn = RoutingUtils.convertQueryParamToBoolean(
+        req.query.dontDigIn
+      );
       try {
-        res.send(
-          await mangasController.getChapterPages(
-            src as SourceName,
+        const intersiteChapterViewer =
+          await mangasController.getChapterByFormattedKey({
             formattedName,
-            chapterId
-          )
-        );
+            formattedNumber,
+            dontDigIn,
+          });
+        if (!intersiteChapterViewer) {
+          res.status(404).send("chapter viewer not found");
+        }
+        res.send(intersiteChapterViewer);
       } catch (error) {
         console.error(error);
         res.status(500).send(error);
@@ -129,50 +130,7 @@ router.get(
       res
         .status(400)
         .send(
-          "wrong arguments: formattedName, src and chapterId must be string"
-        );
-    }
-  }
-);
-
-router.get(
-  "/:formattedName/chapters/:src/:chapterId/:pageNb",
-  async (req: Request, res: Response) => {
-    try {
-      const formattedName = RoutingUtils.convertQueryParamToString(
-        req.params.formattedName
-      )!;
-      const src = RoutingUtils.convertQueryParamToString(req.params.src)!;
-      const chapterId = RoutingUtils.convertQueryParamToString(
-        req.params.chapterId
-      )!;
-      const pageNb = RoutingUtils.convertQueryParamToNumber(req.params.pageNb)!;
-      if (src && !RoutingUtils.isValidSrc(src)) {
-        res.status(400).send("source must be a valid source name");
-        return;
-      }
-      if (pageNb <= 0) {
-        res.status(400).send("page number must 1 or greater");
-        return;
-      }
-      try {
-        res.send(
-          await mangasController.getChapterPage(
-            src as SourceName,
-            formattedName,
-            chapterId,
-            pageNb
-          )
-        );
-      } catch (error) {
-        console.error(error);
-        res.status(500).send(error);
-      }
-    } catch (err) {
-      res
-        .status(400)
-        .send(
-          "wrong arguments: formattedName, src and chapterId must be string"
+          "wrong arguments: formattedName and formattedNumber must be string"
         );
     }
   }

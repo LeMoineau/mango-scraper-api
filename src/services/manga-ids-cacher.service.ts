@@ -17,13 +17,13 @@ type FormattedNameInStorage = {
   alreadyDigIn: SourceName[];
 };
 
-class FormattedNameService {
+class MangaIdsCacherService {
   constructor() {
     if (!cacheStorageService.isCached(CacheKeys.FORMATTED_MANGA_NAMES)) {
       cacheStorageService.saveInCache(
         CacheKeys.FORMATTED_MANGA_NAMES,
         {},
-        DefaultValues.FORMATTED_NAME_LIFETIME
+        DefaultValues.LONG_CACHE_LIFETIME
       );
     }
   }
@@ -37,6 +37,12 @@ class FormattedNameService {
     );
   }
 
+  /**
+   * Get back manga ids previously saved in cache according to formattedName
+   * @param formattedName
+   * @param dontDigIn if digging, will look for each not already digged in source if exist a manga with same name
+   * @returns IntersiteField of MangaId or undefined if not found
+   */
   public async getMangaIdsFromFormattedName(
     formattedName: FormattedName,
     dontDigIn?: boolean
@@ -115,7 +121,7 @@ class FormattedNameService {
         ids: intersiteIds,
         alreadyDigIn: Object.keys(intersiteIds) as SourceName[],
       },
-      DefaultValues.FORMATTED_NAME_LIFETIME
+      DefaultValues.LONG_CACHE_LIFETIME
     );
   }
 
@@ -127,7 +133,7 @@ class FormattedNameService {
       CacheKeys.FORMATTED_MANGA_NAMES,
       formattedName,
       formatteNameData,
-      DefaultValues.FORMATTED_NAME_LIFETIME
+      DefaultValues.LONG_CACHE_LIFETIME
     );
   }
 
@@ -177,4 +183,4 @@ class FormattedNameService {
   }
 }
 
-export default new FormattedNameService();
+export default new MangaIdsCacherService();

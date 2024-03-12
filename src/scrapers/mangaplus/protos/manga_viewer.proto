@@ -16,6 +16,10 @@ message Manga_viewer {
       }
 
       repeated Page pages = 1;
+      uint32 chapter_id = 2;
+      string title_name = 5;
+      string chapter_name = 6;
+      uint32 title_id = 9;
     }
 
     Data data = 10;

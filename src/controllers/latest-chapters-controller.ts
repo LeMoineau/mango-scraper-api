@@ -1,5 +1,5 @@
 import config from "../config/config";
-import formattedNameService from "../services/formatted-name.service";
+import mangaIdsCacherService from "../services/manga-ids-cacher.service";
 import IntersiteChapter from "@shared/types/intersite/IntersiteChapter";
 import { IntersiteUtils } from "../utils/intersite-utils";
 import Chapter from "@shared/types/chapter";
@@ -20,7 +20,7 @@ class LatestChaptersController {
     }
     const intersiteChapters =
       IntersiteUtils.convertChaptersToIntersiteChapters(chaptersBySrc);
-    formattedNameService.saveFormattedNamesFromLatestChapters(
+    mangaIdsCacherService.saveFormattedNamesFromLatestChapters(
       intersiteChapters
     );
     return intersiteChapters;
