@@ -175,27 +175,28 @@ class MangaPlusScraper implements Scraper {
       "mangaplus.Manga_viewer"
     );
     try {
+      const pages = [
+        ...ArrayUtils.transformEachItemOf(
+          jsonRes.parent.data.pages,
+          (item: any): ChapterPage | undefined => {
+            if (!item || !item.image) return;
+            return {
+              url: item.image.url,
+              decryptionKey: item.image.decryptionKey,
+              width: item.image.width,
+              height: item.image.height,
+            };
+          }
+        ),
+      ];
       const res: ChapterViewer = {
         id: chapterId,
         title: `${jsonRes.parent.data.titleName} - ${jsonRes.parent.data.chapterName}`,
         number: TextFormatUtils.formatChapterNumber(
           jsonRes.parent.data.chapterName
         ),
-        pages: [
-          ...ArrayUtils.transformEachItemOf(
-            jsonRes.parent.data.pages,
-            (item: any): ChapterPage | undefined => {
-              if (!item || !item.image) return;
-              return {
-                url: item.image.url,
-                decryptionKey: item.image.decryptionKey,
-                width: item.image.width,
-                height: item.image.height,
-              };
-            }
-          ),
-        ],
-        nbPages: jsonRes.parent.data.pages.length,
+        pages: pages,
+        nbPages: pages.length,
         manga: {
           id: jsonRes.parent.data.titleId,
           name: jsonRes.parent.data.titleName,

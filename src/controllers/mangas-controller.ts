@@ -160,7 +160,7 @@ class MangasController {
     mangaId: MangaId,
     chapterId: ChapterId,
     pageNb: number
-  ): Promise<Buffer> {
+  ): Promise<Buffer | undefined> {
     let chapterViewer = chapterViewerCacherService.getChapterViewer(
       src,
       mangaId,
@@ -168,6 +168,9 @@ class MangasController {
     );
     if (!chapterViewer) {
       chapterViewer = await this.getChapterById(src, mangaId, chapterId);
+    }
+    if (pageNb <= 0 && pageNb > chapterViewer.pages.length) {
+      return;
     }
     return await config.getScraperOfSrc(src).getPage(chapterViewer, pageNb);
   }

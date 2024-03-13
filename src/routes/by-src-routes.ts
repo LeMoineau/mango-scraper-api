@@ -116,14 +116,16 @@ router.get(
         res.status(400).send("src must be a valid source name");
       }
       try {
-        res.send(
-          await mangasController.getChapterPageById(
-            src as SourceName,
-            mangaId,
-            chapterId,
-            pageNb
-          )
+        const page = await mangasController.getChapterPageById(
+          src as SourceName,
+          mangaId,
+          chapterId,
+          pageNb
         );
+        if (!page) {
+          res.status(404).send(page);
+        }
+        res.send(page);
       } catch (error) {
         console.error(error);
         res.status(500).send(error);
