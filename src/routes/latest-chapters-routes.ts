@@ -18,7 +18,7 @@ latestChaptersRouter.get("/", async (req: Request, res: Response) => {
         return;
       }
       res.send(
-        await latestChaptersController.get({
+        await latestChaptersController.getAll({
           srcs: srcs && (srcs as SourceName[]),
           syncWithBD,
         })

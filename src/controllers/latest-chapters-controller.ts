@@ -14,13 +14,13 @@ class LatestChaptersController {
     syncWithBD?: boolean;
   }): Promise<ScrapedChapter[]> {
     let chapters: ScrapedChapter[] = [];
-    for (let src of srcs ? srcs : config.getEnabledSource()) {
+    for (let src of srcs ?? config.getEnabledSource()) {
       const tmpChapteres = await config
         .getScraperOfSrc(src)
         .getLatestChapters();
       chapters.push(...tmpChapteres);
       if (syncWithBD) {
-        bdSyncService.syncChapters(src, chapters);
+        bdSyncService.syncChapters(chapters);
       }
     }
     return chapters;
