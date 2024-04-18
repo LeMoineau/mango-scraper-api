@@ -4,7 +4,7 @@ import {
   FormattedName,
   FormattedNumber,
   MangaEndpoint,
-} from "@shared/types/primitives/id";
+} from "@shared/types/primitives/Identifiers";
 
 export interface ChapterIdsInCache {
   [formattedName: FormattedName]: {

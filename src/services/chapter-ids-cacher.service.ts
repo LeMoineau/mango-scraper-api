@@ -3,7 +3,7 @@ import {
   ChapterEndpoint,
   FormattedName,
   FormattedNumber,
-} from "@shared/types/primitives/id";
+} from "@shared/types/primitives/Identifiers";
 import { IntersiteField } from "@shared/types/intersite/IntersiteField";
 import { ChapterIdsInCache } from "./../types/in-storage/ChapterIdsInCache";
 import { CacheKeys } from "./../config/cache-keys";

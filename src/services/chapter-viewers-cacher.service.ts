@@ -5,7 +5,7 @@ import {
   ChapterEndpoint,
   MangaEndpoint,
   SourceName,
-} from "@shared/types/primitives/id";
+} from "@shared/types/primitives/Identifiers";
 import ChapterViewer from "@shared/types/chapterViewer";
 
 class ChapterViewerCacherService {

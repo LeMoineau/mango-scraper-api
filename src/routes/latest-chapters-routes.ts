@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { RoutingUtils } from "./../../../shared/src/utils/routing-utils";
-import { SourceName } from "@shared/types/primitives/id";
+import { SourceName } from "@shared/types/primitives/Identifiers";
 import config from "./../config/config";
 import latestChaptersController from "../controllers/latest-chapters-controller";
 

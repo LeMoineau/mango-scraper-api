@@ -5,8 +5,11 @@ import FormattedNameError from "../errors/FormattedNameError";
 import IntersiteChapter from "@shared/types/intersite/IntersiteChapter";
 import { IntersiteField } from "@shared/types/intersite/IntersiteField";
 import { IntersiteMangaInfos } from "@shared/types/intersite/IntersiteManga";
-import { FormattedName, MangaEndpoint } from "@shared/types/primitives/id";
-import { SourceName } from "@shared/types/primitives/id";
+import {
+  FormattedName,
+  MangaEndpoint,
+} from "@shared/types/primitives/Identifiers";
+import { SourceName } from "@shared/types/primitives/Identifiers";
 import cacheStorageService from "./cache-storage.service";
 import { ArrayUtils } from "./../../../shared/src/utils/array-utils";
 import { TextFormatUtils } from "./../../../shared/src/utils/text-format-utils";

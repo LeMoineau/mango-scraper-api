@@ -1,5 +1,5 @@
 import config from "../config/config";
-import { SourceName } from "@shared/types/primitives/id";
+import { SourceName } from "@shared/types/primitives/Identifiers";
 import bdSyncService from "../services/BDSync.service";
 import { ScrapedChapter } from "../../../shared/src/types/Chapter";
 

@@ -1,4 +1,4 @@
-import { SourceName } from "@shared/types/primitives/id";
+import { SourceName } from "@shared/types/primitives/Identifiers";
 import Scraper from "../scrapers/scraper";
 
 export interface ScraperConfig {

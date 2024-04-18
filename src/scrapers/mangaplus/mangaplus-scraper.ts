@@ -8,7 +8,6 @@ import { MangaPlusManga } from "./types/mangaplusManga";
 import cacheStorageService from "../../services/cache-storage.service";
 import { CacheKeys } from "../../config/cache-keys";
 import axios from "axios";
-import { ChapterEndpoint, MangaEndpoint } from "@shared/types/primitives/id";
 import {
   Chapter,
   PagedScrapedChapter,
@@ -17,6 +16,10 @@ import {
 } from "../../../../shared/src/types/Chapter";
 import { Manga, ScrapedManga } from "../../../../shared/src/types/Manga";
 import { ChapterPage } from "../../../../shared/src/types/ChapterPage";
+import {
+  ChapterEndpoint,
+  MangaEndpoint,
+} from "../../../../shared/src/types/primitives/Identifiers";
 
 class MangaPlusScraper implements Scraper {
   private API_ENDPOINT =

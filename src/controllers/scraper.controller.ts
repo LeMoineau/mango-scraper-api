@@ -5,7 +5,8 @@ import {
   ChapterEndpoint,
   MangaEndpoint,
   SourceName,
-} from "../../../shared/src/types/primitives/id";
+} from "../../../shared/src/types/primitives/Identifiers";
+
 import config from "../config/config";
 import Scraper from "../scrapers/scraper";
 import BDSyncService from "../services/BDSync.service";

@@ -1,9 +1,7 @@
 import { Request, Response, Router } from "express";
-import latestChaptersRoute from "./latest-chapters-routes";
-import mangasRoute from "./mangas-routes";
 import settingsRoute from "./settings-routes";
-import bySrcRoute from "./by-src-routes";
 import scraperRouter from "./scraper.route";
+import mangasRouter from "./mangas-routes";
 
 const router = Router();
 
@@ -12,8 +10,8 @@ router.get("/", (_: Request, res: Response) => {
 });
 
 // router.use("/latestchapters", latestChaptersRoute);
-// router.use("/mangas", mangasRoute);
-router.use("/settings", settingsRoute);
 router.use("/srcs", scraperRouter);
+router.use("/mangas", mangasRouter);
+router.use("/settings", settingsRoute);
 
 export default router;

@@ -5,15 +5,16 @@ import { MangasakiUtils } from "./utils/mangasaki-utils";
 import { TextFormatUtils } from "./../../../../shared/src/utils/text-format-utils";
 import { CheerioAPI } from "cheerio";
 import DefaultPageLoader from "../defaults/default-page-loader";
-import { ChapterEndpoint, MangaEndpoint } from "@shared/types/primitives/id";
 import {
-  Chapter,
-  ChapterCore,
   PagedScrapedChapter,
   ScrapedChapter,
   SourcelessChapter,
 } from "../../../../shared/src/types/Chapter";
 import { Manga, ScrapedManga } from "../../../../shared/src/types/Manga";
+import {
+  ChapterEndpoint,
+  MangaEndpoint,
+} from "../../../../shared/src/types/primitives/Identifiers";
 
 class MangaSakiScraper extends DefaultPageLoader implements Scraper {
   private PAGE_URL = process.env.MANGASAKI_URL ?? "https://www.mangasaki.org";
