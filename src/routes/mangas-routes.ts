@@ -1,7 +1,8 @@
 import { Router, Request, Response } from "express";
 import mangasController from "../controllers/mangas-controller";
-import { RoutingUtils } from "../utils/routing-utils";
+import { RoutingUtils } from "./../../../shared/src/utils/routing-utils";
 import { SourceName } from "@shared/types/primitives/id";
+import config from "./../config/config";
 
 const router = Router();
 
@@ -26,7 +27,7 @@ router.get("/", async (req: Request, res: Response) => {
         );
       return;
     }
-    if (srcs && !RoutingUtils.areValidSrcs(srcs)) {
+    if (srcs && !config.areValidSrcs(srcs)) {
       res.status(400).send("srcs must be valid source names");
       return;
     }
@@ -62,7 +63,7 @@ router.get("/:formattedName", async (req: Request, res: Response) => {
         req.query.dontDigIn
       );
       try {
-        if (srcs && !RoutingUtils.areValidSrcs(srcs)) {
+        if (srcs && !config.areValidSrcs(srcs)) {
           res.status(400).send("srcs must be valid src");
           return;
         }

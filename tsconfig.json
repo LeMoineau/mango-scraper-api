@@ -1,5 +1,10 @@
 {
-  "include": ["./src/**/*", "../shared/src/**/*"],
+  "include": [
+    "./src/**/*",
+    "../shared/src/**/*",
+    "../mango-bd-api/src/utils/TypeConvertUtils.ts",
+    "../mango-bd-api/src/utils/TypeConvertUtils.spec.ts"
+  ],
   "exclude": ["./src/**/*.spec.*"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */

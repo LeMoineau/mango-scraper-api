@@ -1,7 +1,11 @@
 import { CacheKeys } from "../config/cache-keys";
 import cacheStorageService from "./cache-storage.service";
 import { DefaultValues } from "../config/default-values";
-import { ChapterId, MangaId, SourceName } from "@shared/types/primitives/id";
+import {
+  ChapterEndpoint,
+  MangaEndpoint,
+  SourceName,
+} from "@shared/types/primitives/id";
 import ChapterViewer from "@shared/types/chapterViewer";
 
 class ChapterViewerCacherService {
@@ -15,16 +19,16 @@ class ChapterViewerCacherService {
 
   private _calculateKeyFrom(
     src: SourceName,
-    mangaId: MangaId,
-    chapterId: ChapterId
+    mangaId: MangaEndpoint,
+    chapterId: ChapterEndpoint
   ): string {
     return `${src}-${mangaId}-${chapterId}`;
   }
 
   public saveNewChapterViewer(
     src: SourceName,
-    mangaId: MangaId,
-    chapterId: ChapterId,
+    mangaId: MangaEndpoint,
+    chapterId: ChapterEndpoint,
     chapterViewer: ChapterViewer
   ) {
     cacheStorageService.saveInJsonInCache(
@@ -37,8 +41,8 @@ class ChapterViewerCacherService {
 
   public getChapterViewer(
     src: SourceName,
-    mangaId: MangaId,
-    chapterId: ChapterId
+    mangaId: MangaEndpoint,
+    chapterId: ChapterEndpoint
   ): ChapterViewer | undefined {
     const chapterViewer =
       cacheStorageService.loadFromJsonFromCache<ChapterViewer>(

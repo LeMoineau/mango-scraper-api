@@ -4,14 +4,14 @@ import {
   IntersiteMangaInfos,
 } from "@shared/types/intersite/IntersiteManga";
 import Manga, { MangaSearchInfos } from "@shared/types/manga";
-import { IntersiteUtils } from "../utils/intersite-utils";
+import { IntersiteUtils } from "./../../../shared/src/utils/intersite-utils";
 import config from "../config/config";
 import mangaIdsCacherService from "../services/manga-ids-cacher.service";
 import {
-  ChapterId,
+  ChapterEndpoint,
   FormattedName,
   FormattedNumber,
-  MangaId,
+  MangaEndpoint,
   SourceName,
 } from "@shared/types/primitives/id";
 import chapterViewerCacherService from "../services/chapter-viewers-cacher.service";
@@ -93,7 +93,10 @@ class MangasController {
     return targetIntersiteManga;
   }
 
-  public async getById(src: SourceName, mangaId: MangaId): Promise<Manga> {
+  public async getById(
+    src: SourceName,
+    mangaId: MangaEndpoint
+  ): Promise<Manga> {
     return await config.getScraperOfSrc(src).getManga(mangaId);
   }
 
@@ -140,8 +143,8 @@ class MangasController {
 
   public async getChapterById(
     src: SourceName,
-    mangaId: MangaId,
-    chapterId: ChapterId
+    mangaId: MangaEndpoint,
+    chapterId: ChapterEndpoint
   ): Promise<ChapterViewer> {
     const chapterViewer = await config
       .getScraperOfSrc(src)
@@ -157,8 +160,8 @@ class MangasController {
 
   public async getChapterPageById(
     src: SourceName,
-    mangaId: MangaId,
-    chapterId: ChapterId,
+    mangaId: MangaEndpoint,
+    chapterId: ChapterEndpoint,
     pageNb: number
   ): Promise<Buffer | undefined> {
     let chapterViewer = chapterViewerCacherService.getChapterViewer(

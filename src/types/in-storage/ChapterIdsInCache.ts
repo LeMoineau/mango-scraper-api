@@ -1,13 +1,13 @@
 import { IntersiteField } from "@shared/types/intersite/IntersiteField";
 import {
-  ChapterId,
+  ChapterEndpoint,
   FormattedName,
   FormattedNumber,
-  MangaId,
+  MangaEndpoint,
 } from "@shared/types/primitives/id";
 
 export interface ChapterIdsInCache {
   [formattedName: FormattedName]: {
-    [formattedNumber: FormattedNumber]: IntersiteField<ChapterId>;
+    [formattedNumber: FormattedNumber]: IntersiteField<ChapterEndpoint>;
   };
 }

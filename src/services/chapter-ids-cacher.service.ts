@@ -1,6 +1,6 @@
 import cacheStorageService from "./cache-storage.service";
 import {
-  ChapterId,
+  ChapterEndpoint,
   FormattedName,
   FormattedNumber,
 } from "@shared/types/primitives/id";
@@ -31,7 +31,7 @@ class ChapterIdsCacherService {
   public assignChapterIdsToFormattedKeys(
     formattedName: FormattedName,
     formattedNumber: FormattedNumber,
-    chapterIds: IntersiteField<ChapterId>
+    chapterIds: IntersiteField<ChapterEndpoint>
   ) {
     const json = cacheStorageService.loadFromCache<ChapterIdsInCache>(
       CacheKeys.CHAPTER_IDS_BY_FORMATTED_NUMBER
@@ -59,7 +59,7 @@ class ChapterIdsCacherService {
   public getChapterIdsFromFormattedKeys(
     formattedName: FormattedName,
     formattedNumber: FormattedNumber
-  ): IntersiteField<ChapterId> | undefined {
+  ): IntersiteField<ChapterEndpoint> | undefined {
     const json = cacheStorageService.loadFromCache<ChapterIdsInCache>(
       CacheKeys.CHAPTER_IDS_BY_FORMATTED_NUMBER
     );

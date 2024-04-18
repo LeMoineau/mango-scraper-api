@@ -1,7 +1,8 @@
 import { Router, Request, Response } from "express";
 import mangasController from "../controllers/mangas-controller";
-import { RoutingUtils } from "../utils/routing-utils";
+import { RoutingUtils } from "./../../../shared/src/utils/routing-utils";
 import { SourceName } from "@shared/types/primitives/id";
+import config from "./../config/config";
 
 const router = Router();
 
@@ -15,7 +16,7 @@ router.get("/:src/mangas", async (req: Request, res: Response) => {
         .send("/mangas request must contains at least 'query' param");
       return;
     }
-    if (!RoutingUtils.isValidSrc(src)) {
+    if (!config.isValidSrc(src)) {
       res.status(400).send("src must be a valid source name");
       return;
     }
@@ -43,7 +44,7 @@ router.get("/:src/mangas/:mangaId", async (req: Request, res: Response) => {
   try {
     const src = RoutingUtils.convertQueryParamToString(req.params.src)!;
     const mangaId = RoutingUtils.convertQueryParamToString(req.params.mangaId)!;
-    if (!RoutingUtils.isValidSrc(src)) {
+    if (!config.isValidSrc(src)) {
       res.status(400).send("src must be a valid source name");
       return;
     }
@@ -73,7 +74,7 @@ router.get(
       const chapterId = RoutingUtils.convertQueryParamToString(
         req.params.chapterId
       )!;
-      if (!RoutingUtils.isValidSrc(src)) {
+      if (!config.isValidSrc(src)) {
         res.status(400).send("src must be a valid source name");
         return;
       }
@@ -112,7 +113,7 @@ router.get(
         req.params.chapterId
       )!;
       const pageNb = RoutingUtils.convertQueryParamToNumber(req.params.pageNb)!;
-      if (!RoutingUtils.isValidSrc(src)) {
+      if (!config.isValidSrc(src)) {
         res.status(400).send("src must be a valid source name");
       }
       try {

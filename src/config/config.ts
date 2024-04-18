@@ -3,6 +3,8 @@ import Scraper from "../scrapers/scraper";
 import { JsonObject } from "@shared/types/primitives/jsonObject";
 import mangoApiConfigJson from "./../../mango-api-config.json";
 import { SourceName } from "@shared/types/primitives/id";
+import { ArrayUtils } from "./../../../shared/src/utils/array-utils";
+import { Env } from "./../types/Env";
 
 class MangoApiConfig {
   private scrapersEnabled: { [src in SourceName]?: Scraper } = {};
@@ -57,6 +59,22 @@ class MangoApiConfig {
       throw new MangoApiConfigError(`source "${src}" has no scraper`);
     }
     return this.scrapersEnabled[src]!;
+  }
+
+  public isValidSrc(querySrc: string): boolean {
+    return this.getEnabledSource().includes(querySrc as SourceName);
+  }
+
+  public areValidSrcs(querySrcs: string[]): boolean {
+    return ArrayUtils.includesAll(this.getEnabledSource(), querySrcs);
+  }
+
+  public getEnv(): Env {
+    return {
+      MANGO_BD_API_URL: process.env.MANGO_BD_API_URL!,
+      MANGAPLUS_API_ENDPOINT: process.env.MANGAPLUS_API_ENDPOINT!,
+      MANGASAKI_URL: process.env.MANGASAKI_URL!,
+    };
   }
 }
 

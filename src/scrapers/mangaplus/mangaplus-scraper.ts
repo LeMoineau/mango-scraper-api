@@ -1,17 +1,22 @@
 import ScraperParsingError from "../../errors/ScraperParsingError";
-import { ArrayUtils } from "../../utils/array-utils";
-import { TextFormatUtils } from "../../utils/text-format-utils";
-import Chapter, { ChapterInfos } from "@shared/types/chapter";
-import Manga, { MangaSearchInfos } from "@shared/types/manga";
+import { ArrayUtils } from "./../../../../shared/src/utils/array-utils";
+import { TextFormatUtils } from "./../../../../shared/src/utils/text-format-utils";
 import Scraper from "../scraper";
 import { MangaPlusCard } from "./types/mangaplusCard";
 import { MangaplusUtils } from "./utils/mangaplus-utils";
-import ChapterViewer, { ChapterPage } from "@shared/types/chapterViewer";
 import { MangaPlusManga } from "./types/mangaplusManga";
 import cacheStorageService from "../../services/cache-storage.service";
 import { CacheKeys } from "../../config/cache-keys";
 import axios from "axios";
-import { ChapterId, MangaId } from "@shared/types/primitives/id";
+import { ChapterEndpoint, MangaEndpoint } from "@shared/types/primitives/id";
+import {
+  Chapter,
+  PagedScrapedChapter,
+  ScrapedChapter,
+  SourcelessChapter,
+} from "../../../../shared/src/types/Chapter";
+import { Manga, ScrapedManga } from "../../../../shared/src/types/Manga";
+import { ChapterPage } from "../../../../shared/src/types/ChapterPage";
 
 class MangaPlusScraper implements Scraper {
   private API_ENDPOINT =
@@ -22,32 +27,31 @@ class MangaPlusScraper implements Scraper {
    * Get the list of the latest chapters from mangaplus api
    * @returns a list of the latest chapters
    */
-  public async getLatestChapters(): Promise<Chapter[]> {
+  public async getLatestChapters(): Promise<ScrapedChapter[]> {
     const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
       `${this.API_ENDPOINT}/web/web_homeV3?lang=eng`,
       `${__dirname}/protos/web_homeV3.proto`,
       "mangaplus.Web_homeV3"
     );
-    const chapters: Chapter[] = [];
+    const chapters: ScrapedChapter[] = [];
     const currentDate: Date = new Date();
     try {
       for (let s of jsonRes.parent.data.sections) {
         chapters.push(
-          ...s.cards.map((c: MangaPlusCard) => {
-            return {
-              number: TextFormatUtils.formatChapterNumber(
-                ArrayUtils.tryingSplitAndGet(c.chapter.chapter, "#", 1)
-              ),
-              id: c.chapter.id.toString(),
+          ...s.cards.map(
+            (c: MangaPlusCard): ScrapedChapter => ({
+              src: "mangaplus",
+              endpoint: c.chapter.id.toString(),
+              title: c.chapter.title,
+              number: ArrayUtils.tryingSplitAndGet(c.chapter.chapter, "#", 1),
               image: c.chapter.manga.portraitThumbnail,
               releaseDate: currentDate,
-              title: c.chapter.title,
               manga: {
                 title: c.mangaTitle,
-                id: c.chapter.manga.id.toString(),
+                endpoint: c.chapter.manga.id.toString(),
               },
-            } as Chapter;
-          })
+            })
+          )
         );
         currentDate.setDate(currentDate.getDate() - 1);
       }
@@ -64,8 +68,8 @@ class MangaPlusScraper implements Scraper {
    * Get all mangas from an user search
    * @returns a list of all mangas which correspond to user search
    */
-  public async getMangas({ q }: { q?: string }): Promise<MangaSearchInfos[]> {
-    let allMangas: MangaSearchInfos[] = [];
+  public async searchMangas({ q }: { q?: string }): Promise<Manga[]> {
+    let allMangas: Manga[] = [];
     if (!cacheStorageService.isCached(CacheKeys.MANGAPLUS_ALL_MANGAS)) {
       const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
         `${this.API_ENDPOINT}/title_list/allV2`,
@@ -76,14 +80,13 @@ class MangaPlusScraper implements Scraper {
         (m: {
           title: string;
           translations: Omit<MangaPlusManga, "views">[];
-        }): MangaSearchInfos => {
-          return {
-            id: `${m.translations[0].id}`,
-            name: m.title,
-            author: m.translations[0].author,
-            image: m.translations[0].portraitThumbnail,
-          };
-        }
+        }): Manga => ({
+          src: "mangaplus",
+          endpoint: `${m.translations[0].id}`,
+          title: m.title,
+          author: m.translations[0].author,
+          image: m.translations[0].portraitThumbnail,
+        })
       );
       cacheStorageService.saveInCache(
         CacheKeys.MANGAPLUS_ALL_MANGAS,
@@ -91,16 +94,16 @@ class MangaPlusScraper implements Scraper {
         15 * 24 * 60 * 60 * 1000
       );
     } else {
-      allMangas = cacheStorageService.loadFromCache<MangaSearchInfos[]>(
+      allMangas = cacheStorageService.loadFromCache<Manga[]>(
         CacheKeys.MANGAPLUS_ALL_MANGAS
       )!;
     }
-    let mangasFound: MangaSearchInfos[] = [];
+    let mangasFound: Manga[] = [];
     if (q) {
-      mangasFound = allMangas.filter((m: MangaSearchInfos) => {
+      mangasFound = allMangas.filter((m: Manga) => {
         return (
-          m.name.toLowerCase().includes(q.toLowerCase()) ||
-          q.toLowerCase().includes(m.name.toLowerCase())
+          m.title.toLowerCase().includes(q.toLowerCase()) ||
+          q.toLowerCase().includes(m.title.toLowerCase())
         );
       });
     }
@@ -112,14 +115,16 @@ class MangaPlusScraper implements Scraper {
    * @param id mangaplus manga id
    * @returns targeted manga informations including chapters
    */
-  public async getManga(id: string): Promise<Manga> {
+  public async getManga(
+    endpoint: MangaEndpoint
+  ): Promise<ScrapedManga | undefined> {
     const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
-      `${this.API_ENDPOINT}/title_detailV3?title_id=${id}`,
+      `${this.API_ENDPOINT}/title_detailV3?title_id=${endpoint}`,
       `${__dirname}/protos/title_detailV3.proto`,
       "mangaplus.Title_detailV3"
     );
     try {
-      let chapters: ChapterInfos[] = [];
+      let chapters: SourcelessChapter[] = [];
       for (let c of jsonRes.parent.data.chapters) {
         for (let label of [
           "freeInitialChapters",
@@ -130,32 +135,27 @@ class MangaPlusScraper implements Scraper {
             chapters.push(
               ...ArrayUtils.transformEachItemOf(
                 c[label],
-                (item: any): ChapterInfos => {
-                  return {
-                    id: `${item.chapterId}`,
-                    number: item.chapter,
-                    title: item.title,
-                    image: item.thumbnail,
-                    releaseDate: new Date(item.releaseDate * 1000),
-                    expirationDate: new Date(item.expirationDate * 1000),
-                  };
-                }
+                (item: any): SourcelessChapter => ({
+                  endpoint: `${item.chapterId}`,
+                  number: item.chapter,
+                  title: item.title,
+                  image: item.thumbnail,
+                  releaseDate: new Date(item.releaseDate * 1000),
+                })
               )
             );
       }
-      const manga: Manga = {
-        id: id,
-        name: jsonRes.parent.data.manga.title,
+      return {
+        endpoint,
+        src: "mangaplus",
+        title: jsonRes.parent.data.manga.title,
         author: jsonRes.parent.data.manga.author,
         image: jsonRes.parent.data.manga.portraitThumbnail,
         chapters: chapters,
       };
-      return manga;
     } catch (error) {
       console.error(error);
-      throw new ScraperParsingError(
-        "json received from manga plus api not have the expected format"
-      );
+      return;
     }
   }
 
@@ -165,10 +165,9 @@ class MangaPlusScraper implements Scraper {
    * @param chapterId mangaplus chapter id
    * @returns the chapter viewer of the chapter including all its pages
    */
-  public async getChapterViewer(
-    _: MangaId,
-    chapterId: ChapterId
-  ): Promise<ChapterViewer> {
+  public async getChapter(
+    chapterId: ChapterEndpoint
+  ): Promise<PagedScrapedChapter | undefined> {
     const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
       `${this.API_ENDPOINT}/manga_viewer?chapter_id=${chapterId}&split=yes&img_quality=high`,
       `${__dirname}/protos/manga_viewer.proto`,
@@ -183,46 +182,45 @@ class MangaPlusScraper implements Scraper {
             return {
               url: item.image.url,
               decryptionKey: item.image.decryptionKey,
-              width: item.image.width,
-              height: item.image.height,
             };
           }
         ),
       ];
-      const res: ChapterViewer = {
-        id: chapterId,
+      return {
+        src: "mangaplus",
+        endpoint: chapterId,
         title: `${jsonRes.parent.data.titleName} - ${jsonRes.parent.data.chapterName}`,
-        number: TextFormatUtils.formatChapterNumber(
-          jsonRes.parent.data.chapterName
-        ),
+        number: jsonRes.parent.data.chapterName,
         pages: pages,
-        nbPages: pages.length,
         manga: {
-          id: jsonRes.parent.data.titleId,
-          name: jsonRes.parent.data.titleName,
+          endpoint: jsonRes.parent.data.titleId,
+          title: jsonRes.parent.data.titleName,
         },
       };
-      return res;
     } catch (error) {
       console.error(error);
-      throw new ScraperParsingError(
-        "json received from manga plus api not have the expected format"
-      );
+      return;
     }
   }
 
-  public async getPage(
-    chapterViewer: ChapterViewer,
-    pageNb: number
-  ): Promise<Buffer> {
-    const page = chapterViewer.pages[pageNb - 1];
-    const res = await axios.get(new URL(page.url).href, {
-      responseType: "arraybuffer",
-    });
-    if (!page.decryptionKey) {
-      return res.data;
+  public async generatePage(
+    chapterPage: ChapterPage
+  ): Promise<Buffer | undefined> {
+    try {
+      const res = await axios.get(new URL(chapterPage.url).href, {
+        responseType: "arraybuffer",
+      });
+      if (!chapterPage.decryptionKey) {
+        return res.data;
+      }
+      return MangaplusUtils.decodeImageMangaPlus(
+        res.data,
+        chapterPage.decryptionKey
+      );
+    } catch (err) {
+      console.error(err);
+      return;
     }
-    return MangaplusUtils.decodeImageMangaPlus(res.data, page.decryptionKey);
   }
 }
 

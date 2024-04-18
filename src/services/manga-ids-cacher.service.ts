@@ -5,15 +5,15 @@ import FormattedNameError from "../errors/FormattedNameError";
 import IntersiteChapter from "@shared/types/intersite/IntersiteChapter";
 import { IntersiteField } from "@shared/types/intersite/IntersiteField";
 import { IntersiteMangaInfos } from "@shared/types/intersite/IntersiteManga";
-import { FormattedName, MangaId } from "@shared/types/primitives/id";
+import { FormattedName, MangaEndpoint } from "@shared/types/primitives/id";
 import { SourceName } from "@shared/types/primitives/id";
-import { ArrayUtils } from "../utils/array-utils";
-import { TextFormatUtils } from "../utils/text-format-utils";
 import cacheStorageService from "./cache-storage.service";
+import { ArrayUtils } from "./../../../shared/src/utils/array-utils";
+import { TextFormatUtils } from "./../../../shared/src/utils/text-format-utils";
 
 type FormattedNameInStorage = {
   name: string;
-  ids: IntersiteField<MangaId>;
+  ids: IntersiteField<MangaEndpoint>;
   alreadyDigIn: SourceName[];
 };
 
@@ -46,7 +46,7 @@ class MangaIdsCacherService {
   public async getMangaIdsFromFormattedName(
     formattedName: FormattedName,
     dontDigIn?: boolean
-  ): Promise<IntersiteField<MangaId> | undefined> {
+  ): Promise<IntersiteField<MangaEndpoint> | undefined> {
     let formattedNameData = this._loadMangaIds(formattedName);
     if (!formattedNameData) {
       return;
@@ -88,7 +88,7 @@ class MangaIdsCacherService {
     src: SourceName,
     mangaName: string,
     formattedName: FormattedName
-  ): Promise<MangaId | undefined> {
+  ): Promise<MangaEndpoint | undefined> {
     const wordToSearch = [mangaName, ...mangaName.split(" ")];
     for (let w of wordToSearch) {
       if (w.length < DefaultValues.DIG_IN_NAME_MIN_LENGTH) {
@@ -108,7 +108,7 @@ class MangaIdsCacherService {
   public saveFormattedName(
     formattedName: FormattedName,
     mangaName: string,
-    intersiteIds: IntersiteField<MangaId>
+    intersiteIds: IntersiteField<MangaEndpoint>
   ) {
     cacheStorageService.saveInJsonInCache<FormattedNameInStorage>(
       CacheKeys.FORMATTED_MANGA_NAMES,
@@ -175,7 +175,7 @@ class MangaIdsCacherService {
   ) {
     for (let ic of intersiteChapters) {
       this.saveFormattedName(
-        ic.manga.formattedTitle,
+        ic.manga.formattedName,
         this._getPreferedNameFromIntersiteMangaName(ic.manga.title),
         ic.manga.id
       );

@@ -1,29 +1,29 @@
 import config from "../config/config";
-import mangaIdsCacherService from "../services/manga-ids-cacher.service";
-import IntersiteChapter from "@shared/types/intersite/IntersiteChapter";
-import { IntersiteUtils } from "../utils/intersite-utils";
-import Chapter from "@shared/types/chapter";
 import { SourceName } from "@shared/types/primitives/id";
+import bdSyncService from "../services/BDSync.service";
+import { ScrapedChapter } from "../../../shared/src/types/Chapter";
 
 class LatestChaptersController {
   public constructor() {}
 
-  public async get({
+  public async getAll({
     srcs,
+    syncWithBD,
   }: {
     srcs?: SourceName[];
-  }): Promise<IntersiteChapter[]> {
-    const chaptersBySrc: { [src in SourceName]?: Chapter[] } = {};
+    syncWithBD?: boolean;
+  }): Promise<ScrapedChapter[]> {
+    let chapters: ScrapedChapter[] = [];
     for (let src of srcs ? srcs : config.getEnabledSource()) {
-      const chapters = await config.getScraperOfSrc(src).getLatestChapters();
-      chaptersBySrc[src] = chapters;
+      const tmpChapteres = await config
+        .getScraperOfSrc(src)
+        .getLatestChapters();
+      chapters.push(...tmpChapteres);
+      if (syncWithBD) {
+        bdSyncService.syncChapters(src, chapters);
+      }
     }
-    const intersiteChapters =
-      IntersiteUtils.convertChaptersToIntersiteChapters(chaptersBySrc);
-    mangaIdsCacherService.saveFormattedNamesFromLatestChapters(
-      intersiteChapters
-    );
-    return intersiteChapters;
+    return chapters;
   }
 }
 

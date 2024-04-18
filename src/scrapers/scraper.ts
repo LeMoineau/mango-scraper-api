@@ -1,27 +1,33 @@
-import Chapter from "@shared/types/chapter";
-import ChapterViewer from "@shared/types/chapterViewer";
-import Manga, { MangaSearchInfos } from "@shared/types/manga";
-import { ChapterId, FormattedName, MangaId } from "@shared/types/primitives/id";
+import {
+  PagedScrapedChapter,
+  ScrapedChapter,
+} from "../../../shared/src/types/Chapter";
+import { ChapterPage } from "../../../shared/src/types/ChapterPage";
+import { Manga, ScrapedManga } from "../../../shared/src/types/Manga";
+import {
+  ChapterEndpoint,
+  MangaEndpoint,
+} from "../../../shared/src/types/primitives/Identifiers";
 
 export default interface Scraper {
   /**
    * Get the list of the latest chapters from the source website
    * @returns a list of the latest chapters
    */
-  getLatestChapters: () => Promise<Chapter[]>;
+  getLatestChapters: () => Promise<ScrapedChapter[]>;
 
   /**
    * Get all mangas from an user search
    * @returns a list of all mangas which correspond to user search
    */
-  getMangas: ({ q }: { q?: string }) => Promise<MangaSearchInfos[]>;
+  searchMangas: ({ q }: { q?: string }) => Promise<Manga[]>;
 
   /**
    * Get all informations about a manga including its chapters
    * @param id manga id from the source
    * @returns targeted manga informations including chapters
    */
-  getManga: (id: string) => Promise<Manga>;
+  getManga: (endpoint: MangaEndpoint) => Promise<ScrapedManga | undefined>;
 
   /**
    * Get the chapter viewer including all its pages
@@ -29,10 +35,9 @@ export default interface Scraper {
    * @param chapterId chapter id from the source
    * @returns the chapter viewer of the chapter including all its pages
    */
-  getChapterViewer: (
-    mangaId: MangaId,
-    chapterId: ChapterId
-  ) => Promise<ChapterViewer>;
+  getChapter: (
+    endpoint: ChapterEndpoint
+  ) => Promise<PagedScrapedChapter | undefined>;
 
   /**
    * Get the targeted page of a chapter
@@ -40,5 +45,5 @@ export default interface Scraper {
    * @param nbPage targeted chapter page + 1 (nbPage >= 1)
    * @returns Buffer of the image of the chapter
    */
-  getPage: (chapterViewer: ChapterViewer, pageNb: number) => Promise<Buffer>;
+  generatePage: (chapterPage: ChapterPage) => Promise<Buffer | undefined>;
 }
