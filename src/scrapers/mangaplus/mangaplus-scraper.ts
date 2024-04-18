@@ -5,7 +5,7 @@ import Scraper from "../scraper";
 import { MangaPlusCard } from "./types/mangaplusCard";
 import { MangaplusUtils } from "./utils/mangaplus-utils";
 import { MangaPlusManga } from "./types/mangaplusManga";
-import cacheStorageService from "../../services/cache-storage.service";
+import cacheStorageService from "../../services/CacheStorage.service";
 import { CacheKeys } from "../../config/cache-keys";
 import axios from "axios";
 import {
