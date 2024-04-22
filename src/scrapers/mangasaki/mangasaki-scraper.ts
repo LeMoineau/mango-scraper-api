@@ -31,6 +31,10 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
           j + 1
         })`;
         try {
+          const imageURL = $(`${currentMangaPath} a:first-child img`).attr(
+            "src"
+          )!;
+
           chapters.push({
             src: "mangasaki",
             endpoint: ArrayUtils.getLastOf(
@@ -50,7 +54,7 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
                   .split("/")
               ),
             },
-            image: $(`${currentMangaPath} a:first-child img`).attr("src")!,
+            image: imageURL.split("minicover").join("bigcover"),
             releaseDate: MangasakiUtils.calculateDateFromString(
               $(`${currentChapterPath} .tm`).text()
             ),
