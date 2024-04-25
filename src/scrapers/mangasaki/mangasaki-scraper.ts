@@ -19,6 +19,18 @@ import {
 class MangaSakiScraper extends DefaultPageLoader implements Scraper {
   private PAGE_URL = process.env.MANGASAKI_URL ?? "https://www.mangasaki.org";
 
+  private generateChapterUrl(endpoint: ChapterEndpoint): string {
+    return TextFormatUtils.isNumber(endpoint)
+      ? `${this.PAGE_URL}/node/${endpoint}`
+      : `${this.PAGE_URL}/chapter/${endpoint}`;
+  }
+
+  private generateMangaUrl(endpoint: MangaEndpoint): string {
+    return TextFormatUtils.isNumber(endpoint)
+      ? `${this.PAGE_URL}/node/${endpoint}`
+      : `${this.PAGE_URL}/manga/${endpoint}`;
+  }
+
   async getLatestChapters(): Promise<ScrapedChapter[]> {
     const $ = await ScrapingUtils.requestToCheerioPage(
       `${this.PAGE_URL}/block_refresh/showmanga/lastest_list`
@@ -34,12 +46,18 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
           const imageURL = $(`${currentMangaPath} a:first-child img`).attr(
             "src"
           )!;
-
+          const chapterEndpoint = ArrayUtils.getLastOf(
+            $(`${currentChapterPath} a`).attr("href")!.split("/")
+          );
+          const mangaEndpoint = ArrayUtils.getLastOf(
+            $(`${currentMangaPath} .item-list ul li .tl a`)
+              .attr("href")!
+              .split("/")
+          );
           chapters.push({
             src: "mangasaki",
-            endpoint: ArrayUtils.getLastOf(
-              $(`${currentChapterPath} a`).attr("href")!.split("/")
-            ),
+            endpoint: chapterEndpoint,
+            url: this.generateChapterUrl(chapterEndpoint),
             title: $(`${currentChapterPath} a`).text(),
             number: ArrayUtils.getLastOf(
               $(`${currentChapterPath} a`).text().split(" ")
@@ -48,11 +66,8 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
               title: $(
                 `${currentMangaPath} .item-list ul li .tl a strong`
               ).text(),
-              endpoint: ArrayUtils.getLastOf(
-                $(`${currentMangaPath} .item-list ul li .tl a`)
-                  .attr("href")!
-                  .split("/")
-              ),
+              endpoint: mangaEndpoint,
+              url: this.generateMangaUrl(mangaEndpoint),
             },
             image: imageURL.split("minicover").join("bigcover"),
             releaseDate: MangasakiUtils.calculateDateFromString(
@@ -72,12 +87,14 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
     let mangas: Manga[] = [];
     $(".search-results li").each((i) => {
       const targetSearch = `.search-results li:nth-child(${i + 1}) a`;
+      const mangaEndpoint = ArrayUtils.getLastOf(
+        $(targetSearch).attr("href")!.split("/")
+      );
       mangas.push({
-        endpoint: ArrayUtils.getLastOf(
-          $(targetSearch).attr("href")!.split("/")
-        ),
+        endpoint: mangaEndpoint,
         title: $(targetSearch).text(),
         src: "mangasaki",
+        url: this.generateMangaUrl(mangaEndpoint),
       });
     });
     return mangas;
@@ -85,16 +102,9 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
 
   async getManga(endpoint: MangaEndpoint): Promise<ScrapedManga | undefined> {
     try {
-      let $: CheerioAPI;
-      if (TextFormatUtils.isNumber(endpoint)) {
-        $ = await ScrapingUtils.requestToCheerioPage(
-          `${this.PAGE_URL}/node/${endpoint}`
-        );
-      } else {
-        $ = await ScrapingUtils.requestToCheerioPage(
-          `${this.PAGE_URL}/manga/${endpoint}`
-        );
-      }
+      const $ = await ScrapingUtils.requestToCheerioPage(
+        this.generateMangaUrl(endpoint)
+      );
       const mangaTitle = $("div#main .title").text();
       let chapters: SourcelessChapter[] = [];
       $("div#main .node-manga table tbody tr").each((i) => {
@@ -105,10 +115,12 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
           $(`${currentChapterPath} a`).text(),
           mangaTitle
         );
+        const chapterEndpoint = ArrayUtils.getLastOf(
+          $(`${currentChapterPath} a`).attr("href")!.split("/")
+        );
         chapters.push({
-          endpoint: ArrayUtils.getLastOf(
-            $(`${currentChapterPath} a`).attr("href")!.split("/")
-          ),
+          endpoint: chapterEndpoint,
+          url: this.generateChapterUrl(chapterEndpoint),
           number: chapterNumber,
           title: $(`${currentChapterPath} a`).text(),
           releaseDate: new Date(
@@ -133,8 +145,10 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
           );
           const sameChapter = chapters.find((c) => c.number === chapterNumber);
           if (!sameChapter) {
+            const chapterEndpoint = $(currentChapter).attr("value")!;
             chapters.push({
-              endpoint: $(currentChapter).attr("value")!,
+              endpoint: chapterEndpoint,
+              url: chapterEndpoint,
               number: chapterNumber,
               title: $(currentChapter).text(),
             });
@@ -143,7 +157,8 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
       }
       return {
         src: "mangasaki",
-        endpoint: endpoint,
+        endpoint,
+        url: this.generateMangaUrl(endpoint),
         title: mangaTitle,
         author: $(
           ".node-manga .content .field:nth-child(4) .field-item"
@@ -158,19 +173,12 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
   }
 
   public async getChapter(
-    chapterId: ChapterEndpoint
+    endpoint: ChapterEndpoint
   ): Promise<PagedScrapedChapter | undefined> {
     try {
-      let $: CheerioAPI;
-      if (TextFormatUtils.isNumber(chapterId)) {
-        $ = await ScrapingUtils.requestToCheerioPage(
-          `${this.PAGE_URL}/node/${chapterId}`
-        );
-      } else {
-        $ = await ScrapingUtils.requestToCheerioPage(
-          `${this.PAGE_URL}/chapter/${chapterId}`
-        );
-      }
+      const $ = await ScrapingUtils.requestToCheerioPage(
+        this.generateChapterUrl(endpoint)
+      );
       let pages: string[] = $.html()
         .split(`,"showmanga":{"paths":["`)[1]
         .split(`"],"count_p":`)[0]
@@ -178,8 +186,12 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
       pages.splice(1, 1);
       const title = $("h1.title").text().split("|")[0].trim();
       const number = ArrayUtils.getLastOf(title.split(" "));
+      const mangaEndpoint = ArrayUtils.getLastOf(
+        $("h1.title a").attr("href")!.split("/")
+      );
       return {
-        endpoint: chapterId,
+        endpoint,
+        url: this.generateChapterUrl(endpoint),
         title,
         number,
         src: "mangasaki",
@@ -187,9 +199,8 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
           return { url: p };
         }),
         manga: {
-          endpoint: ArrayUtils.getLastOf(
-            $("h1.title a").attr("href")!.split("/")
-          ),
+          endpoint: mangaEndpoint,
+          url: this.generateChapterUrl(mangaEndpoint),
           title: TextFormatUtils.stringWithout(title, number).trim(),
         },
       };

@@ -22,7 +22,7 @@ class ScraperController {
   ): Promise<ScrapedChapter[]> {
     const chapters = await this.getScraperOf(src).getLatestChapters();
     if (props.syncWithBD) {
-      BDSyncService.syncChapters(chapters);
+      await BDSyncService.syncChapters(chapters);
     }
     return chapters;
   }
@@ -35,7 +35,7 @@ class ScraperController {
       q: props.query,
     });
     if (props.syncWithBD) {
-      BDSyncService.syncMangas(mangas);
+      await BDSyncService.syncMangas(mangas);
     }
     return mangas;
   }
@@ -47,7 +47,7 @@ class ScraperController {
   ): Promise<ScrapedManga | undefined> {
     const manga = await this.getScraperOf(src).getManga(endpoint);
     if (manga && props.syncWithBD) {
-      BDSyncService.syncScrapedManga(manga);
+      await BDSyncService.syncScrapedManga(manga);
     }
     return manga;
   }
@@ -59,7 +59,7 @@ class ScraperController {
   ): Promise<ScrapedChapter | undefined> {
     const chapter = await this.getScraperOf(src).getChapter(endpoint);
     if (chapter && props.syncWithBD) {
-      BDSyncService.syncChapter(chapter);
+      await BDSyncService.syncChapter(chapter);
     }
     return chapter;
   }

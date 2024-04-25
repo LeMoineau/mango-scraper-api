@@ -50,6 +50,7 @@ class BDSyncService {
           src: manga.src,
           manga: {
             endpoint: manga.endpoint,
+            url: manga.url,
             title: manga.title,
           },
         })

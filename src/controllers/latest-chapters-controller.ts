@@ -1,7 +1,7 @@
 import config from "../config/config";
 import { SourceName } from "@shared/types/primitives/Identifiers";
-import bdSyncService from "../services/BDSync.service";
 import { ScrapedChapter } from "../../../shared/src/types/Chapter";
+import BDSyncService from "../services/BDSync.service";
 
 class LatestChaptersController {
   public constructor() {}
@@ -20,7 +20,7 @@ class LatestChaptersController {
         .getLatestChapters();
       chapters.push(...tmpChapteres);
       if (syncWithBD) {
-        bdSyncService.syncChapters(chapters);
+        await BDSyncService.syncChapters(chapters);
       }
     }
     return chapters;

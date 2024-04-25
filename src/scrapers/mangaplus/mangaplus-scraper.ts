@@ -26,6 +26,14 @@ class MangaPlusScraper implements Scraper {
     process.env.MANGAPLUS_API_ENDPOINT ??
     "https://jumpg-webapi.tokyo-cdn.com/api";
 
+  private generateChapterUrl(endpoint: ChapterEndpoint): string {
+    return `https://mangaplus.shueisha.co.jp/viewer/${endpoint}`;
+  }
+
+  private generateMangaUrl(endpoint: MangaEndpoint): string {
+    return `https://mangaplus.shueisha.co.jp/titles/${endpoint}`;
+  }
+
   /**
    * Get the list of the latest chapters from mangaplus api
    * @returns a list of the latest chapters
@@ -45,6 +53,7 @@ class MangaPlusScraper implements Scraper {
             (c: MangaPlusCard): ScrapedChapter => ({
               src: "mangaplus",
               endpoint: c.chapter.id.toString(),
+              url: this.generateChapterUrl(c.chapter.id.toString()),
               title: c.chapter.title,
               number: ArrayUtils.tryingSplitAndGet(c.chapter.chapter, "#", 1),
               image: c.chapter.manga.portraitThumbnail,
@@ -52,6 +61,7 @@ class MangaPlusScraper implements Scraper {
               manga: {
                 title: c.mangaTitle,
                 endpoint: c.chapter.manga.id.toString(),
+                url: this.generateMangaUrl(c.chapter.manga.id.toString()),
               },
             })
           )
@@ -85,7 +95,8 @@ class MangaPlusScraper implements Scraper {
           translations: Omit<MangaPlusManga, "views">[];
         }): Manga => ({
           src: "mangaplus",
-          endpoint: `${m.translations[0].id}`,
+          endpoint: m.translations[0].id.toString(),
+          url: this.generateMangaUrl(m.translations[0].id.toString()),
           title: m.title,
           author: m.translations[0].author,
           image: m.translations[0].portraitThumbnail,
@@ -140,6 +151,7 @@ class MangaPlusScraper implements Scraper {
                 c[label],
                 (item: any): SourcelessChapter => ({
                   endpoint: `${item.chapterId}`,
+                  url: this.generateChapterUrl(item.chapterId),
                   number: item.chapter,
                   title: item.title,
                   image: item.thumbnail,
@@ -151,6 +163,7 @@ class MangaPlusScraper implements Scraper {
       return {
         endpoint,
         src: "mangaplus",
+        url: this.generateMangaUrl(endpoint),
         title: jsonRes.parent.data.manga.title,
         author: jsonRes.parent.data.manga.author,
         image: jsonRes.parent.data.manga.portraitThumbnail,
@@ -192,11 +205,13 @@ class MangaPlusScraper implements Scraper {
       return {
         src: "mangaplus",
         endpoint: chapterId,
+        url: this.generateChapterUrl(chapterId),
         title: `${jsonRes.parent.data.titleName} - ${jsonRes.parent.data.chapterName}`,
         number: jsonRes.parent.data.chapterName,
         pages: pages,
         manga: {
           endpoint: jsonRes.parent.data.titleId,
+          url: this.generateMangaUrl(jsonRes.parent.data.titleId),
           title: jsonRes.parent.data.titleName,
         },
       };
