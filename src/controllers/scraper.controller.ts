@@ -1,6 +1,6 @@
-import { ScrapedChapter } from "../../../shared/src/types/Chapter";
-import { ChapterPage } from "../../../shared/src/types/ChapterPage";
-import { Manga, ScrapedManga } from "../../../shared/src/types/Manga";
+import { ScrapedChapter } from "../../../shared/src/types/basics/Chapter";
+import { ChapterPage } from "../../../shared/src/types/basics/ChapterPage";
+import { Manga, ScrapedManga } from "../../../shared/src/types/basics/Manga";
 import {
   ChapterEndpoint,
   MangaEndpoint,

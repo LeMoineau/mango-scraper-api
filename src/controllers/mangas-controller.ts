@@ -1,4 +1,4 @@
-import { Manga } from "../../../shared/src/types/Manga";
+import { Manga } from "../../../shared/src/types/basics/Manga";
 import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
 import config from "../config/config";
 import BDSyncService from "../services/BDSync.service";

@@ -3,8 +3,8 @@ import config from "../config/config";
 import {
   ScrapedChapter,
   SourcelessChapter,
-} from "../../../shared/src/types/Chapter";
-import { Manga, ScrapedManga } from "../../../shared/src/types/Manga";
+} from "../../../shared/src/types/basics/Chapter";
+import { Manga, ScrapedManga } from "../../../shared/src/types/basics/Manga";
 
 class BDSyncService {
   constructor() {}

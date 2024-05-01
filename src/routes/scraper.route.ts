@@ -3,7 +3,7 @@ import { RoutingUtils } from "../../../shared/src/utils/routing-utils";
 import { isSourceName } from "../../../shared/src/types/primitives/Identifiers";
 import config from "../config/config";
 import scraperController from "../controllers/scraper.controller";
-import { isChapterPage } from "../../../shared/src/types/ChapterPage";
+import { isChapterPage } from "../../../shared/src/types/basics/ChapterPage";
 
 const scraperRouter = Router();
 

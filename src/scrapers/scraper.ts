@@ -1,9 +1,9 @@
 import {
   PagedScrapedChapter,
   ScrapedChapter,
-} from "../../../shared/src/types/Chapter";
-import { ChapterPage } from "../../../shared/src/types/ChapterPage";
-import { Manga, ScrapedManga } from "../../../shared/src/types/Manga";
+} from "../../../shared/src/types/basics/Chapter";
+import { ChapterPage } from "../../../shared/src/types/basics/ChapterPage";
+import { Manga, ScrapedManga } from "../../../shared/src/types/basics/Manga";
 import {
   ChapterEndpoint,
   MangaEndpoint,
@@ -28,6 +28,13 @@ export default interface Scraper {
    * @returns targeted manga informations including chapters
    */
   getManga: (endpoint: MangaEndpoint) => Promise<ScrapedManga | undefined>;
+
+  /**
+   * Get chapters by page of a manga
+   * @param endpoint manga endpoint on the source
+   * @returns current page containing chapters
+   */
+  // getMangaChapters: (endpoint: MangaEndpoint, props: {pageNumber: number, pageSize?: number}) => Promise<ResponsePage<Chapter>>;
 
   /**
    * Get the chapter viewer including all its pages

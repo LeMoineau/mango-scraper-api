@@ -1,6 +1,6 @@
 import config from "../config/config";
 import { SourceName } from "@shared/types/primitives/Identifiers";
-import { ScrapedChapter } from "../../../shared/src/types/Chapter";
+import { ScrapedChapter } from "../../../shared/src/types/basics/Chapter";
 import BDSyncService from "../services/BDSync.service";
 
 class LatestChaptersController {

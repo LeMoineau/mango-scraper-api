@@ -1,6 +1,5 @@
 import axios from "axios";
-import ChapterPageLoadingError from "../../errors/ChapterPageLoadingError";
-import { ChapterPage } from "../../../../shared/src/types/ChapterPage";
+import { ChapterPage } from "../../../../shared/src/types/basics/ChapterPage";
 
 export default class DefaultPageLoader {
   public async generatePage(
