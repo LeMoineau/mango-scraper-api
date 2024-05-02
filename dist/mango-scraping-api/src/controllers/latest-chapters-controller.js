@@ -25,6 +25,7 @@ class LatestChaptersController {
                     .getLatestChapters();
                 chapters.push(...tmpChapteres);
                 if (syncWithBD) {
+                    console.log("sync with bd at", config_1.default.getEnv().MANGO_BD_API_URL);
                     yield BDSync_service_1.default.syncChapters(chapters);
                 }
             }
