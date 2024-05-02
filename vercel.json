@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/mango-scraper-api/src/index.js",
+      "src": "dist/mango-scraping-api/src/index.js",
       "use": "@vercel/node",
       "config": { "includeFiles": ["dist/**", "node_modules/**"] }
     }
@@ -10,7 +10,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/mango-scraper-api/src/index.js"
+      "dest": "dist/mango-scraping-api/src/index.js"
     }
   ]
 }

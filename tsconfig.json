@@ -5,7 +5,7 @@
     "../mango-bd-api/src/utils/TypeConvertUtils.ts",
     "../mango-bd-api/src/utils/TypeConvertUtils.spec.ts"
   ],
-  "exclude": ["./src/**/*.spec.*"],
+  "exclude": ["./src/**/*.spec.*", "../shared/**/*.spec.*"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 

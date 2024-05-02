@@ -1,0 +1,30 @@
+package mangaplus;
+syntax = "proto3";
+
+message Manga_viewer {
+  message Parent {
+    message Data {
+      message Page {
+        message Image {
+          string url = 1;
+          int32 width = 2;
+          int32 height = 3;
+          string decryption_key = 5;
+        }
+
+        Image image = 1;
+      }
+
+      repeated Page pages = 1;
+      uint32 chapter_id = 2;
+      string title_name = 5;
+      string chapter_name = 6;
+      uint32 title_id = 9;
+    }
+
+    Data data = 10;
+  }
+
+  Parent parent = 1;
+}
+

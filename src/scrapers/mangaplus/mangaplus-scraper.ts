@@ -1,6 +1,5 @@
 import ScraperParsingError from "../../errors/ScraperParsingError";
 import { ArrayUtils } from "./../../../../shared/src/utils/array-utils";
-import { TextFormatUtils } from "./../../../../shared/src/utils/text-format-utils";
 import Scraper from "../scraper";
 import { MangaPlusCard } from "./types/mangaplusCard";
 import { MangaplusUtils } from "./utils/mangaplus-utils";
@@ -9,7 +8,6 @@ import cacheStorageService from "../../services/CacheStorage.service";
 import { CacheKeys } from "../../config/cache-keys";
 import axios from "axios";
 import {
-  Chapter,
   PagedScrapedChapter,
   ScrapedChapter,
   SourcelessChapter,

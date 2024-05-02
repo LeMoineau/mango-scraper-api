@@ -32,15 +32,31 @@ const useApi = (baseURL) => {
         setLoading(false);
         setData(undefined);
     };
-    const fetch = (endpoint, forceRefresh) => __awaiter(void 0, void 0, void 0, function* () {
-        if (loaded && !forceRefresh) {
+    const fetch = (endpoint, options) => __awaiter(void 0, void 0, void 0, function* () {
+        if (loaded && !(options === null || options === void 0 ? void 0 : options.forceRefresh)) {
             return data;
         }
         setLoading(true);
         return yield axiosInstance
-            .get(endpoint)
+            .get(endpoint, options === null || options === void 0 ? void 0 : options.config)
             .then((res) => {
             setData(res.data);
+            setLoading(false);
+            return res.data;
+        })
+            .catch((err) => {
+            console.error(err);
+            setLoading(false);
+            return;
+        });
+    });
+    const post = (endpoint, data, options) => __awaiter(void 0, void 0, void 0, function* () {
+        setLoading(true);
+        return yield axiosInstance
+            .post(endpoint, data, options === null || options === void 0 ? void 0 : options.config)
+            .then((res) => {
+            setData(res.data);
+            setLoading(false);
             return res.data;
         })
             .catch((err) => {
@@ -55,9 +71,9 @@ const useApi = (baseURL) => {
     return {
         loaded,
         loading,
-        data,
         refresh,
         fetch,
+        post,
         get,
     };
 };
