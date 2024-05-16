@@ -15,23 +15,24 @@ import {
   ChapterEndpoint,
   MangaEndpoint,
 } from "../../../../shared/src/types/primitives/Identifiers";
+import { ResponsePage } from "../../../../shared/src/types/responses/ResponsePage";
 
 class MangaSakiScraper extends DefaultPageLoader implements Scraper {
   private PAGE_URL = process.env.MANGASAKI_URL ?? "https://www.mangasaki.org";
 
-  private generateChapterUrl(endpoint: ChapterEndpoint): string {
+  private _generateChapterUrl(endpoint: ChapterEndpoint): string {
     return TextFormatUtils.isNumber(endpoint)
       ? `${this.PAGE_URL}/node/${endpoint}`
       : `${this.PAGE_URL}/chapter/${endpoint}`;
   }
 
-  private generateMangaUrl(endpoint: MangaEndpoint): string {
+  private _generateMangaUrl(endpoint: MangaEndpoint): string {
     return TextFormatUtils.isNumber(endpoint)
       ? `${this.PAGE_URL}/node/${endpoint}`
       : `${this.PAGE_URL}/manga/${endpoint}`;
   }
 
-  async getLatestChapters(): Promise<ScrapedChapter[]> {
+  public async getLatestChapters(): Promise<ScrapedChapter[]> {
     const $ = await ScrapingUtils.requestToCheerioPage(
       `${this.PAGE_URL}/block_refresh/showmanga/lastest_list`
     );
@@ -57,7 +58,7 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
           chapters.push({
             src: "mangasaki",
             endpoint: chapterEndpoint,
-            url: this.generateChapterUrl(chapterEndpoint),
+            url: this._generateChapterUrl(chapterEndpoint),
             title: $(`${currentChapterPath} a`).text(),
             number: ArrayUtils.getLastOf(
               $(`${currentChapterPath} a`).text().split(" ")
@@ -67,7 +68,7 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
                 `${currentMangaPath} .item-list ul li .tl a strong`
               ).text(),
               endpoint: mangaEndpoint,
-              url: this.generateMangaUrl(mangaEndpoint),
+              url: this._generateMangaUrl(mangaEndpoint),
             },
             image: imageURL.split("minicover").join("bigcover"),
             releaseDate: MangasakiUtils.calculateDateFromString(
@@ -80,7 +81,11 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
     return chapters;
   }
 
-  async searchMangas({ q }: { q?: string | undefined }): Promise<Manga[]> {
+  public async searchMangas({
+    q,
+  }: {
+    q?: string | undefined;
+  }): Promise<Manga[]> {
     const $ = await ScrapingUtils.requestToCheerioPage(
       `${this.PAGE_URL}/search/node/${q}`
     );
@@ -94,77 +99,57 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
         endpoint: mangaEndpoint,
         title: $(targetSearch).text(),
         src: "mangasaki",
-        url: this.generateMangaUrl(mangaEndpoint),
+        url: this._generateMangaUrl(mangaEndpoint),
       });
     });
     return mangas;
   }
 
-  async getManga(endpoint: MangaEndpoint): Promise<ScrapedManga | undefined> {
+  private _generateMangaChapters($: CheerioAPI): SourcelessChapter[] {
+    const mangaTitle = $("div#main .title").text();
+    let chapters: SourcelessChapter[] = [];
+    $("div#main .node-manga table tbody tr").each((i) => {
+      const currentChapterPath = `div#main .node-manga table tbody tr:nth-child(${
+        i + 1
+      })`;
+      const chapterNumber = TextFormatUtils.stringWithout(
+        $(`${currentChapterPath} a`).text(),
+        mangaTitle
+      );
+      const chapterEndpoint = ArrayUtils.getLastOf(
+        $(`${currentChapterPath} a`).attr("href")!.split("/")
+      );
+      chapters.push({
+        endpoint: chapterEndpoint,
+        url: this._generateChapterUrl(chapterEndpoint),
+        number: chapterNumber,
+        title: $(`${currentChapterPath} a`).text(),
+        releaseDate: new Date(
+          $(`${currentChapterPath} td:nth-child(2)`).text()
+        ),
+      });
+    });
+    return chapters;
+  }
+
+  public async getManga(
+    endpoint: MangaEndpoint
+  ): Promise<ScrapedManga | undefined> {
     try {
       const $ = await ScrapingUtils.requestToCheerioPage(
-        this.generateMangaUrl(endpoint)
+        this._generateMangaUrl(endpoint)
       );
       const mangaTitle = $("div#main .title").text();
-      let chapters: SourcelessChapter[] = [];
-      $("div#main .node-manga table tbody tr").each((i) => {
-        const currentChapterPath = `div#main .node-manga table tbody tr:nth-child(${
-          i + 1
-        })`;
-        const chapterNumber = TextFormatUtils.stringWithout(
-          $(`${currentChapterPath} a`).text(),
-          mangaTitle
-        );
-        const chapterEndpoint = ArrayUtils.getLastOf(
-          $(`${currentChapterPath} a`).attr("href")!.split("/")
-        );
-        chapters.push({
-          endpoint: chapterEndpoint,
-          url: this.generateChapterUrl(chapterEndpoint),
-          number: chapterNumber,
-          title: $(`${currentChapterPath} a`).text(),
-          releaseDate: new Date(
-            $(`${currentChapterPath} td:nth-child(2)`).text()
-          ),
-        });
-      });
-      const urlFirstChapter = $(
-        `div#main .node-manga table tbody tr:nth-child(1) a`
-      ).attr("href");
-      if (urlFirstChapter) {
-        const $2 = await ScrapingUtils.requestToCheerioPage(
-          `${this.PAGE_URL}/${urlFirstChapter}`
-        );
-        $2("select#edit-select-node option").each((i) => {
-          const currentChapter = $2(
-            `select#edit-select-node option:nth-child(${i + 1})`
-          );
-          const chapterNumber = TextFormatUtils.stringWithout(
-            $(currentChapter).text(),
-            mangaTitle
-          );
-          const sameChapter = chapters.find((c) => c.number === chapterNumber);
-          if (!sameChapter) {
-            const chapterEndpoint = $(currentChapter).attr("value")!;
-            chapters.push({
-              endpoint: chapterEndpoint,
-              url: chapterEndpoint,
-              number: chapterNumber,
-              title: $(currentChapter).text(),
-            });
-          }
-        });
-      }
       return {
         src: "mangasaki",
         endpoint,
-        url: this.generateMangaUrl(endpoint),
+        url: this._generateMangaUrl(endpoint),
         title: mangaTitle,
         author: $(
           ".node-manga .content .field:nth-child(4) .field-item"
         ).text(),
         image: $(".node-manga .content .field:nth-child(1) img").attr("src")!,
-        chapters,
+        chapters: this._generateMangaChapters($),
       };
     } catch (error) {
       console.error(error);
@@ -172,12 +157,27 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
     }
   }
 
+  public async getMangaChapters(
+    endpoint: string,
+    props: { pageNumber: number; pageSize?: number }
+  ): Promise<ResponsePage<SourcelessChapter>> {
+    const $ = await ScrapingUtils.requestToCheerioPage(
+      `${this._generateMangaUrl(endpoint)}?page=${props.pageNumber - 1}`
+    );
+    const chapters = this._generateMangaChapters($);
+    return {
+      elements: chapters,
+      pageNumber: props.pageNumber,
+      pageSize: chapters.length,
+    };
+  }
+
   public async getChapter(
     endpoint: ChapterEndpoint
   ): Promise<PagedScrapedChapter | undefined> {
     try {
       const $ = await ScrapingUtils.requestToCheerioPage(
-        this.generateChapterUrl(endpoint)
+        this._generateChapterUrl(endpoint)
       );
       let pages: string[] = $.html()
         .split(`,"showmanga":{"paths":["`)[1]
@@ -191,7 +191,7 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
       );
       return {
         endpoint,
-        url: this.generateChapterUrl(endpoint),
+        url: this._generateChapterUrl(endpoint),
         title,
         number,
         src: "mangasaki",
@@ -200,7 +200,7 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
         }),
         manga: {
           endpoint: mangaEndpoint,
-          url: this.generateChapterUrl(mangaEndpoint),
+          url: this._generateChapterUrl(mangaEndpoint),
           title: TextFormatUtils.stringWithout(title, number).trim(),
         },
       };

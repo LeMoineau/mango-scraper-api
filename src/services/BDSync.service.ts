@@ -43,6 +43,7 @@ class BDSyncService {
 
   public async syncScrapedManga(manga: ScrapedManga): Promise<void> {
     await this.syncManga(manga);
+    if (!manga.chapters) return;
     await this.syncChapters(
       manga.chapters.map(
         (c: SourcelessChapter): ScrapedChapter => ({

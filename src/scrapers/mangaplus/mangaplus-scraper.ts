@@ -18,17 +18,19 @@ import {
   ChapterEndpoint,
   MangaEndpoint,
 } from "../../../../shared/src/types/primitives/Identifiers";
+import { ResponsePage } from "../../../../shared/src/types/responses/ResponsePage";
+import { JsonObject } from "../../../../shared/src/types/primitives/jsonObject";
 
 class MangaPlusScraper implements Scraper {
   private API_ENDPOINT =
     process.env.MANGAPLUS_API_ENDPOINT ??
     "https://jumpg-webapi.tokyo-cdn.com/api";
 
-  private generateChapterUrl(endpoint: ChapterEndpoint): string {
+  private _generateChapterUrl(endpoint: ChapterEndpoint): string {
     return `https://mangaplus.shueisha.co.jp/viewer/${endpoint}`;
   }
 
-  private generateMangaUrl(endpoint: MangaEndpoint): string {
+  private _generateMangaUrl(endpoint: MangaEndpoint): string {
     return `https://mangaplus.shueisha.co.jp/titles/${endpoint}`;
   }
 
@@ -51,7 +53,7 @@ class MangaPlusScraper implements Scraper {
             (c: MangaPlusCard): ScrapedChapter => ({
               src: "mangaplus",
               endpoint: c.chapter.id.toString(),
-              url: this.generateChapterUrl(c.chapter.id.toString()),
+              url: this._generateChapterUrl(c.chapter.id.toString()),
               title: c.chapter.title,
               number: ArrayUtils.tryingSplitAndGet(c.chapter.chapter, "#", 1),
               image: c.chapter.manga.portraitThumbnail,
@@ -59,7 +61,7 @@ class MangaPlusScraper implements Scraper {
               manga: {
                 title: c.mangaTitle,
                 endpoint: c.chapter.manga.id.toString(),
-                url: this.generateMangaUrl(c.chapter.manga.id.toString()),
+                url: this._generateMangaUrl(c.chapter.manga.id.toString()),
               },
             })
           )
@@ -94,7 +96,7 @@ class MangaPlusScraper implements Scraper {
         }): Manga => ({
           src: "mangaplus",
           endpoint: m.translations[0].id.toString(),
-          url: this.generateMangaUrl(m.translations[0].id.toString()),
+          url: this._generateMangaUrl(m.translations[0].id.toString()),
           title: m.title,
           author: m.translations[0].author,
           image: m.translations[0].portraitThumbnail,
@@ -122,6 +124,32 @@ class MangaPlusScraper implements Scraper {
     return mangasFound;
   }
 
+  private _generateMangaChapters(jsonRes: JsonObject): SourcelessChapter[] {
+    let chapters: SourcelessChapter[] = [];
+    for (let c of jsonRes.parent.data.chapters) {
+      for (let label of [
+        "freeInitialChapters",
+        "appExclusiveChapters",
+        "freeLatestChapters",
+      ])
+        if (c[label])
+          chapters.push(
+            ...ArrayUtils.transformEachItemOf(
+              c[label],
+              (item: any): SourcelessChapter => ({
+                endpoint: `${item.chapterId}`,
+                url: this._generateChapterUrl(item.chapterId),
+                number: item.chapter,
+                title: item.title,
+                image: item.thumbnail,
+                releaseDate: new Date(item.releaseDate * 1000),
+              })
+            )
+          );
+    }
+    return chapters;
+  }
+
   /**
    * Get all informations about a manga including its chapters
    * @param id mangaplus manga id
@@ -135,42 +163,42 @@ class MangaPlusScraper implements Scraper {
       `${__dirname}/protos/title_detailV3.proto`,
       "mangaplus.Title_detailV3"
     );
-    try {
-      let chapters: SourcelessChapter[] = [];
-      for (let c of jsonRes.parent.data.chapters) {
-        for (let label of [
-          "freeInitialChapters",
-          "appExclusiveChapters",
-          "freeLatestChapters",
-        ])
-          if (c[label])
-            chapters.push(
-              ...ArrayUtils.transformEachItemOf(
-                c[label],
-                (item: any): SourcelessChapter => ({
-                  endpoint: `${item.chapterId}`,
-                  url: this.generateChapterUrl(item.chapterId),
-                  number: item.chapter,
-                  title: item.title,
-                  image: item.thumbnail,
-                  releaseDate: new Date(item.releaseDate * 1000),
-                })
-              )
-            );
-      }
-      return {
-        endpoint,
-        src: "mangaplus",
-        url: this.generateMangaUrl(endpoint),
-        title: jsonRes.parent.data.manga.title,
-        author: jsonRes.parent.data.manga.author,
-        image: jsonRes.parent.data.manga.portraitThumbnail,
-        chapters: chapters,
-      };
-    } catch (error) {
-      console.error(error);
-      return;
+    return {
+      endpoint,
+      src: "mangaplus",
+      url: this._generateMangaUrl(endpoint),
+      title: jsonRes.parent.data.manga.title,
+      author: jsonRes.parent.data.manga.author,
+      image: jsonRes.parent.data.manga.portraitThumbnail,
+      chapters: this._generateMangaChapters(jsonRes),
+    };
+  }
+
+  public async getMangaChapters(
+    endpoint: string,
+    props: {
+      pageNumber: number;
+      pageSize?: number;
     }
+  ): Promise<ResponsePage<SourcelessChapter>> {
+    if (props.pageNumber > 1) {
+      return {
+        elements: [],
+        pageNumber: props.pageNumber,
+        pageSize: props.pageSize ?? 0,
+      };
+    }
+    const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
+      `${this.API_ENDPOINT}/title_detailV3?title_id=${endpoint}`,
+      `${__dirname}/protos/title_detailV3.proto`,
+      "mangaplus.Title_detailV3"
+    );
+    const chapters = this._generateMangaChapters(jsonRes);
+    return {
+      elements: chapters,
+      pageNumber: props.pageNumber,
+      pageSize: chapters.length,
+    };
   }
 
   /**
@@ -203,13 +231,13 @@ class MangaPlusScraper implements Scraper {
       return {
         src: "mangaplus",
         endpoint: chapterId,
-        url: this.generateChapterUrl(chapterId),
+        url: this._generateChapterUrl(chapterId),
         title: `${jsonRes.parent.data.titleName} - ${jsonRes.parent.data.chapterName}`,
         number: jsonRes.parent.data.chapterName,
         pages: pages,
         manga: {
           endpoint: jsonRes.parent.data.titleId,
-          url: this.generateMangaUrl(jsonRes.parent.data.titleId),
+          url: this._generateMangaUrl(jsonRes.parent.data.titleId),
           title: jsonRes.parent.data.titleName,
         },
       };

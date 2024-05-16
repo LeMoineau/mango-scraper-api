@@ -1,4 +1,7 @@
-import { ScrapedChapter } from "../../../shared/src/types/basics/Chapter";
+import {
+  ScrapedChapter,
+  SourcelessChapter,
+} from "../../../shared/src/types/basics/Chapter";
 import { ChapterPage } from "../../../shared/src/types/basics/ChapterPage";
 import { Manga, ScrapedManga } from "../../../shared/src/types/basics/Manga";
 import {
@@ -6,6 +9,7 @@ import {
   MangaEndpoint,
   SourceName,
 } from "../../../shared/src/types/primitives/Identifiers";
+import { ResponsePage } from "../../../shared/src/types/responses/ResponsePage";
 
 import config from "../config/config";
 import Scraper from "../scrapers/scraper";
@@ -50,6 +54,40 @@ class ScraperController {
       await BDSyncService.syncScrapedManga(manga);
     }
     return manga;
+  }
+
+  public async getChaptersOfManga(
+    src: SourceName,
+    endpoint: MangaEndpoint,
+    props: {
+      syncWithBD?: boolean;
+      pageNumber: number;
+      pageSize?: number;
+    }
+  ): Promise<ResponsePage<SourcelessChapter>> {
+    const chapters = await this.getScraperOf(src).getMangaChapters(
+      endpoint,
+      props
+    );
+    if (chapters && props.syncWithBD) {
+      const manga = await this.getScraperOf(src).getManga(endpoint);
+      if (manga) {
+        await BDSyncService.syncChapters(
+          chapters.elements.map(
+            (c): ScrapedChapter => ({
+              ...c,
+              src,
+              manga: {
+                endpoint,
+                title: manga.title,
+                url: manga.url,
+              },
+            })
+          )
+        );
+      }
+    }
+    return chapters;
   }
 
   public async getChapterOf(

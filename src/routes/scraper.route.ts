@@ -111,6 +111,61 @@ scraperRouter.get(
 );
 
 scraperRouter.get(
+  "/:src/mangas/:endpoint/chapters",
+  async (req: Request, res: Response) => {
+    try {
+      const src = RoutingUtils.convertQueryParamToString(req.params.src);
+      const endpoint = RoutingUtils.convertQueryParamToString(
+        req.params.endpoint
+      );
+      const syncWithBD = RoutingUtils.convertQueryParamToBoolean(
+        req.query.syncWithBD
+      );
+      const pageNumber = RoutingUtils.convertQueryParamToNumber(req.query.page);
+      const pageSize = RoutingUtils.convertQueryParamToNumber(req.query.limit);
+      if (!isSourceName(src) || (src && !config.isValidSrc(src))) {
+        res.status(400).send("src must be a valid source");
+        return;
+      }
+      if (!endpoint) {
+        res.status(400).send("endpoint params must be defined");
+        return;
+      }
+      if (pageNumber !== undefined && pageNumber < 1) {
+        res.status(400).send("page number must be at least 1");
+        return;
+      }
+      try {
+        const chapters = await scraperController.getChaptersOfManga(
+          src,
+          endpoint,
+          {
+            syncWithBD,
+            pageNumber: pageNumber ?? 1,
+            pageSize,
+          }
+        );
+        if (!chapters) {
+          res
+            .status(404)
+            .send(`no chapters found for manga at endpoint "${endpoint}"`);
+          return;
+        }
+        res.send(chapters);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send(error);
+      }
+    } catch (error) {
+      console.error(error);
+      res
+        .status(400)
+        .send("wrong parameters: request params must contain src (SourceName)");
+    }
+  }
+);
+
+scraperRouter.get(
   "/:src/chapters/:endpoint",
   async (req: Request, res: Response) => {
     try {
