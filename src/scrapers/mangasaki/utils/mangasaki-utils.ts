@@ -1,3 +1,5 @@
+import { TextFormatUtils } from "../../../../../shared/src/utils/text-format-utils";
+
 export namespace MangasakiUtils {
   export function calculateDateFromString(dateStr: string): Date {
     const d = new Date();
@@ -11,5 +13,15 @@ export namespace MangasakiUtils {
       d.setDate(d.getDate() - nb);
     }
     return d;
+  }
+
+  export function formatChapterNumber(
+    chapterName: string,
+    mangaTitle: string
+  ): string {
+    return TextFormatUtils.stringWithout(
+      chapterName.toUpperCase(),
+      mangaTitle.toUpperCase()
+    ).trim();
   }
 }

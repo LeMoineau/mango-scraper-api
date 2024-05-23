@@ -50,6 +50,9 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
           const chapterEndpoint = ArrayUtils.getLastOf(
             $(`${currentChapterPath} a`).attr("href")!.split("/")
           );
+          const mangaTitle = $(
+            `${currentMangaPath} .item-list ul li .tl a strong`
+          ).text();
           const mangaEndpoint = ArrayUtils.getLastOf(
             $(`${currentMangaPath} .item-list ul li .tl a`)
               .attr("href")!
@@ -60,13 +63,12 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
             endpoint: chapterEndpoint,
             url: this._generateChapterUrl(chapterEndpoint),
             title: $(`${currentChapterPath} a`).text(),
-            number: ArrayUtils.getLastOf(
-              $(`${currentChapterPath} a`).text().split(" ")
+            number: MangasakiUtils.formatChapterNumber(
+              $(`${currentChapterPath} a`).text(),
+              mangaTitle
             ),
             manga: {
-              title: $(
-                `${currentMangaPath} .item-list ul li .tl a strong`
-              ).text(),
+              title: mangaTitle,
               endpoint: mangaEndpoint,
               url: this._generateMangaUrl(mangaEndpoint),
             },
@@ -106,23 +108,22 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
   }
 
   private _generateMangaChapters($: CheerioAPI): SourcelessChapter[] {
-    const mangaTitle = $("div#main .title").text();
+    const mangaTitle = $("div#main .title").text().trim();
     let chapters: SourcelessChapter[] = [];
     $("div#main .node-manga table tbody tr").each((i) => {
       const currentChapterPath = `div#main .node-manga table tbody tr:nth-child(${
         i + 1
       })`;
-      const chapterNumber = TextFormatUtils.stringWithout(
-        $(`${currentChapterPath} a`).text(),
-        mangaTitle
-      );
       const chapterEndpoint = ArrayUtils.getLastOf(
         $(`${currentChapterPath} a`).attr("href")!.split("/")
       );
       chapters.push({
         endpoint: chapterEndpoint,
         url: this._generateChapterUrl(chapterEndpoint),
-        number: chapterNumber,
+        number: MangasakiUtils.formatChapterNumber(
+          $(`${currentChapterPath} a`).text(),
+          mangaTitle
+        ),
         title: $(`${currentChapterPath} a`).text(),
         releaseDate: new Date(
           $(`${currentChapterPath} td:nth-child(2)`).text()
