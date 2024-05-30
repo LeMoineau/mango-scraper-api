@@ -47,6 +47,22 @@ class ScraperController {
             return manga;
         });
     }
+    getChaptersOfManga(src, endpoint, props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const chapters = yield this.getScraperOf(src).getMangaChapters(endpoint, props);
+            if (chapters && props.syncWithBD) {
+                const manga = yield this.getScraperOf(src).getManga(endpoint);
+                if (manga) {
+                    yield BDSync_service_1.default.syncChapters(chapters.elements.map((c) => (Object.assign(Object.assign({}, c), { src, manga: {
+                            endpoint,
+                            title: manga.title,
+                            url: manga.url,
+                        } }))));
+                }
+            }
+            return chapters;
+        });
+    }
     getChapterOf(src, endpoint, props) {
         return __awaiter(this, void 0, void 0, function* () {
             const chapter = yield this.getScraperOf(src).getChapter(endpoint);

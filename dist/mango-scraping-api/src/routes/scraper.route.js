@@ -104,6 +104,51 @@ scraperRouter.get("/:src/mangas/:endpoint", (req, res) => __awaiter(void 0, void
             .send("wrong parameters: request params must contain src (SourceName)");
     }
 }));
+scraperRouter.get("/:src/mangas/:endpoint/chapters", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const src = routing_utils_1.RoutingUtils.convertQueryParamToString(req.params.src);
+        const endpoint = routing_utils_1.RoutingUtils.convertQueryParamToString(req.params.endpoint);
+        const syncWithBD = routing_utils_1.RoutingUtils.convertQueryParamToBoolean(req.query.syncWithBD);
+        const pageNumber = routing_utils_1.RoutingUtils.convertQueryParamToNumber(req.query.page);
+        const pageSize = routing_utils_1.RoutingUtils.convertQueryParamToNumber(req.query.limit);
+        if (!(0, Identifiers_1.isSourceName)(src) || (src && !config_1.default.isValidSrc(src))) {
+            res.status(400).send("src must be a valid source");
+            return;
+        }
+        if (!endpoint) {
+            res.status(400).send("endpoint params must be defined");
+            return;
+        }
+        if (pageNumber !== undefined && pageNumber < 1) {
+            res.status(400).send("page number must be at least 1");
+            return;
+        }
+        try {
+            const chapters = yield scraper_controller_1.default.getChaptersOfManga(src, endpoint, {
+                syncWithBD,
+                pageNumber: pageNumber !== null && pageNumber !== void 0 ? pageNumber : 1,
+                pageSize,
+            });
+            if (!chapters) {
+                res
+                    .status(404)
+                    .send(`no chapters found for manga at endpoint "${endpoint}"`);
+                return;
+            }
+            res.send(chapters);
+        }
+        catch (error) {
+            console.error(error);
+            res.status(500).send(error);
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res
+            .status(400)
+            .send("wrong parameters: request params must contain src (SourceName)");
+    }
+}));
 scraperRouter.get("/:src/chapters/:endpoint", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const src = routing_utils_1.RoutingUtils.convertQueryParamToString(req.params.src);

@@ -32,8 +32,7 @@ var TextFormatUtils;
      * @returns string without the string to remove
      */
     function stringWithout(src, strToRemove) {
-        const regex = new RegExp(`${strToRemove}`, "g");
-        return src.replace(regex, "").trim();
+        return src.split(strToRemove).join("").trim();
     }
     TextFormatUtils.stringWithout = stringWithout;
 })(TextFormatUtils || (exports.TextFormatUtils = TextFormatUtils = {}));

@@ -23,10 +23,10 @@ class MangaPlusScraper {
         var _a;
         this.API_ENDPOINT = (_a = process.env.MANGAPLUS_API_ENDPOINT) !== null && _a !== void 0 ? _a : "https://jumpg-webapi.tokyo-cdn.com/api";
     }
-    generateChapterUrl(endpoint) {
+    _generateChapterUrl(endpoint) {
         return `https://mangaplus.shueisha.co.jp/viewer/${endpoint}`;
     }
-    generateMangaUrl(endpoint) {
+    _generateMangaUrl(endpoint) {
         return `https://mangaplus.shueisha.co.jp/titles/${endpoint}`;
     }
     /**
@@ -43,7 +43,7 @@ class MangaPlusScraper {
                     chapters.push(...s.cards.map((c) => ({
                         src: "mangaplus",
                         endpoint: c.chapter.id.toString(),
-                        url: this.generateChapterUrl(c.chapter.id.toString()),
+                        url: this._generateChapterUrl(c.chapter.id.toString()),
                         title: c.chapter.title,
                         number: array_utils_1.ArrayUtils.tryingSplitAndGet(c.chapter.chapter, "#", 1),
                         image: c.chapter.manga.portraitThumbnail,
@@ -51,7 +51,7 @@ class MangaPlusScraper {
                         manga: {
                             title: c.mangaTitle,
                             endpoint: c.chapter.manga.id.toString(),
-                            url: this.generateMangaUrl(c.chapter.manga.id.toString()),
+                            url: this._generateMangaUrl(c.chapter.manga.id.toString()),
                         },
                     })));
                     currentDate.setDate(currentDate.getDate() - 1);
@@ -76,7 +76,7 @@ class MangaPlusScraper {
                 allMangas = jsonRes.parent.data.mangas.map((m) => ({
                     src: "mangaplus",
                     endpoint: m.translations[0].id.toString(),
-                    url: this.generateMangaUrl(m.translations[0].id.toString()),
+                    url: this._generateMangaUrl(m.translations[0].id.toString()),
                     title: m.title,
                     author: m.translations[0].author,
                     image: m.translations[0].portraitThumbnail,
@@ -96,6 +96,26 @@ class MangaPlusScraper {
             return mangasFound;
         });
     }
+    _generateMangaChapters(jsonRes) {
+        let chapters = [];
+        for (let c of jsonRes.parent.data.chapters) {
+            for (let label of [
+                "freeInitialChapters",
+                "appExclusiveChapters",
+                "freeLatestChapters",
+            ])
+                if (c[label])
+                    chapters.push(...array_utils_1.ArrayUtils.transformEachItemOf(c[label], (item) => ({
+                        endpoint: `${item.chapterId}`,
+                        url: this._generateChapterUrl(item.chapterId),
+                        number: item.chapter,
+                        title: item.title,
+                        image: item.thumbnail,
+                        releaseDate: new Date(item.releaseDate * 1000),
+                    })));
+        }
+        return chapters;
+    }
     /**
      * Get all informations about a manga including its chapters
      * @param id mangaplus manga id
@@ -104,38 +124,34 @@ class MangaPlusScraper {
     getManga(endpoint) {
         return __awaiter(this, void 0, void 0, function* () {
             const jsonRes = yield mangaplus_utils_1.MangaplusUtils.decodeJsonFromMangaPlusRequest(`${this.API_ENDPOINT}/title_detailV3?title_id=${endpoint}`, `${__dirname}/protos/title_detailV3.proto`, "mangaplus.Title_detailV3");
-            try {
-                let chapters = [];
-                for (let c of jsonRes.parent.data.chapters) {
-                    for (let label of [
-                        "freeInitialChapters",
-                        "appExclusiveChapters",
-                        "freeLatestChapters",
-                    ])
-                        if (c[label])
-                            chapters.push(...array_utils_1.ArrayUtils.transformEachItemOf(c[label], (item) => ({
-                                endpoint: `${item.chapterId}`,
-                                url: this.generateChapterUrl(item.chapterId),
-                                number: item.chapter,
-                                title: item.title,
-                                image: item.thumbnail,
-                                releaseDate: new Date(item.releaseDate * 1000),
-                            })));
-                }
+            return {
+                endpoint,
+                src: "mangaplus",
+                url: this._generateMangaUrl(endpoint),
+                title: jsonRes.parent.data.manga.title,
+                author: jsonRes.parent.data.manga.author,
+                image: jsonRes.parent.data.manga.portraitThumbnail,
+                chapters: this._generateMangaChapters(jsonRes),
+            };
+        });
+    }
+    getMangaChapters(endpoint, props) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            if (props.pageNumber > 1) {
                 return {
-                    endpoint,
-                    src: "mangaplus",
-                    url: this.generateMangaUrl(endpoint),
-                    title: jsonRes.parent.data.manga.title,
-                    author: jsonRes.parent.data.manga.author,
-                    image: jsonRes.parent.data.manga.portraitThumbnail,
-                    chapters: chapters,
+                    elements: [],
+                    pageNumber: props.pageNumber,
+                    pageSize: (_a = props.pageSize) !== null && _a !== void 0 ? _a : 0,
                 };
             }
-            catch (error) {
-                console.error(error);
-                return;
-            }
+            const jsonRes = yield mangaplus_utils_1.MangaplusUtils.decodeJsonFromMangaPlusRequest(`${this.API_ENDPOINT}/title_detailV3?title_id=${endpoint}`, `${__dirname}/protos/title_detailV3.proto`, "mangaplus.Title_detailV3");
+            const chapters = this._generateMangaChapters(jsonRes);
+            return {
+                elements: chapters,
+                pageNumber: props.pageNumber,
+                pageSize: chapters.length,
+            };
         });
     }
     /**
@@ -161,13 +177,13 @@ class MangaPlusScraper {
                 return {
                     src: "mangaplus",
                     endpoint: chapterId,
-                    url: this.generateChapterUrl(chapterId),
+                    url: this._generateChapterUrl(chapterId),
                     title: `${jsonRes.parent.data.titleName} - ${jsonRes.parent.data.chapterName}`,
                     number: jsonRes.parent.data.chapterName,
                     pages: pages,
                     manga: {
                         endpoint: jsonRes.parent.data.titleId,
-                        url: this.generateMangaUrl(jsonRes.parent.data.titleId),
+                        url: this._generateMangaUrl(jsonRes.parent.data.titleId),
                         title: jsonRes.parent.data.titleName,
                     },
                 };

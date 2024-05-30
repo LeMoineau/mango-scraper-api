@@ -57,6 +57,8 @@ class BDSyncService {
     syncScrapedManga(manga) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.syncManga(manga);
+            if (!manga.chapters)
+                return;
             yield this.syncChapters(manga.chapters.map((c) => (Object.assign(Object.assign({}, c), { src: manga.src, manga: {
                     endpoint: manga.endpoint,
                     url: manga.url,
