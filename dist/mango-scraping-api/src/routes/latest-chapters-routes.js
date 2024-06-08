@@ -30,6 +30,7 @@ latestChaptersRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, fu
             res.send(yield latest_chapters_controller_1.default.getAll({
                 srcs: srcs && srcs,
                 syncWithBD,
+                async,
             }));
         }
         catch (error) {

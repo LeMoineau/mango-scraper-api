@@ -47,26 +47,23 @@ class MangaPlusScraper implements Scraper {
     const chapters: ScrapedChapter[] = [];
     const currentDate: Date = new Date();
     try {
-      for (let s of jsonRes.parent.data.sections) {
-        for (let card of s.cards) {
-          for (let chapter of card.chapters) {
-            chapters.push({
-              src: "mangaplus",
-              endpoint: chapter.id.toString(),
-              url: this._generateChapterUrl(chapter.id.toString()),
-              title: chapter.title,
-              number: ArrayUtils.tryingSplitAndGet(chapter.chapter, "#", 1),
-              image: chapter.manga.portraitThumbnail,
-              releaseDate: currentDate,
-              manga: {
-                title: chapter.manga.title,
-                endpoint: chapter.manga.id.toString(),
-                url: this._generateMangaUrl(chapter.manga.id.toString()),
-              },
-            });
-          }
+      for (let card of jsonRes.parent.data.sections[0].cards) {
+        for (let chapter of card.chapters) {
+          chapters.push({
+            src: "mangaplus",
+            endpoint: chapter.id.toString(),
+            url: this._generateChapterUrl(chapter.id.toString()),
+            title: chapter.title,
+            number: ArrayUtils.tryingSplitAndGet(chapter.chapter, "#", 1),
+            image: chapter.manga.portraitThumbnail,
+            releaseDate: currentDate,
+            manga: {
+              title: chapter.manga.title,
+              endpoint: chapter.manga.id.toString(),
+              url: this._generateMangaUrl(chapter.manga.id.toString()),
+            },
+          });
         }
-        currentDate.setDate(currentDate.getDate() - 1);
       }
     } catch (error) {
       console.error(error);
