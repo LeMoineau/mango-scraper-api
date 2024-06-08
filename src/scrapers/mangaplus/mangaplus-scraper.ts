@@ -40,32 +40,32 @@ class MangaPlusScraper implements Scraper {
    */
   public async getLatestChapters(): Promise<ScrapedChapter[]> {
     const jsonRes = await MangaplusUtils.decodeJsonFromMangaPlusRequest(
-      `${this.API_ENDPOINT}/web/web_homeV3?lang=eng`,
-      `${__dirname}/protos/web_homeV3.proto`,
-      "mangaplus.Web_homeV3"
+      `${this.API_ENDPOINT}/web/web_homeV4?lang=eng&clang=`,
+      `${__dirname}/protos/web_homeV4.proto`,
+      "mangaplus.Web_homeV4"
     );
     const chapters: ScrapedChapter[] = [];
     const currentDate: Date = new Date();
     try {
       for (let s of jsonRes.parent.data.sections) {
-        chapters.push(
-          ...s.cards.map(
-            (c: MangaPlusCard): ScrapedChapter => ({
+        for (let card of s.cards) {
+          for (let chapter of card.chapters) {
+            chapters.push({
               src: "mangaplus",
-              endpoint: c.chapter.id.toString(),
-              url: this._generateChapterUrl(c.chapter.id.toString()),
-              title: c.chapter.title,
-              number: ArrayUtils.tryingSplitAndGet(c.chapter.chapter, "#", 1),
-              image: c.chapter.manga.portraitThumbnail,
+              endpoint: chapter.id.toString(),
+              url: this._generateChapterUrl(chapter.id.toString()),
+              title: chapter.title,
+              number: ArrayUtils.tryingSplitAndGet(chapter.chapter, "#", 1),
+              image: chapter.manga.portraitThumbnail,
               releaseDate: currentDate,
               manga: {
-                title: c.mangaTitle,
-                endpoint: c.chapter.manga.id.toString(),
-                url: this._generateMangaUrl(c.chapter.manga.id.toString()),
+                title: chapter.manga.title,
+                endpoint: chapter.manga.id.toString(),
+                url: this._generateMangaUrl(chapter.manga.id.toString()),
               },
-            })
-          )
-        );
+            });
+          }
+        }
         currentDate.setDate(currentDate.getDate() - 1);
       }
     } catch (error) {
