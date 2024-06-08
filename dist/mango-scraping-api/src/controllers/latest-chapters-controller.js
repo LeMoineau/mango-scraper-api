@@ -16,7 +16,7 @@ const config_1 = __importDefault(require("../config/config"));
 const BDSync_service_1 = __importDefault(require("../services/BDSync.service"));
 class LatestChaptersController {
     constructor() { }
-    getAll({ srcs, syncWithBD, }) {
+    getAll({ srcs, syncWithBD, async, }) {
         return __awaiter(this, void 0, void 0, function* () {
             let chapters = [];
             for (let src of srcs !== null && srcs !== void 0 ? srcs : config_1.default.getEnabledSource()) {
@@ -25,8 +25,12 @@ class LatestChaptersController {
                     .getLatestChapters();
                 chapters.push(...tmpChapteres);
                 if (syncWithBD) {
-                    console.log("sync with bd at", config_1.default.getEnv().MANGO_BD_API_URL);
-                    yield BDSync_service_1.default.syncChapters(chapters);
+                    if (async) {
+                        BDSync_service_1.default.syncChapters(chapters);
+                    }
+                    else {
+                        yield BDSync_service_1.default.syncChapters(chapters);
+                    }
                 }
             }
             return chapters;

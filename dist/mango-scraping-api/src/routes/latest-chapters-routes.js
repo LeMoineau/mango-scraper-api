@@ -21,6 +21,7 @@ latestChaptersRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         const srcs = routing_utils_1.RoutingUtils.convertQueryParamToArray(req.query.srcs);
         const syncWithBD = routing_utils_1.RoutingUtils.convertQueryParamToBoolean(req.query.syncWithBD);
+        const async = routing_utils_1.RoutingUtils.convertQueryParamToBoolean(req.query.async);
         try {
             if (srcs && !config_1.default.areValidSrcs(srcs)) {
                 res.status(400).send("srcs must be valid source names");

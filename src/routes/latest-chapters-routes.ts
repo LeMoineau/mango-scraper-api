@@ -12,6 +12,7 @@ latestChaptersRouter.get("/", async (req: Request, res: Response) => {
     const syncWithBD = RoutingUtils.convertQueryParamToBoolean(
       req.query.syncWithBD
     );
+    const async = RoutingUtils.convertQueryParamToBoolean(req.query.async);
     try {
       if (srcs && !config.areValidSrcs(srcs)) {
         res.status(400).send("srcs must be valid source names");
@@ -21,6 +22,7 @@ latestChaptersRouter.get("/", async (req: Request, res: Response) => {
         await latestChaptersController.getAll({
           srcs: srcs && (srcs as SourceName[]),
           syncWithBD,
+          async,
         })
       );
     } catch (error) {

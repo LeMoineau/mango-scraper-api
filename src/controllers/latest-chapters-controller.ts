@@ -9,9 +9,11 @@ class LatestChaptersController {
   public async getAll({
     srcs,
     syncWithBD,
+    async,
   }: {
     srcs?: SourceName[];
     syncWithBD?: boolean;
+    async?: boolean;
   }): Promise<ScrapedChapter[]> {
     let chapters: ScrapedChapter[] = [];
     for (let src of srcs ?? config.getEnabledSource()) {
@@ -20,8 +22,11 @@ class LatestChaptersController {
         .getLatestChapters();
       chapters.push(...tmpChapteres);
       if (syncWithBD) {
-        console.log("sync with bd at", config.getEnv().MANGO_BD_API_URL);
-        await BDSyncService.syncChapters(chapters);
+        if (async) {
+          BDSyncService.syncChapters(chapters);
+        } else {
+          await BDSyncService.syncChapters(chapters);
+        }
       }
     }
     return chapters;
