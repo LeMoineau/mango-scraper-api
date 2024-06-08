@@ -1,0 +1,94 @@
+package mangaplus;
+syntax = "proto3";
+
+message Manga {
+  int32 id = 1;
+  string title = 2;
+  string author = 3;
+  string portrait_thumbnail = 4;
+  string landscape_thumbnail = 5;
+  int32 views = 6;
+  
+  enum MangaLanguage {
+    ENGLISH = 0;
+    SPANISH = 1;
+    FRENCH = 2;
+    INDONESIAN = 3;
+    PORTUGUESE = 4;
+    RUSSIAN = 5;
+    THAI = 6;
+  }
+
+  MangaLanguage manga_language = 7;
+}
+
+message Web_homeV4{
+  message Parent {
+    message Data {
+      message TopBanner {
+        string image = 1;
+        
+        message Links {
+          string link = 2;
+        }
+
+        Links links = 2;
+        int32 id = 3;
+      }
+
+      repeated TopBanner top_banners = 1;
+
+      message Section {
+        string section_name = 1;
+
+        message Cards {
+          string manga_title = 1;
+          string latest_chapter = 2;
+
+          message Chapter {
+            Manga manga = 1;
+            int32 id = 2;
+            string chapter = 3;
+            string title = 4;
+            bool thing = 5;
+          }
+
+          repeated Chapter chapters = 3;
+          int32 thing = 4;
+
+          enum ChapterLanguage {
+            ENGLISH = 2;
+            SPANISH = 3;
+          }
+
+          ChapterLanguage chapter_language = 5;
+          int32 another_another_thing = 6; 
+        }
+
+        repeated Cards cards = 2;
+      }
+
+      repeated Section sections = 2;
+
+      message HottestTitles {
+        int32 id = 1;
+        repeated Manga mangas = 2;
+        int32 flames = 3;
+      }
+
+      repeated HottestTitles hottest_titles = 3;
+
+      message FooterSection {
+        string section_name = 1;
+        repeated Manga mangas = 2;
+      }
+
+      repeated FooterSection footer_sections = 5;
+    }
+
+    Data data = 38;
+  }
+  
+  Parent parent = 1;
+}
+

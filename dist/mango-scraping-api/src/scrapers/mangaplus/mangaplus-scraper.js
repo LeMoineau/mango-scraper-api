@@ -35,25 +35,29 @@ class MangaPlusScraper {
      */
     getLatestChapters() {
         return __awaiter(this, void 0, void 0, function* () {
-            const jsonRes = yield mangaplus_utils_1.MangaplusUtils.decodeJsonFromMangaPlusRequest(`${this.API_ENDPOINT}/web/web_homeV3?lang=eng`, `${__dirname}/protos/web_homeV3.proto`, "mangaplus.Web_homeV3");
+            const jsonRes = yield mangaplus_utils_1.MangaplusUtils.decodeJsonFromMangaPlusRequest(`${this.API_ENDPOINT}/web/web_homeV4?lang=eng&clang=`, `${__dirname}/protos/web_homeV4.proto`, "mangaplus.Web_homeV4");
             const chapters = [];
             const currentDate = new Date();
             try {
                 for (let s of jsonRes.parent.data.sections) {
-                    chapters.push(...s.cards.map((c) => ({
-                        src: "mangaplus",
-                        endpoint: c.chapter.id.toString(),
-                        url: this._generateChapterUrl(c.chapter.id.toString()),
-                        title: c.chapter.title,
-                        number: array_utils_1.ArrayUtils.tryingSplitAndGet(c.chapter.chapter, "#", 1),
-                        image: c.chapter.manga.portraitThumbnail,
-                        releaseDate: currentDate,
-                        manga: {
-                            title: c.mangaTitle,
-                            endpoint: c.chapter.manga.id.toString(),
-                            url: this._generateMangaUrl(c.chapter.manga.id.toString()),
-                        },
-                    })));
+                    for (let card of s.cards) {
+                        for (let chapter of card.chapters) {
+                            chapters.push({
+                                src: "mangaplus",
+                                endpoint: chapter.id.toString(),
+                                url: this._generateChapterUrl(chapter.id.toString()),
+                                title: chapter.title,
+                                number: array_utils_1.ArrayUtils.tryingSplitAndGet(chapter.chapter, "#", 1),
+                                image: chapter.manga.portraitThumbnail,
+                                releaseDate: currentDate,
+                                manga: {
+                                    title: chapter.manga.title,
+                                    endpoint: chapter.manga.id.toString(),
+                                    url: this._generateMangaUrl(chapter.manga.id.toString()),
+                                },
+                            });
+                        }
+                    }
                     currentDate.setDate(currentDate.getDate() - 1);
                 }
             }
