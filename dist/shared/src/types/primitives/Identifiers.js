@@ -9,7 +9,7 @@ function isUUID(str) {
 }
 exports.isUUID = isUUID;
 function isSourceName(str) {
-    return str === "mangaplus" || str === "mangasaki";
+    return ["mangaplus", "mangasaki", "sailmg"].includes(str);
 }
 exports.isSourceName = isSourceName;
 function isMangaFormattedName(str) {
