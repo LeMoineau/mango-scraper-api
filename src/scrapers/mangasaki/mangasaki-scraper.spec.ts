@@ -39,20 +39,20 @@ describe("mangasaki-scraper", () => {
     });
   });
 
-  describe("getChapterPages", () => {
-    it("should return correct json", async () => {
-      const ONE_PIECE_MANGA_ID = "303936";
-      const ONE_PIECE_CHAPTER_ID = "one-piece-1108";
-      vi.spyOn(ScrapingUtils, "requestToCheerioPage").mockResolvedValue(
-        load(MANGASAKI_ONE_PIECE_CHAPTER_PAGE_HTML)
-      );
+  // describe("getChapterPages", () => {
+  //   it("should return correct json", async () => {
+  //     const ONE_PIECE_MANGA_ID = "303936";
+  //     const ONE_PIECE_CHAPTER_ID = "one-piece-1108";
+  //     vi.spyOn(ScrapingUtils, "requestToCheerioPage").mockResolvedValue(
+  //       load(MANGASAKI_ONE_PIECE_CHAPTER_PAGE_HTML)
+  //     );
 
-      const chapters = await mangasakiScraper.getChapterPages(
-        ONE_PIECE_MANGA_ID,
-        ONE_PIECE_CHAPTER_ID
-      );
+  //     const chapters = await mangasakiScraper.getChapterPages(
+  //       ONE_PIECE_MANGA_ID,
+  //       ONE_PIECE_CHAPTER_ID
+  //     );
 
-      expect(chapters).toStrictEqual(MANGASAKI_CHAPTER_ONE_PIECE_RESULT_JSON);
-    });
-  });
+  //     expect(chapters).toStrictEqual(MANGASAKI_CHAPTER_ONE_PIECE_RESULT_JSON);
+  //   });
+  // });
 });

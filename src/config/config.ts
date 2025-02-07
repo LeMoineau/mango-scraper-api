@@ -74,6 +74,7 @@ class MangoApiConfig {
       MANGO_BD_API_URL: process.env.MANGO_BD_API_URL!,
       MANGAPLUS_API_ENDPOINT: process.env.MANGAPLUS_API_ENDPOINT!,
       MANGASAKI_URL: process.env.MANGASAKI_URL!,
+      SAILMG_URL: process.env.SAILMG_URL!,
     };
   }
 }

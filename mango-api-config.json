@@ -6,9 +6,14 @@
       "scraper": "./../scrapers/mangaplus/mangaplus-scraper"
     },
     "mangasaki": {
+      "enabled": false,
+      "trustLevel": 3,
+      "scraper": "./../scrapers/mangasaki/mangasaki-scraper"
+    },
+    "sailmg": {
       "enabled": true,
       "trustLevel": 2,
-      "scraper": "./../scrapers/mangasaki/mangasaki-scraper"
+      "scraper": "./../scrapers/sailmg/sailmg-scraper"
     }
   }
 }

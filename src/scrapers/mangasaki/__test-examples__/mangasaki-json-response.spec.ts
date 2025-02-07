@@ -1,6 +1,4 @@
 import { expect } from "vitest";
-import Manga from "../../../types/manga";
-import ChapterViewer from "../../../types/chapterViewer";
 
 export const MANGASAKI_HOME_RESULT_JSON = [
   {
@@ -477,7 +475,7 @@ export const MANGASAKI_HOME_RESULT_JSON = [
   },
 ];
 
-export const MANGASAKI_MANGA_ONE_PIECE_RESULT_JSON: Manga = {
+export const MANGASAKI_MANGA_ONE_PIECE_RESULT_JSON = {
   id: "303936",
   name: "One Piece",
   author: "ODA Eiichiro",
@@ -607,7 +605,7 @@ export const MANGASAKI_MANGA_ONE_PIECE_RESULT_JSON: Manga = {
   ],
 };
 
-export const MANGASAKI_CHAPTER_ONE_PIECE_RESULT_JSON: ChapterViewer = {
+export const MANGASAKI_CHAPTER_ONE_PIECE_RESULT_JSON = {
   pages: [
     {
       url: "https://www.mangasaki.org/sites/default/files/manga2/2/303936//20240222113008121.jpeg",
