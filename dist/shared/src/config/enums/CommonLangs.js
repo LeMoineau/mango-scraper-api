@@ -5,9 +5,10 @@ exports.CommonLangs = {
     ENGLISH: "en",
     FRENCH: "fr",
     GERMAN: "de",
-    SPANISH: "sp",
-    INDONESIAN: "in",
-    PORTUGUESE: "po",
+    SPANISH: "es",
+    INDONESIAN: "id",
+    PORTUGUESE: "pt",
     RUSSIAN: "ru",
     THAI: "th",
+    VIETNAM: "vi",
 };

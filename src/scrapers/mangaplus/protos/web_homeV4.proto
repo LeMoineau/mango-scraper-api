@@ -42,11 +42,12 @@ message Web_homeV4{
                 RUSSIAN = 5; 
                 THAI = 6;
                 GERMAN = 7;
+                VIETNAM = 9;
               }
 
               MangaLanguage manga_language = 7;
             }
-            
+
             Manga manga = 1;
             int32 id = 2;
             string chapter = 3;

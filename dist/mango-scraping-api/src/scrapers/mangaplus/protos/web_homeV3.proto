@@ -45,6 +45,8 @@ message Web_homeV3{
               PORTUGUESE = 4;
               RUSSIAN = 5;
               THAI = 6;
+              GERMAN = 7;
+              VIETNAM = 9;
             }
 
             Language language = 7;

@@ -1,9 +1,7 @@
 import ScraperParsingError from "../../errors/ScraperParsingError";
 import { ArrayUtils } from "./../../../../shared/src/utils/array-utils";
 import Scraper from "../scraper";
-import { MangaPlusCard } from "./types/mangaplusCard";
 import { MangaplusUtils } from "./utils/mangaplus-utils";
-import { MangaPlusManga } from "./types/mangaplusManga";
 import cacheStorageService from "../../services/CacheStorage.service";
 import { CacheKeys } from "../../config/cache-keys";
 import axios from "axios";
@@ -16,11 +14,11 @@ import { Manga, ScrapedManga } from "../../../../shared/src/types/basics/Manga";
 import { ChapterPage } from "../../../../shared/src/types/basics/ChapterPage";
 import {
   ChapterEndpoint,
+  Lang,
   MangaEndpoint,
 } from "../../../../shared/src/types/primitives/Identifiers";
 import { ResponsePage } from "../../../../shared/src/types/responses/ResponsePage";
 import { JsonObject } from "../../../../shared/src/types/primitives/jsonObject";
-import { CommonLangs } from "../../../../shared/src/config/enums/CommonLangs";
 import { mangaplusMangaTranslation } from "./types/mangaplusMangaTranslation";
 
 class MangaPlusScraper implements Scraper {
@@ -127,6 +125,14 @@ class MangaPlusScraper implements Scraper {
     return mangasFound;
   }
 
+  private _findMangaplusLanguageFromTitleDetailJson(jsonRes: JsonObject): Lang {
+    return MangaplusUtils.convertMangaplusLangToCommonLang(
+      jsonRes.parent.data.languages.find(
+        (l: any) => l.mangaId === jsonRes.parent.data.manga.id
+      )?.language
+    );
+  }
+
   private _generateMangaChapters(jsonRes: JsonObject): SourcelessChapter[] {
     let chapters: SourcelessChapter[] = [];
     for (let c of jsonRes.parent.data.chapters) {
@@ -144,7 +150,7 @@ class MangaPlusScraper implements Scraper {
                 url: this._generateChapterUrl(item.chapterId),
                 number: item.chapter,
                 title: item.title,
-                lang: CommonLangs.ENGLISH,
+                lang: this._findMangaplusLanguageFromTitleDetailJson(jsonRes),
                 image: item.thumbnail,
                 releaseDate: new Date(item.releaseDate * 1000),
               })
@@ -174,7 +180,7 @@ class MangaPlusScraper implements Scraper {
       title: jsonRes.parent.data.manga.title,
       author: jsonRes.parent.data.manga.author,
       image: jsonRes.parent.data.manga.portraitThumbnail,
-      lang: CommonLangs.ENGLISH,
+      lang: this._findMangaplusLanguageFromTitleDetailJson(jsonRes),
       chapters: this._generateMangaChapters(jsonRes),
     };
   }
@@ -220,6 +226,7 @@ class MangaPlusScraper implements Scraper {
       `${__dirname}/protos/manga_viewer.proto`,
       "mangaplus.Manga_viewer"
     );
+    console.log(JSON.stringify(jsonRes));
     try {
       const pages = [
         ...ArrayUtils.transformEachItemOf(
@@ -239,7 +246,11 @@ class MangaPlusScraper implements Scraper {
         url: this._generateChapterUrl(chapterId),
         title: `${jsonRes.parent.data.titleName} - ${jsonRes.parent.data.chapterName}`,
         number: jsonRes.parent.data.chapterName,
-        lang: CommonLangs.ENGLISH,
+        lang: MangaplusUtils.convertMangaplusLangToCommonLang(
+          jsonRes.parent.data.languages.find(
+            (l: any) => l.mangaId === jsonRes.parent.data.titleId
+          )?.language
+        ),
         pages: pages,
         manga: {
           endpoint: jsonRes.parent.data.titleId,

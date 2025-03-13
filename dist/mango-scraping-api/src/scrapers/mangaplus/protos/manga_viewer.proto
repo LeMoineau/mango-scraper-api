@@ -20,6 +20,25 @@ message Manga_viewer {
       string title_name = 5;
       string chapter_name = 6;
       uint32 title_id = 9;
+
+      enum Language {
+        ENGLISH = 0;
+        SPANISH = 1;
+        FRENCH = 2;
+        INDONESIAN = 3;
+        PORTUGUESE = 4;
+        RUSSIAN = 5;
+        THAI = 6;
+        GERMAN = 7;
+        VIETNAM = 9;
+      }
+
+      message Languages{
+          int32 manga_id = 1;
+          Language language = 2;
+      }
+
+      repeated Languages languages = 17;
     }
 
     Data data = 10;

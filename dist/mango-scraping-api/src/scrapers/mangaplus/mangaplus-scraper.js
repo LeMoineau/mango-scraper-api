@@ -18,7 +18,6 @@ const mangaplus_utils_1 = require("./utils/mangaplus-utils");
 const CacheStorage_service_1 = __importDefault(require("../../services/CacheStorage.service"));
 const cache_keys_1 = require("../../config/cache-keys");
 const axios_1 = __importDefault(require("axios"));
-const CommonLangs_1 = require("../../../../shared/src/config/enums/CommonLangs");
 class MangaPlusScraper {
     constructor() {
         var _a;
@@ -103,6 +102,10 @@ class MangaPlusScraper {
             return mangasFound;
         });
     }
+    _findMangaplusLanguageFromTitleDetailJson(jsonRes) {
+        var _a;
+        return mangaplus_utils_1.MangaplusUtils.convertMangaplusLangToCommonLang((_a = jsonRes.parent.data.languages.find((l) => l.mangaId === jsonRes.parent.data.manga.id)) === null || _a === void 0 ? void 0 : _a.language);
+    }
     _generateMangaChapters(jsonRes) {
         let chapters = [];
         for (let c of jsonRes.parent.data.chapters) {
@@ -117,7 +120,7 @@ class MangaPlusScraper {
                         url: this._generateChapterUrl(item.chapterId),
                         number: item.chapter,
                         title: item.title,
-                        lang: CommonLangs_1.CommonLangs.ENGLISH,
+                        lang: this._findMangaplusLanguageFromTitleDetailJson(jsonRes),
                         image: item.thumbnail,
                         releaseDate: new Date(item.releaseDate * 1000),
                     })));
@@ -139,7 +142,7 @@ class MangaPlusScraper {
                 title: jsonRes.parent.data.manga.title,
                 author: jsonRes.parent.data.manga.author,
                 image: jsonRes.parent.data.manga.portraitThumbnail,
-                lang: CommonLangs_1.CommonLangs.ENGLISH,
+                lang: this._findMangaplusLanguageFromTitleDetailJson(jsonRes),
                 chapters: this._generateMangaChapters(jsonRes),
             };
         });
@@ -170,8 +173,10 @@ class MangaPlusScraper {
      * @returns the chapter viewer of the chapter including all its pages
      */
     getChapter(chapterId) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const jsonRes = yield mangaplus_utils_1.MangaplusUtils.decodeJsonFromMangaPlusRequest(`${this.API_ENDPOINT}/manga_viewer?chapter_id=${chapterId}&split=yes&img_quality=high`, `${__dirname}/protos/manga_viewer.proto`, "mangaplus.Manga_viewer");
+            console.log(JSON.stringify(jsonRes));
             try {
                 const pages = [
                     ...array_utils_1.ArrayUtils.transformEachItemOf(jsonRes.parent.data.pages, (item) => {
@@ -189,7 +194,7 @@ class MangaPlusScraper {
                     url: this._generateChapterUrl(chapterId),
                     title: `${jsonRes.parent.data.titleName} - ${jsonRes.parent.data.chapterName}`,
                     number: jsonRes.parent.data.chapterName,
-                    lang: CommonLangs_1.CommonLangs.ENGLISH,
+                    lang: mangaplus_utils_1.MangaplusUtils.convertMangaplusLangToCommonLang((_a = jsonRes.parent.data.languages.find((l) => l.mangaId === jsonRes.parent.data.titleId)) === null || _a === void 0 ? void 0 : _a.language),
                     pages: pages,
                     manga: {
                         endpoint: jsonRes.parent.data.titleId,
