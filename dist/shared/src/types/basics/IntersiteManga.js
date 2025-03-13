@@ -1,7 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isIntersiteManga = void 0;
+exports.isIntersiteManga = exports.IntersiteManga = void 0;
 const Identifiers_1 = require("../primitives/Identifiers");
+class IntersiteManga {
+    constructor(id, formattedName, mangas) {
+        this.id = id;
+        this.formattedName = formattedName;
+        this.mangas = mangas;
+    }
+    get langs() {
+        return [...new Set(this.mangas.map((m) => m.lang))];
+    }
+}
+exports.IntersiteManga = IntersiteManga;
 /**
  * TYPES FUNCTION
  */

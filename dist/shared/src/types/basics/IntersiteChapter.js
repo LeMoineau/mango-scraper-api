@@ -1,8 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isIntersiteChapter = exports.isParentlessIntersiteChapter = void 0;
+exports.isIntersiteChapter = exports.isParentlessIntersiteChapter = exports.IntersiteChapter = void 0;
 const MangaNested_1 = require("../attributes/MangaNested");
 const Identifiers_1 = require("../primitives/Identifiers");
+class IntersiteChapter {
+    constructor(id, formattedName, intersiteManga, chapters) {
+        this.id = id;
+        this.formattedName = formattedName;
+        this.intersiteManga = intersiteManga;
+        this.chapters = chapters;
+    }
+    get langs() {
+        return [...new Set(this.chapters.map((c) => c.lang))];
+    }
+}
+exports.IntersiteChapter = IntersiteChapter;
 /**
  * TYPES FUNCTION
  */

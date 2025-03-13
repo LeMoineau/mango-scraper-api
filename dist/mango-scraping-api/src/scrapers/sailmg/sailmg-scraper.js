@@ -17,10 +17,12 @@ const array_utils_1 = require("../../../../shared/src/utils/array-utils");
 const mangasaki_utils_1 = require("./utils/mangasaki-utils");
 const text_format_utils_1 = require("../../../../shared/src/utils/text-format-utils");
 const default_page_loader_1 = __importDefault(require("../defaults/default-page-loader"));
+const CommonLangs_1 = require("../../../../shared/src/config/enums/CommonLangs");
 class SailMgScraper extends default_page_loader_1.default {
     constructor() {
         var _a;
         super(...arguments);
+        this.SCRAPER_SOURCE_NAME = "sailmg";
         this.PAGE_URL = (_a = process.env.SAILMG_URL) !== null && _a !== void 0 ? _a : "https://www.sailmg.com";
     }
     _generateChapterUrl(endpoint) {
@@ -43,7 +45,7 @@ class SailMgScraper extends default_page_loader_1.default {
                         const mangaTitle = $(`${currentMangaPath} ul li .tl a strong`).text();
                         const mangaEndpoint = array_utils_1.ArrayUtils.getLastOf($(`${currentMangaPath} ul li .tl a`).attr("href").split("/"));
                         chapters.push({
-                            src: "sailmg",
+                            src: this.SCRAPER_SOURCE_NAME,
                             endpoint: chapterEndpoint,
                             url: this._generateChapterUrl(chapterEndpoint),
                             title: $(`${currentChapterPath} a`).text(),
@@ -53,6 +55,7 @@ class SailMgScraper extends default_page_loader_1.default {
                                 endpoint: mangaEndpoint,
                                 url: this._generateMangaUrl(mangaEndpoint),
                             },
+                            lang: CommonLangs_1.CommonLangs.ENGLISH,
                             image: imageURL.split("minicover").join("cover"),
                             releaseDate: mangasaki_utils_1.MangasakiUtils.calculateDateFromString($(`${currentChapterPath} .tm`).text()),
                         });
@@ -73,7 +76,8 @@ class SailMgScraper extends default_page_loader_1.default {
                 mangas.push({
                     endpoint: mangaEndpoint,
                     title: $(targetSearch).text(),
-                    src: "sailmg",
+                    src: this.SCRAPER_SOURCE_NAME,
+                    lang: CommonLangs_1.CommonLangs.ENGLISH,
                     url: this._generateMangaUrl(mangaEndpoint),
                 });
             });
@@ -92,6 +96,7 @@ class SailMgScraper extends default_page_loader_1.default {
                 number: mangasaki_utils_1.MangasakiUtils.formatChapterNumber($(`${currentChapterPath} a`).text(), mangaTitle),
                 title: $(`${currentChapterPath} a`).text(),
                 releaseDate: new Date($(`${currentChapterPath} td:nth-child(2)`).text()),
+                lang: CommonLangs_1.CommonLangs.ENGLISH,
             });
         });
         return chapters;
@@ -102,10 +107,11 @@ class SailMgScraper extends default_page_loader_1.default {
                 const $ = yield scraping_utils_1.ScrapingUtils.requestToCheerioPage(this._generateMangaUrl(endpoint));
                 const mangaTitle = $("h1.page-header").text();
                 return {
-                    src: "sailmg",
+                    src: this.SCRAPER_SOURCE_NAME,
                     endpoint,
                     url: this._generateMangaUrl(endpoint),
                     title: mangaTitle,
+                    lang: CommonLangs_1.CommonLangs.ENGLISH,
                     author: $(".node-manga .content .field-name-field-author .field-item").text(),
                     image: $(".node-manga .content .field-name-field-image2 img").attr("src"),
                     chapters: this._generateMangaChapters($),
@@ -145,7 +151,8 @@ class SailMgScraper extends default_page_loader_1.default {
                     url: this._generateChapterUrl(endpoint),
                     title,
                     number,
-                    src: "sailmg",
+                    src: this.SCRAPER_SOURCE_NAME,
+                    lang: CommonLangs_1.CommonLangs.ENGLISH,
                     pages: pages.map((p) => {
                         return { url: p };
                     }),

@@ -34,15 +34,14 @@ class MangoApiConfig {
         this.scrapersEnabled = {};
         this.trustedScrapers = [];
         this._verifyConfig(mango_api_config_json_1.default);
-        for (let src of Object.keys(mango_api_config_json_1.default.scrapers)) {
-            const targetScraper = mango_api_config_json_1.default.scrapers[src];
-            if (!targetScraper.enabled) {
+        for (let [src, scraper] of Object.entries(mango_api_config_json_1.default.scrapers)) {
+            if (!scraper.enabled) {
                 continue;
             }
-            Promise.resolve(`${mango_api_config_json_1.default.scrapers[src].scraper}`).then(s => __importStar(require(s))).then((scraper) => {
+            Promise.resolve(`${scraper.scraper}`).then(s => __importStar(require(s))).then((scraper) => {
                 this.scrapersEnabled[src] = scraper.default;
             });
-            this.trustedScrapers[targetScraper.trustLevel] = src;
+            this.trustedScrapers[scraper.trustLevel] = src;
         }
     }
     _verifyConfig(config) {

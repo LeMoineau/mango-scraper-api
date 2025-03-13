@@ -17,10 +17,12 @@ const array_utils_1 = require("./../../../../shared/src/utils/array-utils");
 const mangasaki_utils_1 = require("./utils/mangasaki-utils");
 const text_format_utils_1 = require("./../../../../shared/src/utils/text-format-utils");
 const default_page_loader_1 = __importDefault(require("../defaults/default-page-loader"));
+const CommonLangs_1 = require("../../../../shared/src/config/enums/CommonLangs");
 class MangaSakiScraper extends default_page_loader_1.default {
     constructor() {
         var _a;
         super(...arguments);
+        this.SCRAPER_SOURCE_NAME = "mangasaki";
         this.PAGE_URL = (_a = process.env.MANGASAKI_URL) !== null && _a !== void 0 ? _a : "https://www.mangasaki.org";
     }
     _generateChapterUrl(endpoint) {
@@ -49,7 +51,7 @@ class MangaSakiScraper extends default_page_loader_1.default {
                             .attr("href")
                             .split("/"));
                         chapters.push({
-                            src: "mangasaki",
+                            src: this.SCRAPER_SOURCE_NAME,
                             endpoint: chapterEndpoint,
                             url: this._generateChapterUrl(chapterEndpoint),
                             title: $(`${currentChapterPath} a`).text(),
@@ -59,6 +61,7 @@ class MangaSakiScraper extends default_page_loader_1.default {
                                 endpoint: mangaEndpoint,
                                 url: this._generateMangaUrl(mangaEndpoint),
                             },
+                            lang: CommonLangs_1.CommonLangs.ENGLISH,
                             image: imageURL.split("minicover").join("bigcover"),
                             releaseDate: mangasaki_utils_1.MangasakiUtils.calculateDateFromString($(`${currentChapterPath} .tm`).text()),
                         });
@@ -79,7 +82,8 @@ class MangaSakiScraper extends default_page_loader_1.default {
                 mangas.push({
                     endpoint: mangaEndpoint,
                     title: $(targetSearch).text(),
-                    src: "mangasaki",
+                    src: this.SCRAPER_SOURCE_NAME,
+                    lang: CommonLangs_1.CommonLangs.ENGLISH,
                     url: this._generateMangaUrl(mangaEndpoint),
                 });
             });
@@ -96,6 +100,7 @@ class MangaSakiScraper extends default_page_loader_1.default {
                 endpoint: chapterEndpoint,
                 url: this._generateChapterUrl(chapterEndpoint),
                 number: mangasaki_utils_1.MangasakiUtils.formatChapterNumber($(`${currentChapterPath} a`).text(), mangaTitle),
+                lang: CommonLangs_1.CommonLangs.ENGLISH,
                 title: $(`${currentChapterPath} a`).text(),
                 releaseDate: new Date($(`${currentChapterPath} td:nth-child(2)`).text()),
             });
@@ -108,11 +113,12 @@ class MangaSakiScraper extends default_page_loader_1.default {
                 const $ = yield scraping_utils_1.ScrapingUtils.requestToCheerioPage(this._generateMangaUrl(endpoint));
                 const mangaTitle = $("div#main .title").text();
                 return {
-                    src: "mangasaki",
+                    src: this.SCRAPER_SOURCE_NAME,
                     endpoint,
                     url: this._generateMangaUrl(endpoint),
                     title: mangaTitle,
                     author: $(".node-manga .content .field:nth-child(4) .field-item").text(),
+                    lang: CommonLangs_1.CommonLangs.ENGLISH,
                     image: $(".node-manga .content .field:nth-child(1) img").attr("src"),
                     chapters: this._generateMangaChapters($),
                 };
@@ -151,10 +157,11 @@ class MangaSakiScraper extends default_page_loader_1.default {
                     url: this._generateChapterUrl(endpoint),
                     title,
                     number,
-                    src: "mangasaki",
+                    src: this.SCRAPER_SOURCE_NAME,
                     pages: pages.map((p) => {
                         return { url: p };
                     }),
+                    lang: CommonLangs_1.CommonLangs.ENGLISH,
                     manga: {
                         endpoint: mangaEndpoint,
                         url: this._generateChapterUrl(mangaEndpoint),
