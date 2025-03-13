@@ -7,20 +7,19 @@ import { Env } from "./../types/Env";
 import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
 
 class MangoApiConfig {
-  private scrapersEnabled: { [src in SourceName]?: Scraper } = {};
+  private scrapersEnabled: { [src: SourceName]: Scraper } = {};
   private trustedScrapers: { [index: number]: SourceName } = [];
 
   constructor() {
     this._verifyConfig(mangoApiConfigJson);
-    for (let src of Object.keys(mangoApiConfigJson.scrapers) as SourceName[]) {
-      const targetScraper = mangoApiConfigJson.scrapers[src];
-      if (!targetScraper.enabled) {
+    for (let [src, scraper] of Object.entries(mangoApiConfigJson.scrapers)) {
+      if (!scraper.enabled) {
         continue;
       }
-      import(mangoApiConfigJson.scrapers[src].scraper).then((scraper) => {
+      import(scraper.scraper).then((scraper) => {
         this.scrapersEnabled[src] = scraper.default;
       });
-      this.trustedScrapers[targetScraper.trustLevel] = src;
+      this.trustedScrapers[scraper.trustLevel] = src;
     }
   }
 

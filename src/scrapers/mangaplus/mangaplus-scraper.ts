@@ -20,8 +20,11 @@ import {
 } from "../../../../shared/src/types/primitives/Identifiers";
 import { ResponsePage } from "../../../../shared/src/types/responses/ResponsePage";
 import { JsonObject } from "../../../../shared/src/types/primitives/jsonObject";
+import { CommonLangs } from "../../../../shared/src/config/enums/CommonLangs";
+import { mangaplusMangaTranslation } from "./types/mangaplusMangaTranslation";
 
 class MangaPlusScraper implements Scraper {
+  private SCRAPER_SOURCE_NAME = "mangaplus";
   private API_ENDPOINT =
     process.env.MANGAPLUS_API_ENDPOINT ??
     "https://jumpg-webapi.tokyo-cdn.com/api";
@@ -50,13 +53,16 @@ class MangaPlusScraper implements Scraper {
       for (let card of jsonRes.parent.data.sections[0].cards) {
         for (let chapter of card.chapters) {
           chapters.push({
-            src: "mangaplus",
+            src: this.SCRAPER_SOURCE_NAME,
             endpoint: chapter.id.toString(),
             url: this._generateChapterUrl(chapter.id.toString()),
             title: chapter.title,
             number: ArrayUtils.tryingSplitAndGet(chapter.chapter, "#", 1),
             image: chapter.manga.portraitThumbnail,
             releaseDate: currentDate,
+            lang: MangaplusUtils.convertMangaplusLangToCommonLang(
+              chapter.manga.mangaLanguage
+            ),
             manga: {
               title: chapter.manga.title,
               endpoint: chapter.manga.id.toString(),
@@ -86,19 +92,19 @@ class MangaPlusScraper implements Scraper {
         `${__dirname}/protos/allV2.proto`,
         "mangaplus.AllV2"
       );
-      allMangas = jsonRes.parent.data.mangas.map(
-        (m: {
-          title: string;
-          translations: Omit<MangaPlusManga, "views">[];
-        }): Manga => ({
-          src: "mangaplus",
-          endpoint: m.translations[0].id.toString(),
-          url: this._generateMangaUrl(m.translations[0].id.toString()),
-          title: m.title,
-          author: m.translations[0].author,
-          image: m.translations[0].portraitThumbnail,
-        })
-      );
+      for (let manga of jsonRes.parent.data.mangas) {
+        allMangas.push(
+          ...manga.translations.map((t: mangaplusMangaTranslation) => ({
+            src: this.SCRAPER_SOURCE_NAME,
+            endpoint: t.id.toString(),
+            url: this._generateMangaUrl(t.id.toString()),
+            title: t.title,
+            lang: MangaplusUtils.convertMangaplusLangToCommonLang(t.language),
+            author: t.author,
+            image: t.portraitThumbnail,
+          }))
+        );
+      }
       cacheStorageService.saveInCache(
         CacheKeys.MANGAPLUS_ALL_MANGAS,
         allMangas,
@@ -138,6 +144,7 @@ class MangaPlusScraper implements Scraper {
                 url: this._generateChapterUrl(item.chapterId),
                 number: item.chapter,
                 title: item.title,
+                lang: CommonLangs.ENGLISH,
                 image: item.thumbnail,
                 releaseDate: new Date(item.releaseDate * 1000),
               })
@@ -162,11 +169,12 @@ class MangaPlusScraper implements Scraper {
     );
     return {
       endpoint,
-      src: "mangaplus",
+      src: this.SCRAPER_SOURCE_NAME,
       url: this._generateMangaUrl(endpoint),
       title: jsonRes.parent.data.manga.title,
       author: jsonRes.parent.data.manga.author,
       image: jsonRes.parent.data.manga.portraitThumbnail,
+      lang: CommonLangs.ENGLISH,
       chapters: this._generateMangaChapters(jsonRes),
     };
   }
@@ -226,11 +234,12 @@ class MangaPlusScraper implements Scraper {
         ),
       ];
       return {
-        src: "mangaplus",
+        src: this.SCRAPER_SOURCE_NAME,
         endpoint: chapterId,
         url: this._generateChapterUrl(chapterId),
         title: `${jsonRes.parent.data.titleName} - ${jsonRes.parent.data.chapterName}`,
         number: jsonRes.parent.data.chapterName,
+        lang: CommonLangs.ENGLISH,
         pages: pages,
         manga: {
           endpoint: jsonRes.parent.data.titleId,

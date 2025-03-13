@@ -16,8 +16,10 @@ import {
   MangaEndpoint,
 } from "../../../../shared/src/types/primitives/Identifiers";
 import { ResponsePage } from "../../../../shared/src/types/responses/ResponsePage";
+import { CommonLangs } from "../../../../shared/src/config/enums/CommonLangs";
 
 class SailMgScraper extends DefaultPageLoader implements Scraper {
+  private SCRAPER_SOURCE_NAME = "sailmg";
   private PAGE_URL = process.env.SAILMG_URL ?? "https://www.sailmg.com";
 
   private _generateChapterUrl(endpoint: ChapterEndpoint): string {
@@ -51,7 +53,7 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
             $(`${currentMangaPath} ul li .tl a`).attr("href")!.split("/")
           );
           chapters.push({
-            src: "sailmg",
+            src: this.SCRAPER_SOURCE_NAME,
             endpoint: chapterEndpoint,
             url: this._generateChapterUrl(chapterEndpoint),
             title: $(`${currentChapterPath} a`).text(),
@@ -64,6 +66,7 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
               endpoint: mangaEndpoint,
               url: this._generateMangaUrl(mangaEndpoint),
             },
+            lang: CommonLangs.ENGLISH,
             image: imageURL.split("minicover").join("cover"),
             releaseDate: MangasakiUtils.calculateDateFromString(
               $(`${currentChapterPath} .tm`).text()
@@ -92,7 +95,8 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
       mangas.push({
         endpoint: mangaEndpoint,
         title: $(targetSearch).text(),
-        src: "sailmg",
+        src: this.SCRAPER_SOURCE_NAME,
+        lang: CommonLangs.ENGLISH,
         url: this._generateMangaUrl(mangaEndpoint),
       });
     });
@@ -120,6 +124,7 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
         releaseDate: new Date(
           $(`${currentChapterPath} td:nth-child(2)`).text()
         ),
+        lang: CommonLangs.ENGLISH,
       });
     });
     return chapters;
@@ -134,10 +139,11 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
       );
       const mangaTitle = $("h1.page-header").text();
       return {
-        src: "sailmg",
+        src: this.SCRAPER_SOURCE_NAME,
         endpoint,
         url: this._generateMangaUrl(endpoint),
         title: mangaTitle,
+        lang: CommonLangs.ENGLISH,
         author: $(
           ".node-manga .content .field-name-field-author .field-item"
         ).text(),
@@ -189,7 +195,8 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
         url: this._generateChapterUrl(endpoint),
         title,
         number,
-        src: "sailmg",
+        src: this.SCRAPER_SOURCE_NAME,
+        lang: CommonLangs.ENGLISH,
         pages: pages.map((p) => {
           return { url: p };
         }),

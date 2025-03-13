@@ -1,8 +1,7 @@
-export interface MangaPlusManga {
+export interface mangaplusMangaTranslation {
   id: number;
   title: string;
   author: string;
   portraitThumbnail: string;
-  views: number;
-  mangaLanguage: string;
+  language: string;
 }

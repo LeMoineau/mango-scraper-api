@@ -5,4 +5,5 @@ export interface MangaPlusChapter {
   chapter: string;
   id: number;
   title: string;
+  chapterLanguage: string;
 }

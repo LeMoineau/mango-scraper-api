@@ -16,8 +16,10 @@ import {
   MangaEndpoint,
 } from "../../../../shared/src/types/primitives/Identifiers";
 import { ResponsePage } from "../../../../shared/src/types/responses/ResponsePage";
+import { CommonLangs } from "../../../../shared/src/config/enums/CommonLangs";
 
 class MangaSakiScraper extends DefaultPageLoader implements Scraper {
+  private SCRAPER_SOURCE_NAME = "mangasaki";
   private PAGE_URL = process.env.MANGASAKI_URL ?? "https://www.mangasaki.org";
 
   private _generateChapterUrl(endpoint: ChapterEndpoint): string {
@@ -59,7 +61,7 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
               .split("/")
           );
           chapters.push({
-            src: "mangasaki",
+            src: this.SCRAPER_SOURCE_NAME,
             endpoint: chapterEndpoint,
             url: this._generateChapterUrl(chapterEndpoint),
             title: $(`${currentChapterPath} a`).text(),
@@ -72,6 +74,7 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
               endpoint: mangaEndpoint,
               url: this._generateMangaUrl(mangaEndpoint),
             },
+            lang: CommonLangs.ENGLISH,
             image: imageURL.split("minicover").join("bigcover"),
             releaseDate: MangasakiUtils.calculateDateFromString(
               $(`${currentChapterPath} .tm`).text()
@@ -100,7 +103,8 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
       mangas.push({
         endpoint: mangaEndpoint,
         title: $(targetSearch).text(),
-        src: "mangasaki",
+        src: this.SCRAPER_SOURCE_NAME,
+        lang: CommonLangs.ENGLISH,
         url: this._generateMangaUrl(mangaEndpoint),
       });
     });
@@ -124,6 +128,7 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
           $(`${currentChapterPath} a`).text(),
           mangaTitle
         ),
+        lang: CommonLangs.ENGLISH,
         title: $(`${currentChapterPath} a`).text(),
         releaseDate: new Date(
           $(`${currentChapterPath} td:nth-child(2)`).text()
@@ -142,13 +147,14 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
       );
       const mangaTitle = $("div#main .title").text();
       return {
-        src: "mangasaki",
+        src: this.SCRAPER_SOURCE_NAME,
         endpoint,
         url: this._generateMangaUrl(endpoint),
         title: mangaTitle,
         author: $(
           ".node-manga .content .field:nth-child(4) .field-item"
         ).text(),
+        lang: CommonLangs.ENGLISH,
         image: $(".node-manga .content .field:nth-child(1) img").attr("src")!,
         chapters: this._generateMangaChapters($),
       };
@@ -195,10 +201,11 @@ class MangaSakiScraper extends DefaultPageLoader implements Scraper {
         url: this._generateChapterUrl(endpoint),
         title,
         number,
-        src: "mangasaki",
+        src: this.SCRAPER_SOURCE_NAME,
         pages: pages.map((p) => {
           return { url: p };
         }),
+        lang: CommonLangs.ENGLISH,
         manga: {
           endpoint: mangaEndpoint,
           url: this._generateChapterUrl(mangaEndpoint),
