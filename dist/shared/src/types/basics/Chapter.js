@@ -13,6 +13,7 @@ function isScrapedChapter(chapter) {
         (0, Identifiers_1.isSourceName)(chapter.src) &&
         chapter.endpoint &&
         chapter.url &&
-        chapter.number);
+        chapter.number &&
+        chapter.lang);
 }
 exports.isScrapedChapter = isScrapedChapter;

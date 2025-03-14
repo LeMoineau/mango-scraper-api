@@ -176,7 +176,6 @@ class MangaPlusScraper {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const jsonRes = yield mangaplus_utils_1.MangaplusUtils.decodeJsonFromMangaPlusRequest(`${this.API_ENDPOINT}/manga_viewer?chapter_id=${chapterId}&split=yes&img_quality=high`, `${__dirname}/protos/manga_viewer.proto`, "mangaplus.Manga_viewer");
-            console.log(JSON.stringify(jsonRes));
             try {
                 const pages = [
                     ...array_utils_1.ArrayUtils.transformEachItemOf(jsonRes.parent.data.pages, (item) => {

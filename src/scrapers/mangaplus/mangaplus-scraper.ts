@@ -226,7 +226,6 @@ class MangaPlusScraper implements Scraper {
       `${__dirname}/protos/manga_viewer.proto`,
       "mangaplus.Manga_viewer"
     );
-    console.log(JSON.stringify(jsonRes));
     try {
       const pages = [
         ...ArrayUtils.transformEachItemOf(

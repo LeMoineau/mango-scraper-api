@@ -10,6 +10,7 @@ function isManga(manga) {
         manga.endpoint &&
         (0, Identifiers_1.isSourceName)(manga.src) &&
         manga.title &&
-        manga.url);
+        manga.url &&
+        manga.lang);
 }
 exports.isManga = isManga;
