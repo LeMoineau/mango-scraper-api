@@ -162,20 +162,21 @@ scraperRouter.get("/:src/chapters/:endpoint", (req, res) => __awaiter(void 0, vo
             res.status(400).send("endpoint params must be defined");
             return;
         }
-        try {
-            const chapter = yield scraper_controller_1.default.getChapterOf(src, endpoint, {
-                syncWithBD,
-            });
+        yield scraper_controller_1.default
+            .getChapterOf(src, endpoint, {
+            syncWithBD,
+        })
+            .then((chapter) => {
             if (!chapter) {
                 res.status(404).send(`chapter at endpoint "${endpoint}" not found`);
                 return;
             }
             res.send(chapter);
-        }
-        catch (error) {
-            console.error(error);
-            res.status(500).send(error);
-        }
+        })
+            .catch((err) => {
+            console.error(err);
+            res.status(500).send(err.message);
+        });
     }
     catch (error) {
         console.error(error);

@@ -17,6 +17,7 @@ import {
 } from "../../../../shared/src/types/primitives/Identifiers";
 import { ResponsePage } from "../../../../shared/src/types/responses/ResponsePage";
 import { CommonLangs } from "../../../../shared/src/config/enums/CommonLangs";
+import ScraperParsingError from "../../errors/ScraperParsingError";
 
 class SailMgScraper extends DefaultPageLoader implements Scraper {
   private SCRAPER_SOURCE_NAME = "sailmg";
@@ -41,38 +42,36 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
         const currentChapterPath = `${currentMangaPath} ul li ul li:nth-child(${
           j + 1
         })`;
-        try {
-          const imageURL = $(`${currentMangaPath} a:first-child img`).attr(
-            "src"
-          )!;
-          const chapterEndpoint = ArrayUtils.getLastOf(
-            $(`${currentChapterPath} a`).attr("href")!.split("/")
-          );
-          const mangaTitle = $(`${currentMangaPath} ul li .tl a strong`).text();
-          const mangaEndpoint = ArrayUtils.getLastOf(
-            $(`${currentMangaPath} ul li .tl a`).attr("href")!.split("/")
-          );
-          chapters.push({
-            src: this.SCRAPER_SOURCE_NAME,
-            endpoint: chapterEndpoint,
-            url: this._generateChapterUrl(chapterEndpoint),
-            title: $(`${currentChapterPath} a`).text(),
-            number: MangasakiUtils.formatChapterNumber(
-              $(`${currentChapterPath} a`).text(),
-              mangaTitle
-            ),
-            manga: {
-              title: mangaTitle,
-              endpoint: mangaEndpoint,
-              url: this._generateMangaUrl(mangaEndpoint),
-            },
-            lang: CommonLangs.ENGLISH,
-            image: imageURL.split("minicover").join("cover"),
-            releaseDate: MangasakiUtils.calculateDateFromString(
-              $(`${currentChapterPath} .tm`).text()
-            ),
-          });
-        } catch (e) {}
+        const imageURL = $(`${currentMangaPath} a:first-child img`).attr(
+          "src"
+        )!;
+        const chapterEndpoint = ArrayUtils.getLastOf(
+          $(`${currentChapterPath} a`).attr("href")!.split("/")
+        );
+        const mangaTitle = $(`${currentMangaPath} ul li .tl a strong`).text();
+        const mangaEndpoint = ArrayUtils.getLastOf(
+          $(`${currentMangaPath} ul li .tl a`).attr("href")!.split("/")
+        );
+        chapters.push({
+          src: this.SCRAPER_SOURCE_NAME,
+          endpoint: chapterEndpoint,
+          url: this._generateChapterUrl(chapterEndpoint),
+          title: $(`${currentChapterPath} a`).text(),
+          number: MangasakiUtils.formatChapterNumber(
+            $(`${currentChapterPath} a`).text(),
+            mangaTitle
+          ),
+          manga: {
+            title: mangaTitle,
+            endpoint: mangaEndpoint,
+            url: this._generateMangaUrl(mangaEndpoint),
+          },
+          lang: CommonLangs.ENGLISH,
+          image: imageURL.split("minicover").join("cover"),
+          releaseDate: MangasakiUtils.calculateDateFromString(
+            $(`${currentChapterPath} .tm`).text()
+          ),
+        });
       });
     });
     return chapters;
@@ -133,29 +132,24 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
   public async getManga(
     endpoint: MangaEndpoint
   ): Promise<ScrapedManga | undefined> {
-    try {
-      const $ = await ScrapingUtils.requestToCheerioPage(
-        this._generateMangaUrl(endpoint)
-      );
-      const mangaTitle = $("h1.page-header").text();
-      return {
-        src: this.SCRAPER_SOURCE_NAME,
-        endpoint,
-        url: this._generateMangaUrl(endpoint),
-        title: mangaTitle,
-        lang: CommonLangs.ENGLISH,
-        author: $(
-          ".node-manga .content .field-name-field-author .field-item"
-        ).text(),
-        image: $(".node-manga .content .field-name-field-image2 img").attr(
-          "src"
-        )!,
-        chapters: this._generateMangaChapters($),
-      };
-    } catch (error) {
-      console.error(error);
-      return;
-    }
+    const $ = await ScrapingUtils.requestToCheerioPage(
+      this._generateMangaUrl(endpoint)
+    );
+    const mangaTitle = $("h1.page-header").text();
+    return {
+      src: this.SCRAPER_SOURCE_NAME,
+      endpoint,
+      url: this._generateMangaUrl(endpoint),
+      title: mangaTitle,
+      lang: CommonLangs.ENGLISH,
+      author: $(
+        ".node-manga .content .field-name-field-author .field-item"
+      ).text(),
+      image: $(".node-manga .content .field-name-field-image2 img").attr(
+        "src"
+      )!,
+      chapters: this._generateMangaChapters($),
+    };
   }
 
   public async getMangaChapters(
@@ -176,40 +170,40 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
   public async getChapter(
     endpoint: ChapterEndpoint
   ): Promise<PagedScrapedChapter | undefined> {
-    try {
-      const $ = await ScrapingUtils.requestToCheerioPage(
-        this._generateChapterUrl(endpoint)
-      );
-      let pages: string[] = $.html()
-        .split(`,"showmanga":{"paths":["`)[1]
-        .split(`"],"count_p":`)[0]
-        .split('","');
-      pages.splice(1, 1);
-      const title = $("h1.title").text().split("|")[0].trim();
-      const number = ArrayUtils.getLastOf(title.split(" "));
-      const mangaEndpoint = ArrayUtils.getLastOf(
-        $("h1.title a").attr("href")!.split("/")
-      );
-      return {
-        endpoint,
-        url: this._generateChapterUrl(endpoint),
-        title,
-        number,
-        src: this.SCRAPER_SOURCE_NAME,
-        lang: CommonLangs.ENGLISH,
-        pages: pages.map((p) => {
-          return { url: p };
-        }),
-        manga: {
-          endpoint: mangaEndpoint,
-          url: this._generateChapterUrl(mangaEndpoint),
-          title: TextFormatUtils.stringWithout(title, number).trim(),
-        },
-      };
-    } catch (err) {
-      console.error(err);
-      return;
+    const $ = await ScrapingUtils.requestToCheerioPage(
+      this._generateChapterUrl(endpoint)
+    );
+    console.log(this._generateChapterUrl(endpoint));
+    let pages: string[] = $.html()
+      .split(`,"showmanga":{"paths":["`)[1]
+      .split(`"],"count_p":`)[0]
+      .split('","');
+    pages.splice(1, 1);
+    const title = $("#edit-select-node option[selected='selected']")
+      .text()
+      .trim();
+    const number = ArrayUtils.getLastOf(title.split(" "));
+    const mangaEndpointHref = $("h1.page-header a:not(.active)").attr("href");
+    if (!mangaEndpointHref) {
+      throw new ScraperParsingError("manga endpoint href not find");
     }
+    const mangaEndpoint = ArrayUtils.getLastOf(mangaEndpointHref.split("/"));
+    return {
+      endpoint,
+      url: this._generateChapterUrl(endpoint),
+      title,
+      number,
+      src: this.SCRAPER_SOURCE_NAME,
+      lang: CommonLangs.ENGLISH,
+      pages: pages.map((p) => {
+        return { url: p };
+      }),
+      manga: {
+        endpoint: mangaEndpoint,
+        url: this._generateChapterUrl(mangaEndpoint),
+        title: TextFormatUtils.stringWithout(title, number).trim(),
+      },
+    };
   }
 }
 
