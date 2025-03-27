@@ -173,7 +173,6 @@ class SailMgScraper extends DefaultPageLoader implements Scraper {
     const $ = await ScrapingUtils.requestToCheerioPage(
       this._generateChapterUrl(endpoint)
     );
-    console.log(this._generateChapterUrl(endpoint));
     let pages: string[] = $.html()
       .split(`,"showmanga":{"paths":["`)[1]
       .split(`"],"count_p":`)[0]
